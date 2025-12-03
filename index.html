@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aloygene | Portfolio</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
+body{line-height:1.5;transition: all 0.4s ease;color:#1f1f1f;background: linear-gradient(135deg, #4facfe, #00f2fe);}
+body.dark{background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);color:#e0e0e0;}
+header{background:rgba(31,31,31,0.85);color:white;padding:15px 10px;text-align:center;border-bottom-left-radius:15px;border-bottom-right-radius:15px;position:relative;backdrop-filter: blur(5px);}
+header h1{font-size:1.6rem;font-weight:700;}
+header p{opacity:0.85;font-size:0.9rem;margin-top:3px;}
+#darkToggle{position:absolute;top:10px;right:10px;padding:5px 8px;background:rgba(255,255,255,0.6);color:#1f1f1f;border:none;border-radius:6px;cursor:pointer;font-size:0.8rem;font-weight:600;}
+#darkToggle:hover{opacity:0.8;}
+.profile-weather-container{display:flex;flex-direction:column;align-items:center;margin:15px auto;max-width:180px;}
+.time-card{padding:8px 12px;background:rgba(255,255,255,0);border-radius:12px;text-align:center;margin-bottom:10px;box-shadow:none;}
+.time-card p{margin:2px 0;font-weight:bold;font-size:0.9rem;color:#1f1f1f;}
+body.dark .time-card p{color:white;}
+.profile-img{width:100px;height:100px;border-radius:50%;border:3px solid #1f1f1f;object-fit:cover;}
+section{padding:30px 15px;max-width:800px;margin:auto;}
+h2{font-size:1.6rem;margin-bottom:20px;text-align:center;color:#1f1f1f;}
+.card{background:rgba(255,255,255,0.8);padding:15px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.1);margin-bottom:15px;transition:transform 0.3s, background 0.4s;}
+body.dark .card{background:rgba(50,50,50,0.7);color:#e0e0e0;}
+.card:hover{transform:translateY(-2px);}
+.skills{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:10px;}
+.skill{background:#1f1f1f;color:white;padding:6px 15px;border-radius:20px;font-size:0.8rem;transition:all 0.3s;}
+.skill:hover{opacity:0.8;}
+.project-box{cursor:pointer;margin-bottom:15px;}
+.project-box h3{margin-bottom:5px;}
+.project-box p{opacity:0.85;font-size:0.85rem;}
+#gallery{margin-top:20px;}
+#fileInput{margin-bottom:5px;}
+#galleryDrop{width:90%;min-height:100px;border:2px dashed #1f1f1f;border-radius:10px;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;padding:8px;margin:10px auto;background:rgba(255,255,255,0.8);}
+body.dark #galleryDrop{border-color:white;background:rgba(50,50,50,0.6);}
+#galleryDrop p{color:#1f1f1f;font-size:0.85rem;text-align:center;}
+body.dark #galleryDrop p{color:white;}
+.media-item{width:120px;height:80px;object-fit:cover;border-radius:8px;cursor:pointer;transition:transform 0.3s;margin:5px;}
+.media-item:hover{transform:scale(1.05);}
+#pexelsGallery{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;}
+.quotes-box{display:flex;align-items:center;justify-content:center;height:60px;overflow:hidden;margin-top:15px;background:rgba(255,255,255,0.85);padding:10px 15px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.1);backdrop-filter:blur(10px);position:relative;}
+.quote{position:absolute;opacity:0;transition:opacity 0.6s ease-in-out;font-weight:bold;font-size:0.85rem;text-align:center;width:100%;left:50%;top:50%;transform:translate(-50%,-50%);color:#1f1f1f;}
+body.dark .quote{color:white;}
+.contact-box{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:15px;}
+.contact-btn{padding:10px 20px;color:white;font-weight:bold;border-radius:8px;transition:0.3s;text-decoration:none;display:flex;align-items:center;font-size:0.9rem;}
+.contact-btn:hover{transform:translateY(-3px) scale(1.03);opacity:0.9;}
+footer{background:rgba(31,31,31,0.85);color:white;text-align:center;padding:15px;border-top-left-radius:15px;border-top-right-radius:15px;backdrop-filter: blur(5px);font-size:0.85rem;}
+.modal{display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;overflow:auto;background:rgba(0,0,0,0.85);justify-content:center;align-items:center;}
+.modal-content{position:relative;background:#fff;padding:15px;border-radius:12px;max-width:90%;max-height:85%;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,0.2);}
+.modal-content img, .modal-content video{max-width:100%;max-height:70vh;border-radius:8px;}
+.close-modal{position:absolute;top:8px;right:12px;font-size:1.4rem;font-weight:bold;color:#333;cursor:pointer;}
+body.dark .modal-content{background:#1f1f1f;color:white;}
+#audioPlayer{position:fixed;bottom:10px;right:10px;width:150px;height:30px;opacity:0.85;border-radius:6px;}
+@media(max-width:500px){
+header h1{font-size:1.3rem;}
+header p{font-size:0.75rem;}
+.skill{font-size:0.7rem;padding:5px 12px;}
+.media-item{width:90px;height:60px;}
+#audioPlayer{width:120px;height:28px;}
+#galleryDrop{width:95%;min-height:80px;}
+}
+</style>
+</head>
+<body>
+
+<header>
+<h1>Gene Cartalla Guardiana</h1>
+<p>Alias: <strong>Aloygene</strong> • Beginner Web Developer</p>
+<button id="darkToggle">Dark Mode</button>
+</header>
+
+<div class="profile-weather-container">
+<div id="time" class="time-card">
+<p id="currentTime">Loading time...</p>
+</div>
+<img src="IMG_20251113_132642.jpg" alt="Profile Image" class="profile-img">
+</div>
+
+<section id="about">
+<h2>About Me</h2>
+<div class="card">
+<p>I am Gene Cartalla Guardiana, also known as <strong>Aloygene</strong>. Beginner web developer passionate about HTML, CSS & JS. My goal is to become full-stack and build real projects.</p>
+</div>
+</section>
+
+<section id="skills">
+<h2>Skills</h2>
+<div class="skills">
+<div class="skill">HTML</div>
+<div class="skill">CSS</div>
+<div class="skill">JavaScript</div>
+<div class="skill">Responsive Design</div>
+<div class="skill">UI Design</div>
+</div>
+</section>
+
+<section id="projects">
+<h2>Projects</h2>
+<div class="project-box card" data-img="https://via.placeholder.com/600x400?text=Portfolio">
+<h3>Portfolio Website</h3>
+<p>Simple beginner portfolio site with modern UI.</p>
+</div>
+</section>
+
+<section id="gallery">
+<h2>Local Photo & Video Gallery</h2>
+<input type="file" id="fileInput" multiple accept="image/*,video/*">
+<div id="galleryDrop"><p>Select, upload, or drag & drop your photos/videos here</p></div>
+<div style="text-align:center; margin-top:10px;">
+<video src="media/Every Dangerous Hacking Gadgets Explained in 8 Minutes.mp4" controls autoplay style="width:90%; max-width:400px; border-radius:12px;"></video>
+</div>
+</section>
+
+<section id="pexels">
+<h2>Live Photos</h2>
+<div style="display:flex;justify-content:center;margin-bottom:10px;">
+<input type="text" id="pexelsSearch" placeholder="Search photos..." style="padding:8px;border-radius:8px;border:none;outline:none;width:70%;max-width:250px;margin-right:10px;">
+<button id="searchBtn" style="padding:8px 12px;border:none;border-radius:8px;background:#fff;color:#1f1f1f;cursor:pointer;">Search</button>
+</div>
+<div id="pexelsGallery"></div>
+</section>
+
+<section id="quotes">
+<h2>Quotes</h2>
+<div class="quotes-box card">
+<p class="quote">"Code is like humor. When you have to explain it, it’s bad."</p>
+<p class="quote">"First, solve the problem. Then, write the code."</p>
+<p class="quote">"Experience is the name everyone gives to their mistakes."</p>
+<p class="quote">"Simplicity is the soul of efficiency."</p>
+</div>
+</section>
+
+<section id="contact">
+<h2>Contact Me</h2>
+<div class="contact-box">
+<a href="https://www.facebook.com/share/1DBESd3noL/" target="_blank" class="contact-btn" style="background:#4267B2;">Facebook</a>
+<a href="https://m.me/1DBESd3noL" target="_blank" class="contact-btn" style="background:#0084FF;">Messenger</a>
+<a href="mailto:guardianagene6@gmail.com" class="contact-btn" style="background:#1f1f1f;">Email</a>
+<a href="tel:09978660858" class="contact-btn" style="background:#28a745;">Call/SMS</a>
+</div>
+</section>
+
+<footer>
+<p>© 2025 Aloygene • Beginner Developer</p>
+</footer>
+
+<audio id="audioPlayer" src="Bright Side.m4a" autoplay loop controls></audio>
+
+<div class="modal" id="projectModal">
+<div class="modal-content">
+<span class="close-modal">&times;</span>
+</div>
+</div>
+
+<script>
+// Dark mode
+const toggle = document.getElementById('darkToggle');
+toggle.addEventListener('click', ()=>{document.body.classList.toggle('dark');toggle.textContent=document.body.classList.contains('dark')?'Light Mode':'Dark Mode';});
+
+// Modal
+const modal = document.getElementById('projectModal');
+const closeModal = document.querySelector('.close-modal');
+closeModal.addEventListener('click', ()=> modal.style.display='none');
+window.addEventListener('click', e=>{ if(e.target==modal) modal.style.display='none'; });
+
+// Auto quotes
+const quotes = document.querySelectorAll('.quote');
+let currentQuote=0;
+function showQuote(i){ quotes.forEach((q,j)=>q.style.opacity=(i===j)?1:0);}
+showQuote(currentQuote);
+setInterval(()=>{currentQuote=(currentQuote+1)%quotes.length;showQuote(currentQuote);},4000);
+
+// Time
+function updateTime(){ const now=new Date(); document.getElementById('currentTime').textContent=now.toLocaleTimeString();}
+setInterval(updateTime,1000); updateTime();
+
+// Local Gallery
+const fileInput=document.getElementById('fileInput');
+const galleryDrop=document.getElementById('galleryDrop');
+
+function createMediaItem(src,type){
+    let mediaWrapper = document.createElement('div');
+    mediaWrapper.style.position='relative';
+    mediaWrapper.style.display = 'inline-block';
+    mediaWrapper.style.margin='5px';
+
+    let media;
+    if(type.startsWith('video')){
+        media=document.createElement('video');
+        media.src=src;
+        media.controls=true;
+    } else{
+        media=document.createElement('img');
+        media.src=src;
+    }
+    media.className='media-item';
+
+    media.addEventListener('click', ()=>{
+        modal.style.display='flex';
+        const modalContent = modal.querySelector('.modal-content');
+        modalContent.innerHTML='';
+        modalContent.appendChild(media.cloneNode(true));
+    });
+
+    let delBtn = document.createElement('span');
+    delBtn.textContent = '×';
+    delBtn.style.position='absolute';
+    delBtn.style.top='2px';
+    delBtn.style.right='4px';
+    delBtn.style.color='white';
+    delBtn.style.background='rgba(0,0,0,0.6)';
+    delBtn.style.borderRadius='50%';
+    delBtn.style.padding='2px 6px';
+    delBtn.style.cursor='pointer';
+    delBtn.style.fontWeight='bold';
+    delBtn.addEventListener('click', e=>{ e.stopPropagation(); mediaWrapper.remove(); saveGallery(); });
+
+    mediaWrapper.appendChild(media);
+    mediaWrapper.appendChild(delBtn);
+    return mediaWrapper;
+}
+
+function loadGallery(){
+    const saved=JSON.parse(localStorage.getItem('myGallery')||'[]');
+    galleryDrop.innerHTML='';
+    if(saved.length===0){
+        const p=document.createElement('p');
+        p.textContent='Select, upload, or drag & drop your photos/videos here';
+        galleryDrop.appendChild(p);
+    } else{
+        for(let item of saved){
+            galleryDrop.appendChild(createMediaItem(item.src,item.type));
+        }
+    }
+}
+loadGallery();
+
+function saveGallery(){
+    const arr=[];
+    const items=galleryDrop.querySelectorAll('.media-item');
+    items.forEach(item=>{
+        arr.push({src:item.src,type:item.tagName.toLowerCase()});
+    });
+    localStorage.setItem('myGallery',JSON.stringify(arr));
+}
+
+fileInput.addEventListener('change', e=>{ handleFiles(e.target.files); });
+
+galleryDrop.addEventListener('dragover', e=>{ e.preventDefault(); galleryDrop.style.borderColor='blue'; });
+galleryDrop.addEventListener('dragleave', e=>{ e.preventDefault(); galleryDrop.style.borderColor=''; });
+galleryDrop.addEventListener('drop', e=>{ e.preventDefault(); galleryDrop.style.borderColor=''; handleFiles(e.dataTransfer.files); });
+
+function handleFiles(files){
+    for(let file of files){
+        const reader=new FileReader();
+        reader.onload=ev=>{
+            galleryDrop.appendChild(createMediaItem(ev.target.result,file.type));
+            saveGallery();
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+// Pexels Gallery
+const PEXELS_API_KEY='8uXf3MT2ivKWnZ1sJlq5ePQCYcYhx52YVT25WUFfmRKqGP8FXx4jPUxi';
+const pexelsGallery=document.getElementById('pexelsGallery');
+const searchBtn=document.getElementById('searchBtn');
+const pexelsSearch=document.getElementById('pexelsSearch');
+
+async function loadPexelsPhotos(query='nature',perPage=12){
+    pexelsGallery.innerHTML='Loading...';
+    try{
+        const res=await fetch(`https://api.pexels.com/v1/search?query=${query}&per_page=${perPage}`,{
+            headers:{Authorization:PEXELS_API_KEY}
+        });
+        const data=await res.json();
+        displayPhotos(data.photos);
+    }catch(err){pexelsGallery.innerHTML='Failed to load photos.'; console.error(err);}
+}
+
+function displayPhotos(photos){
+    pexelsGallery.innerHTML='';
+    photos.forEach(photo=>{
+        const card=document.createElement('div');
+        card.style.width='150px'; card.style.height='100px'; card.style.borderRadius='12px';
+        card.style.overflow='hidden'; card.style.cursor='pointer';
+        card.style.transition='transform 0.3s, box-shadow 0.3s';
+        card.style.background=`url(${photo.src.medium}) center/cover no-repeat`;
+        card.addEventListener('mouseover',()=>{ card.style.transform='scale(1.05)'; card.style.boxShadow='0 8px 20px rgba(0,0,0,0.4)'; });
+        card.addEventListener('mouseout',()=>{ card.style.transform='scale(1)'; card.style.boxShadow='none'; });
+        card.addEventListener('click',()=>{ modal.style.display='flex'; modal.querySelector('.modal-content').innerHTML=`<img src="${photo.src.large}">`; });
+        pexelsGallery.appendChild(card);
+    });
+}
+
+searchBtn.addEventListener('click', ()=>{ if(pexelsSearch.value) loadPexelsPhotos(pexelsSearch.value); });
+loadPexelsPhotos('nature',12);
+
+</script>
+</body>
+</html>
