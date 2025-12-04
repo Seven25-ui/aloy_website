@@ -59,13 +59,187 @@ header p{font-size:0.75rem;}
 #audioPlayer{width:120px;height:28px;}
 #galleryDrop{width:95%;min-height:80px;}
 }
-#musicSection{margin-top:30px;}
-#musicSearch{width:70%;padding:8px;border-radius:8px;border:none;outline:none;margin-right:10px;}
-#musicResults{margin-top:10px;}
-.track-result{padding:8px 10px;background:rgba(255,255,255,0.8);margin-bottom:6px;border-radius:8px;cursor:pointer;transition:0.3s;}
-.track-result:hover{background:rgba(31,31,31,0.85);color:white;}
-body.dark .track-result{background:rgba(50,50,50,0.7);}
-body.dark .track-result:hover{background:rgba(255,255,255,0.2);}
+
+.music-section{
+  padding:28px; 
+  color:#fff; 
+  font-family:Inter, "Segoe UI", sans-serif; 
+}
+
+.tracks-grid{
+  display:grid; 
+  grid-template-columns:repeat(5,1fr); 
+  gap:12px; 
+  margin-bottom:18px; 
+}
+
+.track-card{
+  background:rgba(255,255,255,0.03); 
+  border-radius:10px; 
+  padding:10px; 
+  display:flex; 
+  gap:10px; 
+  align-items:center; 
+  cursor:pointer; 
+  transition:.15s; 
+}
+
+.track-card:hover{
+  transform:translateY(-5px); 
+  box-shadow:0 8px 18px rgba(0,0,0,0.4); 
+}
+
+.track-card.active{ 
+  outline:2px solid rgba(125,211,252,0.15); 
+}
+
+.track-cover{ 
+  width:60px; height:60px; border-radius:8px; overflow:hidden; flex-shrink:0; 
+}
+
+.track-cover img{ 
+  width:100%; height:100%; object-fit:cover; 
+}
+
+.track-info{ 
+  flex:1; display:flex; flex-direction:column; gap:4px; 
+}
+
+.track-title{ 
+  font-size:14px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; 
+}
+
+.track-artist{ 
+  font-size:12px; color:#9ca3af; 
+}
+
+.btn-play{ 
+  background:transparent; border:1px solid rgba(255,255,255,0.06); width:36px;height:36px;border-radius:8px; display:grid; place-items:center; cursor:pointer; 
+}
+
+/* ===== FULL-COVER PLAYER ===== */
+.full-cover-player{
+  position:relative;
+  width:100%;
+  max-width:700px;
+  margin:20px auto;
+  border-radius:16px;
+  overflow:hidden;
+  backdrop-filter:blur(8px);
+}
+
+.full-cover-player .player-bg{
+  position:absolute;
+  top:0; left:0; right:0; bottom:0;
+  background-size:cover;
+  background-position:center;
+  filter:blur(12px) brightness(0.4);
+  z-index:0;
+  transition: background-image 0.5s ease;
+}
+
+.full-cover-player .player-content{
+  position:relative;
+  z-index:1;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  padding:16px;
+  color:#fff;
+}
+
+.player-cover img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:16px;
+  box-shadow:0 0 18px rgba(125,211,252,0.4);
+}
+
+.track-now .now-title{
+  font-weight:700;
+  font-size:15px;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+
+.track-now .now-artist{
+  font-size:13px; color:#8ea2bd; margin-top:2px;
+}
+
+.progress-wrap{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  width:100%;
+}
+
+.progress{
+  width:100%;
+  height:7px;
+  background:rgba(255,255,255,0.1);
+  border-radius:7px;
+  cursor:pointer;
+  appearance:none;
+}
+
+.progress::-webkit-slider-thumb{
+  appearance:none;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  background:#7dd3fc;
+  box-shadow:0 0 10px #7dd3fc;
+  transition:.2s;
+}
+
+.progress::-webkit-slider-thumb:hover{
+  transform:scale(1.2);
+}
+
+.vol{
+  width:100px; 
+  accent-color:#7dd3fc;
+}
+
+/* Buttons */
+.big-btn{
+  width:48px;height:48px;border-radius:12px;border:1px solid rgba(255,255,255,0.15); 
+  background:rgba(255,255,255,0.06); 
+  display:grid; place-items:center; font-size:20px; cursor:pointer; transition:.2s ease; 
+}
+
+.big-btn:hover{ 
+  background:rgba(255,255,255,0.15); transform:scale(1.07); 
+}
+
+.big-btn:active{ transform:scale(0.92); }
+
+/* Responsive */
+@media(max-width:1200px){.tracks-grid{grid-template-columns:repeat(4,1fr);}}
+@media(max-width:960px){.tracks-grid{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:650px){.tracks-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:420px){
+  .tracks-grid{grid-template-columns:1fr;}
+  .player-content{flex-direction:column;}
+  .progress-wrap{width:100%;}
+}
+/* Controls updated: smaller & horizontal */
+.controls{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  margin-top:6px;
+}
+
+.big-btn{
+  width:36px;
+  height:36px;
+  font-size:16px;
+  border-radius:8px;
+}
+
 </style>
 </head>
 <body>
@@ -109,6 +283,55 @@ body.dark .track-result:hover{background:rgba(255,255,255,0.2);}
 </div>
 </section>
 
+
+<section class="music-section">
+  <h2>🎵 My Music Tracks</h2>
+
+  <!-- Tracks Grid -->
+  <div class="tracks-grid" id="tracksGrid"></div>
+
+  <!-- Player -->
+  <div class="player full-cover-player">
+    <!-- Full background from track cover -->
+    <div class="player-bg" id="playerBg"></div>
+
+    <div class="player-content">
+      <!-- Mini Neon Visualizer (pwede i-add later) -->
+      <div class="mini-visualizer" id="miniVisualizer"></div>
+
+      <!-- Track Cover -->
+      <div class="player-cover">
+        <img id="playerCover" src="" alt="cover">
+      </div>
+
+      <!-- Track Info -->
+      <div class="track-now" id="nowInfo">
+        <div class="now-title">Not Playing</div>
+        <div class="now-artist"></div>
+      </div>
+
+      <!-- Progress -->
+      <div class="progress-wrap">
+        <span class="time" id="currentTime">0:00</span>
+        <input type="range" id="progress" class="progress" min="0" max="100" value="0">
+        <span class="time" id="duration">0:00</span>
+      </div>
+
+      <!-- Controls -->
+      <div class="controls">
+        <button class="big-btn" id="prevBtn">⏮</button>
+        <button class="big-btn" id="playBtn">▶️</button>
+        <button class="big-btn" id="nextBtn">⏭</button>
+      </div>
+
+      <!-- Volume -->
+      <input type="range" id="volume" class="vol" min="0" max="1" step="0.01" value="0.9">
+    </div>
+
+    <audio id="audio" preload="metadata"></audio>
+  </div>
+</section>
+      
 <section id="gallery">
 <h2>Local Photo & Video Gallery</h2>
 <input type="file" id="fileInput" multiple accept="image/*,video/*">
@@ -152,7 +375,7 @@ body.dark .track-result:hover{background:rgba(255,255,255,0.2);}
 <p>© 2025 Aloygene • Beginner Developer</p>
 </footer>
 
-<audio id="audioPlayer" src="media/Bright Side.m4a" autoplay loop controls></audio>
+<audio id="audioPlayer" src="media/_SpongeBob SquarePants_ Theme Song (NEW HD) _ Episode Opening Credits _ Nick Animation.m4a" autoplay loop controls></audio>
 
 <div class="modal" id="projectModal">
 <div class="modal-content">
@@ -302,6 +525,134 @@ function displayPhotos(photos){
 }
 searchBtn.addEventListener('click', ()=>{ if(pexelsSearch.value) loadPexelsPhotos(pexelsSearch.value); });
 loadPexelsPhotos('nature',12);
+
+ // ======= TRACKS =======
+const tracks = [
+  { title:"Final Masquerade", artist:"LINKIN PARK", src:"media/Linkin Park_ Final Masquerade (Lyrics).m4a", cover:"media/Untitled---2025-02-26T173509.790.png" },
+  { title:"It Won't Go Away Again", artist:"PARABELLE", src:"media/It Won_t Go Away Again.m4a", cover:"media/HD-wallpaper-parabelle-a-drop-oceanic-music-matisyn-a-summit-borderline.jpg" },
+  { title:"The Conversation Ends", artist:"PARABELLE", src:"media/The Conversation Ends.m4a", cover:"media/HD-wallpaper-parabelle-a-drop-oceanic-music-matisyn-a-summit-borderline.jpg" },
+  { title:"Time & Place", artist:"PARABELLE", src:"media/Time & Place.m4a", cover:"media/HD-wallpaper-parabelle-a-drop-oceanic-music-matisyn-a-summit-borderline.jpg" },
+  { title:"Us", artist:"PARABELLE", src:"media/Us.m4a", cover:"media/HD-wallpaper-parabelle-a-drop-oceanic-music-matisyn-a-summit-borderline.jpg" },
+];
+
+// ======= ELEMENTS =======
+const tracksGrid = document.getElementById('tracksGrid');
+const audio = document.getElementById('audio');
+const playBtn = document.getElementById('playBtn');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const nowTitle = document.querySelector('.now-title');
+const nowArtist = document.querySelector('.now-artist');
+const progress = document.getElementById('progress');
+const currentTimeEl = document.getElementById('currentTime');
+const durationEl = document.getElementById('duration');
+const volume = document.getElementById('volume');
+const playerCover = document.getElementById('playerCover');
+const playerBg = document.getElementById('playerBg');
+
+let currentIndex = 0;
+let isPlaying = false;
+let trackCards = [];
+
+// ======= FUNCTIONS =======
+function formatTime(sec){
+  if(!sec||isNaN(sec)) return "0:00"; 
+  sec=Math.floor(sec); 
+  const m=Math.floor(sec/60); 
+  const s=sec%60; 
+  return `${m}:${s.toString().padStart(2,'0')}`;
+}
+
+// Render track cards
+function renderTracks(){
+  tracksGrid.innerHTML = '';
+  tracks.forEach((t, idx)=>{
+    const card = document.createElement('div');
+    card.className='track-card';
+    card.innerHTML=`<div class="track-cover"><img src="${t.cover}"></div>
+    <div class="track-info"><div class="track-title">${t.title}</div><div class="track-artist">${t.artist}</div></div>
+    <div class="track-actions"><button class="btn-play">▶</button></div>`;
+    
+    // Play when click button or card
+    card.querySelector('.btn-play').addEventListener('click', e=>{ e.stopPropagation(); playTrack(idx); });
+    card.addEventListener('click', ()=>playTrack(idx));
+    
+    tracksGrid.appendChild(card);
+  });
+  trackCards = Array.from(document.querySelectorAll('.track-card'));
+}
+
+// Highlight active track
+function setActiveCard(index){
+  trackCards.forEach(c=>c.classList.remove('active')); 
+  const card=trackCards[index]; 
+  if(card) card.classList.add('active'); 
+}
+
+// Load track info
+function loadTrack(index){
+  const t = tracks[index];
+  audio.src = t.src;
+  nowTitle.textContent = t.title;
+  nowArtist.textContent = t.artist;
+
+  // Track cover
+  playerCover.src = t.cover;
+
+  // Full background from track cover
+  playerBg.style.backgroundImage = `url('${t.cover}')`;
+
+  setActiveCard(index);
+}
+
+// Play / Pause
+function playTrack(index){
+  currentIndex=index;
+  loadTrack(currentIndex);
+  audio.play().then(()=>{ isPlaying=true; updatePlayBtn(); }).catch(()=>{});
+}
+
+function pauseTrack(){ audio.pause(); isPlaying=false; updatePlayBtn(); }
+
+function updatePlayBtn(){ playBtn.textContent = isPlaying?'⏸':'▶️'; }
+
+// Controls
+prevBtn.addEventListener('click', ()=>{ currentIndex=(currentIndex-1+tracks.length)%tracks.length; playTrack(currentIndex); });
+nextBtn.addEventListener('click', ()=>{ currentIndex=(currentIndex+1)%tracks.length; playTrack(currentIndex); });
+playBtn.addEventListener('click', ()=>{
+  if(!audio.src) loadTrack(currentIndex);
+  isPlaying?pauseTrack():playTrack(currentIndex);
+});
+
+// Update progress
+audio.addEventListener('loadedmetadata', ()=>{ durationEl.textContent=formatTime(audio.duration); progress.max=Math.floor(audio.duration); });
+audio.addEventListener('timeupdate', ()=>{ progress.value=Math.floor(audio.currentTime); currentTimeEl.textContent=formatTime(audio.currentTime); });
+progress.addEventListener('input', e=>{ audio.currentTime=e.target.value; });
+
+// Volume
+volume.addEventListener('input', e=>{ audio.volume=e.target.value; });
+audio.volume=volume.value;
+
+// Auto next track
+audio.addEventListener('ended', ()=>{ nextBtn.click(); });
+
+// ===== INIT =====
+renderTracks();
+loadTrack(currentIndex);
+
+// Update progress & current time
+audio.addEventListener('timeupdate', ()=>{
+  if(!isNaN(audio.duration)){
+    progress.value = audio.currentTime;
+    currentTimeEl.textContent = formatTime(audio.currentTime);
+    durationEl.textContent = formatTime(audio.duration);
+  }
+});
+
+// Progress input (seek)
+progress.addEventListener('input', e=>{
+  audio.currentTime = e.target.value;
+});
 
 </script>
 </body>
