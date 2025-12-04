@@ -59,6 +59,13 @@ header p{font-size:0.75rem;}
 #audioPlayer{width:120px;height:28px;}
 #galleryDrop{width:95%;min-height:80px;}
 }
+#musicSection{margin-top:30px;}
+#musicSearch{width:70%;padding:8px;border-radius:8px;border:none;outline:none;margin-right:10px;}
+#musicResults{margin-top:10px;}
+.track-result{padding:8px 10px;background:rgba(255,255,255,0.8);margin-bottom:6px;border-radius:8px;cursor:pointer;transition:0.3s;}
+.track-result:hover{background:rgba(31,31,31,0.85);color:white;}
+body.dark .track-result{background:rgba(50,50,50,0.7);}
+body.dark .track-result:hover{background:rgba(255,255,255,0.2);}
 </style>
 </head>
 <body>
@@ -293,7 +300,6 @@ function displayPhotos(photos){
         pexelsGallery.appendChild(card);
     });
 }
-
 searchBtn.addEventListener('click', ()=>{ if(pexelsSearch.value) loadPexelsPhotos(pexelsSearch.value); });
 loadPexelsPhotos('nature',12);
 
