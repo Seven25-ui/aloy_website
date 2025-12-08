@@ -254,6 +254,59 @@ body {
   100% {background-position: 0% 50%;}
 }
 
+.weather-floating{
+  position: fixed;
+  left: 15px;
+  top: 180px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.35);
+  padding: 6px 10px;
+  border-radius: 12px;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+  text-decoration: none;
+  color: #1f1f1f;
+  font-weight: 600;
+  font-size: 0.75rem;
+  transition: .3s ease;
+  z-index: 999;
+}
+
+body.dark .weather-floating{
+  background: rgba(50,50,50,0.55);
+  color: white;
+}
+
+.weather-floating img{
+  width: 32px;
+  height: 32px;
+  filter: drop-shadow(0 0 4px rgba(0,0,0,0.4));
+  transition: .3s ease;
+}
+
+.weather-floating:hover{
+  transform: scale(1.05);
+  background: rgba(255,255,255,0.55);
+}
+
+body.dark .weather-floating:hover{
+  background: rgba(80,80,80,0.7);
+}
+
+.weather-floating span{
+  max-width: 110px;
+  line-height: 1.2;
+}
+
+.weather-floating {
+  cursor: grab;
+}
+.weather-floating:active {
+  cursor: grabbing;
+}
+
 </style>
 </head>
 <body>
@@ -270,6 +323,12 @@ body {
 </div>
 <img src="media/owl-bird-eyes-eagle-owl-86596.jpeg" alt="Profile Image" class="profile-img">
 </div>
+
+<!-- FLOATING WEATHER ICON -->
+<a href="https://seven25-ui.github.io/Weather-app/" target="_blank" class="weather-floating">
+  <img src="https://cdn-icons-png.flaticon.com/512/1116/1116453.png" alt="Weather Icon">
+  <span>Click here to see world weather condition</span>
+</a>
 
 <section id="about">
 <h2>About Me</h2>
@@ -397,6 +456,73 @@ body {
 <span class="close-modal">&times;</span>
 </div>
 </div>
+
+<script>
+const widget = document.querySelector('.weather-floating');
+
+let dragging = false;
+let offsetX = 0;
+let offsetY = 0;
+
+// =====================
+// DESKTOP EVENTS
+// =====================
+widget.addEventListener('mousedown', (e) => {
+  dragging = true;
+  offsetX = e.clientX - widget.offsetLeft;
+  offsetY = e.clientY - widget.offsetTop;
+  widget.style.transition = "0s";
+});
+
+document.addEventListener('mousemove', (e) => {
+  if (dragging) {
+    moveWidget(e.clientX, e.clientY);
+  }
+});
+
+document.addEventListener('mouseup', () => {
+  dragging = false;
+  widget.style.transition = ".2s";
+});
+
+// =====================
+// MOBILE TOUCH EVENTS
+// =====================
+widget.addEventListener('touchstart', (e) => {
+  dragging = true;
+  const touch = e.touches[0];
+  offsetX = touch.clientX - widget.offsetLeft;
+  offsetY = touch.clientY - widget.offsetTop;
+  widget.style.transition = "0s";
+});
+
+widget.addEventListener('touchmove', (e) => {
+  if (dragging) {
+    const touch = e.touches[0];
+    moveWidget(touch.clientX, touch.clientY);
+  }
+});
+
+document.addEventListener('touchend', () => {
+  dragging = false;
+  widget.style.transition = ".2s";
+});
+
+// =====================
+// MOVEMENT FUNCTION
+// =====================
+function moveWidget(x, y) {
+  let newX = x - offsetX;
+  let newY = y - offsetY;
+
+  // DILI MO LABANG SA SCREEN
+  newX = Math.max(0, Math.min(window.innerWidth - widget.offsetWidth, newX));
+  newY = Math.max(0, Math.min(window.innerHeight - widget.offsetHeight, newY));
+
+  widget.style.left = newX + "px";
+  widget.style.top = newY + "px";
+}
+</script>
 
 <script>
 // Dark mode
