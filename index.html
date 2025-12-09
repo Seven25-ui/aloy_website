@@ -307,6 +307,130 @@ body.dark .weather-floating:hover{
   cursor: grabbing;
 }
 
+/* ============================================
+   DESKTOP RESPONSIVE FIX (NO CODE CHANGES)
+   ============================================ */
+
+@media(min-width: 900px) {
+
+  /* Center header better */
+  header {
+    padding: 25px 20px;
+  }
+  header h1 {
+    font-size: 2.2rem;
+  }
+
+  /* Fix profile container */
+  .profile-weather-container {
+    flex-direction: row;
+    justify-content: center;
+    gap: 30px;
+    max-width: none;
+    margin-top: 30px;
+  }
+
+  .profile-img {
+    width: 140px;
+    height: 140px;
+  }
+
+  .time-card p {
+    font-size: 1.2rem;
+  }
+
+  /* Fix all sections width on desktop */
+  section {
+    max-width: 1100px;
+    padding: 50px 40px;
+  }
+
+  /* Make About & Cards look cleaner */
+  .card {
+    padding: 25px 30px;
+    font-size: 1.05rem;
+  }
+
+  /* Skills on desktop */
+  .skills {
+    gap: 15px;
+  }
+  .skill {
+    font-size: 1rem;
+    padding: 10px 25px;
+  }
+
+  /* Project box spacing */
+  .project-box h3 {
+    font-size: 1.4rem;
+  }
+  .project-box p {
+    font-size: 1rem;
+  }
+
+  /* MUSIC PLAYER FIX */
+  .full-cover-player {
+    max-width: 850px;
+  }
+  .player-content {
+    padding: 30px;
+    gap: 20px;
+  }
+  .progress-wrap {
+    gap: 20px;
+  }
+
+  /* Grid Fix */
+  .tracks-grid {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 18px;
+  }
+
+  .track-card {
+    padding: 15px;
+  }
+
+  /* Live photos search bar */
+  #pexelsSearch {
+    max-width: 350px;
+    font-size: 1rem;
+  }
+
+  /* Gallery fix */
+  #galleryDrop {
+    width: 80%;
+    max-width: 900px;
+  }
+  .media-item {
+    width: 160px;
+    height: 110px;
+  }
+
+  /* Quotes fix center */
+  .quotes-box {
+    height: 80px;
+  }
+  .quote {
+    font-size: 1.1rem;
+  }
+
+  /* Contact buttons balance */
+  .contact-box {
+    gap: 20px;
+  }
+  .contact-btn {
+    padding: 12px 25px;
+    font-size: 1rem;
+  }
+}
+
+/* Prevent stretching on ultra-wide screens */
+@media(min-width: 1400px) {
+  section {
+    max-width: 1200px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -413,7 +537,7 @@ body.dark .weather-floating:hover{
 <div style="text-align:center; margin-top:10px;">
 <video src="media/Every Dangerous Hacking Gadgets Explained in 8 Minutes.mp4" controls autoplay style="width:90%; max-width:400px; border-radius:12px;"></video>
 <video src="media/Every Networking Technology Explained In 12 Minutes.mp4" controls autoplay style="width:90%; max-width:400px; border-radius:12px;"></video>
-<video src="media/How Samsung Makes 250 Million Phones a Year – Inside the Secret Factory!.mp4" controls autoplay style="width:90%; max-width:400px; border-radius:12px;"></video>
+<video src="media/Every Internet Tracking Method Explained In 12 Minutes.mp4" controls autoplay style="width:90%; max-width:400px; border-radius:12px;"></video>
 </div>
 </section>
 
