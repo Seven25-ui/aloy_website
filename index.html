@@ -4,218 +4,183 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Aloygene | Portfolio</title>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
-   
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
-body{line-height:1.5;transition: all 0.4s ease;color:#1f1f1f;background: linear-gradient(135deg, #4facfe, #00f2fe);}
-body.dark{background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);color:#e0e0e0;}
-header{background:rgba(31,31,31,0.85);color:white;padding:15px 10px;text-align:center;border-bottom-left-radius:15px;border-bottom-right-radius:15px;position:relative;backdrop-filter: blur(5px);}
-header h1{font-size:1.6rem;font-weight:700;}
-header p{opacity:0.85;font-size:0.9rem;margin-top:3px;}
-#darkToggle{position:absolute;top:10px;right:10px;padding:5px 8px;background:rgba(255,255,255,0.6);color:#1f1f1f;border:none;border-radius:6px;cursor:pointer;font-size:0.8rem;font-weight:600;}
-#darkToggle:hover{opacity:0.8;}
-.profile-weather-container{display:flex;flex-direction:column;align-items:center;margin:15px auto;max-width:180px;}
-.time-card{padding:8px 12px;background:rgba(255,255,255,0);border-radius:12px;text-align:center;margin-bottom:10px;box-shadow:none;}
-.time-card p{margin:2px 0;font-weight:bold;font-size:0.9rem;color:#1f1f1f;}
-body.dark .time-card p{color:white;}
-.profile-img{width:100px;height:100px;border-radius:50%;border:3px solid #1f1f1f;object-fit:cover;}
-section{padding:30px 15px;max-width:800px;margin:auto;}
-h2{font-size:1.6rem;margin-bottom:20px;text-align:center;color:#1f1f1f;}
-.card{background:rgba(255,255,255,0.8);padding:15px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.1);margin-bottom:15px;transition:transform 0.3s, background 0.4s;}
-body.dark .card{background:rgba(50,50,50,0.7);color:#e0e0e0;}
-.card:hover{transform:translateY(-2px);}
-.skills{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:10px;}
-.skill{background:#1f1f1f;color:white;padding:6px 15px;border-radius:20px;font-size:0.8rem;transition:all 0.3s;}
-.skill:hover{opacity:0.8;}
-.project-box{cursor:pointer;margin-bottom:15px;}
-.project-box h3{margin-bottom:5px;}
-.project-box p{opacity:0.85;font-size:0.85rem;}
-#gallery{margin-top:20px;}
-#fileInput{margin-bottom:5px;}
-#galleryDrop{width:90%;min-height:100px;border:2px dashed #1f1f1f;border-radius:10px;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;padding:8px;margin:10px auto;background:rgba(255,255,255,0.8);}
-body.dark #galleryDrop{border-color:white;background:rgba(50,50,50,0.6);}
-#galleryDrop p{color:#1f1f1f;font-size:0.85rem;text-align:center;}
-body.dark #galleryDrop p{color:white;}
-.media-item{width:120px;height:80px;object-fit:cover;border-radius:8px;cursor:pointer;transition:transform 0.3s;margin:5px;}
-.media-item:hover{transform:scale(1.05);}
-#pexelsGallery{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;}
-.quotes-box{display:flex;align-items:center;justify-content:center;height:60px;overflow:hidden;margin-top:15px;background:rgba(255,255,255,0.85);padding:10px 15px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.1);backdrop-filter:blur(10px);position:relative;}
-.quote{position:absolute;opacity:0;transition:opacity 0.6s ease-in-out;font-weight:bold;font-size:0.85rem;text-align:center;width:100%;left:50%;top:50%;transform:translate(-50%,-50%);color:#1f1f1f;}
-body.dark .quote{color:white;}
-.contact-box{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:15px;}
-.contact-btn{padding:10px 20px;color:white;font-weight:bold;border-radius:8px;transition:0.3s;text-decoration:none;display:flex;align-items:center;font-size:0.9rem;}
-.contact-btn:hover{transform:translateY(-3px) scale(1.03);opacity:0.9;}
-footer{background:rgba(31,31,31,0.85);color:white;text-align:center;padding:15px;border-top-left-radius:15px;border-top-right-radius:15px;backdrop-filter: blur(5px);font-size:0.85rem;}
-.modal{display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;overflow:auto;background:rgba(0,0,0,0.85);justify-content:center;align-items:center;}
-.modal-content{position:relative;background:#fff;padding:15px;border-radius:12px;max-width:90%;max-height:85%;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,0.2);}
-.modal-content img, .modal-content video{max-width:100%;max-height:70vh;border-radius:8px;}
-.close-modal{position:absolute;top:8px;right:12px;font-size:1.4rem;font-weight:bold;color:#333;cursor:pointer;}
-body.dark .modal-content{background:#1f1f1f;color:white;}
-@media(max-width:500px){
-header h1{font-size:1.3rem;}
-header p{font-size:0.75rem;}
-.skill{font-size:0.7rem;padding:5px 12px;}
-.media-item{width:90px;height:60px;}
-#galleryDrop{width:95%;min-height:80px;}
+/* ===== BASE STYLE ===== */
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins', sans-serif; }
+html, body { height:100%; }
+body {
+  line-height:1.5;
+  font-size:clamp(12px, 1vw + 0.5rem, 16px);
+  font-weight:400;
+  color:#fff;
+  background: linear-gradient(-45deg, #4facfe, #00f2fe, #ff6ec7, #ff9a8b);
+  background-size:400% 400%;
+  animation: gradientBG 15s ease infinite;
+  transition:0.4s ease;
+}
+body.dark {
+  color:#e0e0e0;
+  background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #1a2a6c);
+  background-size:400% 400%;
+  animation: gradientBG 20s ease infinite;
+}
+@keyframes gradientBG {
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
 }
 
-.music-section{
-  padding:28px; 
-  color:#fff; 
-  font-family:Inter, "Segoe UI", sans-serif; 
-}
-
-.tracks-grid{
-  display:grid; 
-  grid-template-columns:repeat(5,1fr); 
-  gap:12px; 
-  margin-bottom:18px; 
-}
-
-.track-card{
-  background:rgba(255,255,255,0.03); 
-  border-radius:10px; 
-  padding:10px; 
-  display:flex; 
-  gap:10px; 
-  align-items:center; 
-  cursor:pointer; 
-  transition:.15s; 
-}
-
-.track-card:hover{
-  transform:translateY(-5px); 
-  box-shadow:0 8px 18px rgba(0,0,0,0.4); 
-}
-
-.track-card.active{ 
-  outline:2px solid rgba(125,211,252,0.15); 
-}
-
-.track-cover{ 
-  width:60px; height:60px; border-radius:8px; overflow:hidden; flex-shrink:0; 
-}
-
-.track-cover img{ 
-  width:100%; height:100%; object-fit:cover; 
-}
-
-.track-info{ 
-  flex:1; display:flex; flex-direction:column; gap:4px; 
-}
-
-.track-title{ 
-  font-size:14px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; 
-}
-
-.track-artist{ 
-  font-size:12px; color:#9ca3af; 
-}
-
-.btn-play{ 
-  background:transparent; border:1px solid rgba(255,255,255,0.06); width:36px;height:36px;border-radius:8px; display:grid; place-items:center; cursor:pointer; 
-}
-
-/* ===== FULL-COVER PLAYER ===== */
-.full-cover-player{
+/* ===== HEADER ===== */
+header {
+  background:rgba(0,0,0,0.4);
+  padding:15px 10px;
+  text-align:center;
+  border-bottom-left-radius:15px;
+  border-bottom-right-radius:15px;
   position:relative;
-  width:100%;
-  max-width:700px;
-  margin:20px auto;
-  border-radius:16px;
-  overflow:hidden;
-  backdrop-filter:blur(8px);
+  backdrop-filter:blur(5px);
 }
-
-.full-cover-player .player-bg{
+header h1 {
+  font-size:clamp(1.2rem,3vw,1.6rem);
+  font-weight:700;
+}
+header p {
+  font-size:clamp(0.8rem,1.5vw,0.95rem);
+  opacity:0.85;
+  margin-top:5px;
+}
+#darkToggle {
   position:absolute;
-  top:0; left:0; right:0; bottom:0;
-  background-size:cover;
-  background-position:center;
-  filter:blur(12px) brightness(0.4);
-  z-index:0;
-  transition: background-image 0.5s ease;
+  top:10px;
+  right:10px;
+  padding:5px 10px;
+  background:white;
+  color:#1f1f1f;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:0.75rem;
+  font-weight:600;
 }
 
-.full-cover-player .player-content{
-  position:relative;
-  z-index:1;
+/* PROFILE */
+.profile-weather-container {
   display:flex;
   flex-direction:column;
-  gap:12px;
-  padding:16px;
-  color:#fff;
-}
-
-.player-cover img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  border-radius:16px;
-  box-shadow:0 0 18px rgba(125,211,252,0.4);
-}
-
-.track-now .now-title{
-  font-weight:700;
-  font-size:15px;
-  overflow:hidden;
-  white-space:nowrap;
-  text-overflow:ellipsis;
-}
-
-.track-now .now-artist{
-  font-size:13px; color:#8ea2bd; margin-top:2px;
-}
-
-.progress-wrap{
-  display:flex;
   align-items:center;
-  gap:10px;
-  width:100%;
+  margin:15px auto;
+  max-width:180px;
 }
+.profile-img { width:95px; height:95px; border-radius:50%; border:3px solid #fff; object-fit:cover; }
 
-.progress{
-  width:100%;
-  height:7px;
-  background:rgba(255,255,255,0.1);
-  border-radius:7px;
+/* TIME CARD */
+.time-card p { font-size:0.85rem; font-weight:600; }
+
+/* FLOATING WEATHER */
+.weather-floating {
+  position:fixed;
+  left:15px; top:210px;
+  display:flex; align-items:center; gap:6px;
+  padding:6px 10px;
+  background:rgba(255,255,255,0.3);
+  backdrop-filter:blur(12px); border-radius:10px;
+  font-size:0.75rem; font-weight:600; color:#fff;
   cursor:pointer;
-  appearance:none;
 }
+.weather-floating img { width:24px; }
 
-.progress::-webkit-slider-thumb{
-  appearance:none;
-  width:18px;
-  height:18px;
-  border-radius:50%;
-  background:#7dd3fc;
-  box-shadow:0 0 10px #7dd3fc;
-  transition:.2s;
+/* SECTION */
+section { padding:22px 15px; max-width:850px; margin:auto; }
+h2 { font-size:clamp(1.1rem,2.5vw,1.4rem); font-weight:700; text-align:center; margin-bottom:12px; }
+.card { background:rgba(255,255,255,0.15); padding:15px; border-radius:12px; box-shadow:0 6px 15px rgba(0,0,0,0.2); }
+
+/* LOCAL GALLERY */
+#galleryDrop {
+  display:flex; flex-wrap:wrap; gap:6px; justify-content:flex-start; align-items:flex-start;
+  overflow-x:auto; padding:8px; margin:12px auto;
+  border:2px dashed #fff; border-radius:12px; background:rgba(255,255,255,0.1);
+  scrollbar-width:thin;
 }
+#galleryDrop::-webkit-scrollbar { height:6px; }
+#galleryDrop::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.3); border-radius:3px; }
+.media-item { flex:0 0 auto; width:100px; height:70px; object-fit:cover; border-radius:8px; margin:4px; }
+.sample-videos video { width:100%; max-width:400px; border-radius:12px; margin:8px 0; }
 
-.progress::-webkit-slider-thumb:hover{
-  transform:scale(1.2);
+/* UNSPLASH */
+.unsplash-search { display:flex; justify-content:center; margin-bottom:10px; }
+.unsplash-search input { padding:6px; width:65%; border-radius:8px; border:none; outline:none; margin-right:6px; }
+.unsplash-search button { padding:6px 12px; border:none; border-radius:8px; cursor:pointer; background:white; color:#1f1f1f; font-weight:600; }
+#unsplashGallery { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; }
+.unsplash-card { width:130px; height:80px; border-radius:10px; background-size:cover; background-position:center; cursor:pointer; }
+
+/* LIGHTBOX */
+#lightbox { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); display:flex; justify-content:center; align-items:center; visibility:hidden; opacity:0; transition:0.3s; z-index:9999; }
+#lightbox img { max-width:90%; max-height:90%; border-radius:12px; }
+#lightbox span.close { position:absolute; top:20px; right:30px; font-size:3rem; color:white; cursor:pointer; }
+#lightbox span.arrow { position:absolute; top:50%; font-size:3rem; color:white; cursor:pointer; user-select:none; transform:translateY(-50%); }
+#lightbox span.arrow.left { left:20px; }
+#lightbox span.arrow.right { right:20px; }
+
+/* QUOTES */
+.quotes-box { padding:15px; background:rgba(255,255,255,0.2); border-radius:12px; text-align:center; font-size:clamp(0.85rem,1.5vw,0.95rem); font-weight:500; }
+
+/* FOOTER */
+footer { background:rgba(0,0,0,0.5); color:white; text-align:center; padding:18px; border-top-left-radius:15px; border-top-right-radius:15px; margin-top:25px; }
+.footer-icons { margin-top:10px; }
+.footer-icons a { color:white; margin:0 10px; font-size:22px; transition:0.3s; }
+.footer-icons a:hover { color:#ffdd59; text-shadow:0 0 6px #ffdd59,0 0 10px #ffdd59; transform:scale(1.15); }
+
+/* MUSIC PLAYER */
+.music-section{
+  padding:28px;
+  color:#fff;
+  font-family:Inter, "Segoe UI", sans-serif;
 }
-
-.vol{
-  width:100px; 
-  accent-color:#7dd3fc;
+.tracks-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:12px;
+  margin-bottom:18px;
 }
-
-/* Buttons */
-.big-btn{
-  width:48px;height:48px;border-radius:12px;border:1px solid rgba(255,255,255,0.15); 
-  background:rgba(255,255,255,0.06); 
-  display:grid; place-items:center; font-size:20px; cursor:pointer; transition:.2s ease; 
+.track-card{
+  background:rgba(255,255,255,0.03);
+  border-radius:10px;
+  padding:10px;
+  display:flex;
+  gap:10px;
+  align-items:center;
+  cursor:pointer;
+  transition:.15s;
 }
-
-.big-btn:hover{ 
-  background:rgba(255,255,255,0.15); transform:scale(1.07); 
-}
-
+.track-card:hover{ transform:translateY(-5px); box-shadow:0 8px 18px rgba(0,0,0,0.4);}
+.track-card.active{ outline:2px solid rgba(125,211,252,0.15);}
+.track-cover{ width:60px; height:60px; border-radius:8px; overflow:hidden; flex-shrink:0; }
+.track-cover img{ width:100%; height:100%; object-fit:cover; }
+.track-info{ flex:1; display:flex; flex-direction:column; gap:4px; }
+.track-title{ font-size:14px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.track-artist{ font-size:12px; color:#9ca3af; }
+.btn-play{ background:transparent; border:1px solid rgba(255,255,255,0.06); width:36px;height:36px;border-radius:8px; display:grid; place-items:center; cursor:pointer; }
+.full-cover-player{ position:relative; width:100%; max-width:700px; margin:20px auto; border-radius:16px; overflow:hidden; backdrop-filter:blur(8px); }
+.full-cover-player .player-bg{ position:absolute; top:0; left:0; right:0; bottom:0; background-size:cover; background-position:center; filter:blur(12px) brightness(0.4); z-index:0; transition: background-image 0.5s ease; }
+.full-cover-player .player-content{ position:relative; z-index:1; display:flex; flex-direction:column; gap:12px; padding:16px; color:#fff; }
+.player-cover img{ width:100%; height:100%; object-fit:cover; border-radius:16px; box-shadow:0 0 18px rgba(125,211,252,0.4); }
+.track-now .now-title{ font-weight:700; font-size:15px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+.track-now .now-artist{ font-size:13px; color:#8ea2bd; margin-top:2px; }
+.progress-wrap{ display:flex; align-items:center; gap:10px; width:100%; }
+.progress{ width:100%; height:7px; background:rgba(255,255,255,0.1); border-radius:7px; cursor:pointer; }
+.progress::-webkit-slider-thumb{ appearance:none; width:18px; height:18px; border-radius:50%; background:#7dd3fc; box-shadow:0 0 10px #7dd3fc; transition:.2s; }
+.progress::-webkit-slider-thumb:hover{ transform:scale(1.2); }
+.vol{ width:100px; accent-color:#7dd3fc; }
+.big-btn{ width:48px;height:48px;border-radius:12px;border:1px solid rgba(255,255,255,0.15); background:rgba(255,255,255,0.06); display:grid; place-items:center; font-size:20px; cursor:pointer; transition:.2s ease; }
+.big-btn:hover{ background:rgba(255,255,255,0.15); transform:scale(1.07); }
 .big-btn:active{ transform:scale(0.92); }
 
-/* Responsive */
 @media(max-width:1200px){.tracks-grid{grid-template-columns:repeat(4,1fr);}}
 @media(max-width:960px){.tracks-grid{grid-template-columns:repeat(3,1fr);}}
 @media(max-width:650px){.tracks-grid{grid-template-columns:repeat(2,1fr);}}
@@ -224,702 +189,392 @@ header p{font-size:0.75rem;}
   .player-content{flex-direction:column;}
   .progress-wrap{width:100%;}
 }
-/* Controls updated: smaller & horizontal */
-.controls{
-  display:flex;
-  justify-content:center;
-  gap:12px;
-  margin-top:6px;
+
+.controls{ display:flex; justify-content:center; gap:12px; margin-top:6px; }
+.big-btn{ width:36px; height:36px; font-size:16px; border-radius:8px; }
+
+@media(max-width:600px){
+  #darkToggle { font-size:0.65rem; padding:4px 8px; }
+  .profile-img { width:80px; height:80px; }
+  .media-item { width:80px; height:60px; }
+  .sample-videos video { max-width:100%; }
+  .unsplash-card { width:110px; height:70px; }
 }
-
-.big-btn{
-  width:36px;
-  height:36px;
-  font-size:16px;
-  border-radius:8px;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-  background: linear-gradient(270deg, #ff00cc, #3333ff, #00f0ff);
-  background-size: 600% 600%;
-  animation: bgMove 12s ease infinite;
-  transition: all 0.3s ease;
-}
-
-@keyframes bgMove {
-  0% {background-position: 0% 50%;}
-  50% {background-position: 100% 50%;}
-  100% {background-position: 0% 50%;}
-}
-
-.weather-floating{
-  position: fixed;
-  left: 15px;
-  top: 180px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(255,255,255,0.35);
-  padding: 6px 10px;
-  border-radius: 12px;
-  backdrop-filter: blur(6px);
-  box-shadow: 0 3px 8px rgba(0,0,0,0.25);
-  text-decoration: none;
-  color: #1f1f1f;
-  font-weight: 600;
-  font-size: 0.75rem;
-  transition: .3s ease;
-  z-index: 999;
-}
-
-body.dark .weather-floating{
-  background: rgba(50,50,50,0.55);
-  color: white;
-}
-
-.weather-floating img{
-  width: 32px;
-  height: 32px;
-  filter: drop-shadow(0 0 4px rgba(0,0,0,0.4));
-  transition: .3s ease;
-}
-
-.weather-floating:hover{
-  transform: scale(1.05);
-  background: rgba(255,255,255,0.55);
-}
-
-body.dark .weather-floating:hover{
-  background: rgba(80,80,80,0.7);
-}
-
-.weather-floating span{
-  max-width: 110px;
-  line-height: 1.2;
-}
-
-.weather-floating {
-  cursor: grab;
-}
-.weather-floating:active {
-  cursor: grabbing;
-}
-
-/* ============================================
-   DESKTOP RESPONSIVE FIX (NO CODE CHANGES)
-   ============================================ */
-
-@media(min-width: 900px) {
-
-  /* Center header better */
-  header {
-    padding: 25px 20px;
-  }
-  header h1 {
-    font-size: 2.2rem;
-  }
-
-  /* Fix profile container */
-  .profile-weather-container {
-    flex-direction: row;
-    justify-content: center;
-    gap: 30px;
-    max-width: none;
-    margin-top: 30px;
-  }
-
-  .profile-img {
-    width: 140px;
-    height: 140px;
-  }
-
-  .time-card p {
-    font-size: 1.2rem;
-  }
-
-  /* Fix all sections width on desktop */
-  section {
-    max-width: 1100px;
-    padding: 50px 40px;
-  }
-
-  /* Make About & Cards look cleaner */
-  .card {
-    padding: 25px 30px;
-    font-size: 1.05rem;
-  }
-
-  /* Skills on desktop */
-  .skills {
-    gap: 15px;
-  }
-  .skill {
-    font-size: 1rem;
-    padding: 10px 25px;
-  }
-
-  /* Project box spacing */
-  .project-box h3 {
-    font-size: 1.4rem;
-  }
-  .project-box p {
-    font-size: 1rem;
-  }
-
-  /* MUSIC PLAYER FIX */
-  .full-cover-player {
-    max-width: 850px;
-  }
-  .player-content {
-    padding: 30px;
-    gap: 20px;
-  }
-  .progress-wrap {
-    gap: 20px;
-  }
-
-  /* Grid Fix */
-  .tracks-grid {
-    grid-template-columns: repeat(5, 1fr);
-    gap: 18px;
-  }
-
-  .track-card {
-    padding: 15px;
-  }
-
-  /* Live photos search bar */
-  #pexelsSearch {
-    max-width: 350px;
-    font-size: 1rem;
-  }
-
-  /* Gallery fix */
-  #galleryDrop {
-    width: 80%;
-    max-width: 900px;
-  }
-  .media-item {
-    width: 160px;
-    height: 110px;
-  }
-
-  /* Quotes fix center */
-  .quotes-box {
-    height: 80px;
-  }
-  .quote {
-    font-size: 1.1rem;
-  }
-
-  /* Contact buttons balance */
-  .contact-box {
-    gap: 20px;
-  }
-  .contact-btn {
-    padding: 12px 25px;
-    font-size: 1rem;
-  }
-}
-
-/* Prevent stretching on ultra-wide screens */
-@media(min-width: 1400px) {
-  section {
-    max-width: 1200px;
-  }
-}
-
 </style>
 </head>
 <body>
 
 <header>
-<h1>Gene Cartalla Guardiana</h1>
-<p>Alias: <strong>Aloygene</strong> • Beginner Web Developer</p>
-<button id="darkToggle">Dark Mode</button>
+  <h1>Gene Cartalla Guardiana</h1>
+  <p>Alias: <strong>Aloygene</strong> • Beginner Web Developer</p>
+  <button id="darkToggle">Dark Mode</button>
 </header>
 
 <div class="profile-weather-container">
-<div id="time" class="time-card">
-<p id="currentTime">Loading time...</p>
-</div>
-<img src="media/owl-bird-eyes-eagle-owl-86596.jpeg" alt="Profile Image" class="profile-img">
+  <div class="time-card"><p id="headerTime">Loading...</p></div>
+  <img src="media/luffy_veut_devenir_roi_pirate_9e3ac603-2dea-44fe-bb1f-74b234fdf16f.jpg" class="profile-img">
 </div>
 
-<!-- FLOATING WEATHER ICON -->
-<a href="https://seven25-ui.github.io/Weather-app/" target="_blank" class="weather-floating">
-  <img src="https://cdn-icons-png.flaticon.com/512/1116/1116453.png" alt="Weather Icon">
-  <span>Click here to see world weather condition</span>
-</a>
+<div class="weather-floating" id="weatherWidget">
+  <img id="weatherIcon" src="">
+  <span id="weatherTemp">--°C</span>
+  <span id="weatherCity">City</span>
+</div>
 
 <section id="about">
-<h2>About Me</h2>
-<div class="card">
-<p>I am Gene Cartalla Guardiana, also known as <strong>Aloygene</strong>. Beginner web developer passionate about HTML, CSS & JS. My goal is to become full-stack and build real projects.</p>
-</div>
+  <h2>About Me</h2>
+  <div class="card">
+    <p>I'm a beginner web developer passionate about creating responsive, modern, and user-friendly websites. I love experimenting with HTML, CSS, and JS.</p>
+  </div>
 </section>
 
 <section id="skills">
-<h2>Skills</h2>
-<div class="skills">
-<div class="skill">HTML</div>
-<div class="skill">CSS</div>
-<div class="skill">JavaScript</div>
-<div class="skill">Responsive Design</div>
-<div class="skill">UI Design</div>
-</div>
+  <h2>Skills</h2>
+  <div class="card">HTML • CSS • JavaScript • Responsive Design • UI Design</div>
 </section>
-
-<section id="projects">
-<h2>Projects</h2>
-<div class="project-box card" data-img="https://via.placeholder.com/600x400?text=Portfolio">
-<h3>Portfolio Website</h3>
-<p>“Driven by curiosity and fueled by improvement. I push myself to grow every day and turn ideas into something real.”
-</p>
-</div>
-</section>
-
 
 <section class="music-section">
   <h2>🎵 My Music Tracks</h2>
-
-  <!-- Tracks Grid -->
   <div class="tracks-grid" id="tracksGrid"></div>
-
-  <!-- Player -->
   <div class="player full-cover-player">
-    <!-- Full background from track cover -->
     <div class="player-bg" id="playerBg"></div>
-
     <div class="player-content">
-      <!-- Mini Neon Visualizer (pwede i-add later) -->
-      <div class="mini-visualizer" id="miniVisualizer"></div>
-
-      <!-- Track Cover -->
-      <div class="player-cover">
-        <img id="playerCover" src="" alt="cover">
-      </div>
-
-      <!-- Track Info -->
+      <div class="player-cover"><img id="playerCover" src="" alt="cover"></div>
       <div class="track-now" id="nowInfo">
         <div class="now-title">Not Playing</div>
         <div class="now-artist"></div>
       </div>
-
-      <!-- Progress -->
       <div class="progress-wrap">
-        <span class="time" id="currentTime">0:00</span>
+        <span class="time" id="playerCurrentTime">0:00</span>
         <input type="range" id="progress" class="progress" min="0" max="100" value="0">
         <span class="time" id="duration">0:00</span>
       </div>
-
-      <!-- Controls -->
       <div class="controls">
         <button class="big-btn" id="prevBtn">⏮</button>
         <button class="big-btn" id="playBtn">▶️</button>
         <button class="big-btn" id="nextBtn">⏭</button>
       </div>
-
-      <!-- Volume -->
       <input type="range" id="volume" class="vol" min="0" max="1" step="0.01" value="0.9">
     </div>
-
     <audio id="audio" preload="metadata"></audio>
   </div>
 </section>
-      
+
 <section id="gallery">
-<h2>Local Photo & Video Gallery</h2>
-<input type="file" id="fileInput" multiple accept="image/*,video/*">
-<div id="galleryDrop"><p>Select, upload, or drag & drop your photos/videos here</p></div>
-<div style="text-align:center; margin-top:10px;">
-<video src="media/Every Dangerous Hacking Gadgets Explained in 8 Minutes.mp4" controls autoplay style="width:90%; max-width:400px; border-radius:12px;"></video>
-<video src="media/Every Networking Technology Explained In 12 Minutes.mp4" controls autoplay style="width:90%; max-width:400px; border-radius:12px;"></video>
-<video src="media/Every Internet Tracking Method Explained In 12 Minutes.mp4" controls autoplay style="width:90%; max-width:400px; border-radius:12px;"></video>
-</div>
+  <h2>Local Photo & Video Gallery</h2>
+  <input type="file" id="fileInput" multiple accept="image/*,video/*">
+  <div id="galleryDrop"><p>Select or drag & drop photos/videos</p></div>
+  <div class="sample-videos">
+    <video src="media/Every Dangerous Hacking Gadgets Explained in 8 Minutes.mp4" controls></video>
+    <video src="media/Every Networking Technology Explained In 12 Minutes.mp4" controls></video>
+    <video src="media/Every Internet Tracking Method Explained In 12 Minutes.mp4" controls></video>
+  </div>
 </section>
 
-<section id="pexels">
-<h2>Live Photos</h2>
-<div style="display:flex;justify-content:center;margin-bottom:10px;">
-<input type="text" id="pexelsSearch" placeholder="Search photos..." style="padding:8px;border-radius:8px;border:none;outline:none;width:70%;max-width:250px;margin-right:10px;">
-<button id="searchBtn" style="padding:8px 12px;border:none;border-radius:8px;background:#fff;color:#1f1f1f;cursor:pointer;">Search</button>
-</div>
-<div id="pexelsGallery"></div>
+<section id="unsplash">
+  <h2>Live Photos</h2>
+  <div class="unsplash-search">
+    <input id="unsplashSearch" placeholder="Search photos...">
+    <button id="searchUnsplashBtn">Search</button>
+  </div>
+  <div id="unsplashGallery"></div>
 </section>
+
+<!-- Lightbox -->
+<div id="lightbox">
+  <span class="close">&times;</span>
+  <span class="arrow left">&#10094;</span>
+  <img src="" alt="lightbox">
+  <span class="arrow right">&#10095;</span>
+</div>
 
 <section id="quotes">
-<h2>Quotes</h2>
-<div class="quotes-box card">
-<p class="quote">"Code is like humor. When you have to explain it, it’s bad."</p>
-<p class="quote">"First, solve the problem. Then, write the code."</p>
-<p class="quote">"Experience is the name everyone gives to their mistakes."</p>
-<p class="quote">"Simplicity is the soul of efficiency."</p>
-<p class="quote">"If life gives you lemons, add ice and make it a weekend."</p>
-</div>
-</section>
-
-<section id="contact">
-<h2>Contact Me</h2>
-<div class="contact-box">
-<a href="https://www.facebook.com/share/1DBESd3noL/" target="_blank" class="contact-btn" style="background:#4267B2;">Facebook</a>
-<a href="https://m.me/1DBESd3noL" target="_blank" class="contact-btn" style="background:#0084FF;">Messenger</a>
-<a href="mailto:guardianagene6@gmail.com" class="contact-btn" style="background:#1f1f1f;">Email</a>
-<a href="tel:09978660858" class="contact-btn" style="background:#28a745;">Call/SMS</a>
-</div>
+  <h2>Quotes</h2>
+  <div class="quotes-box" id="quotesBox">Loading…</div>
 </section>
 
 <footer>
-<p>© 2025 Aloygene • Beginner Developer</p>
+  <p>© 2025 🤘Aloygene🤘</p>
+  <div class="footer-icons">
+    <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+    <a href="https://x.com" target="_blank"><i class="fab fa-x-twitter"></i></a>
+    <a href="https://seven25-ui.github.io/Yt7_clone/" target="_blank"><i class="fab fa-youtube"></i></a>
+    <a href="mailto:alo.ygene@example.com"><i class="fas fa-envelope"></i></a>
+  </div>
 </footer>
 
-<div class="modal" id="projectModal">
-<div class="modal-content">
-<span class="close-modal">&times;</span>
-</div>
-</div>
-
 <script>
-const widget = document.querySelector('.weather-floating');
-
-let dragging = false;
-let offsetX = 0;
-let offsetY = 0;
-
-// =====================
-// DESKTOP EVENTS
-// =====================
-widget.addEventListener('mousedown', (e) => {
-  dragging = true;
-  offsetX = e.clientX - widget.offsetLeft;
-  offsetY = e.clientY - widget.offsetTop;
-  widget.style.transition = "0s";
+// ===== DARK MODE =====
+document.getElementById("darkToggle").addEventListener("click", () => {
+    document.body.classList.toggle("dark");
 });
 
-document.addEventListener('mousemove', (e) => {
-  if (dragging) {
-    moveWidget(e.clientX, e.clientY);
-  }
-});
-
-document.addEventListener('mouseup', () => {
-  dragging = false;
-  widget.style.transition = ".2s";
-});
-
-// =====================
-// MOBILE TOUCH EVENTS
-// =====================
-widget.addEventListener('touchstart', (e) => {
-  dragging = true;
-  const touch = e.touches[0];
-  offsetX = touch.clientX - widget.offsetLeft;
-  offsetY = touch.clientY - widget.offsetTop;
-  widget.style.transition = "0s";
-});
-
-widget.addEventListener('touchmove', (e) => {
-  if (dragging) {
-    const touch = e.touches[0];
-    moveWidget(touch.clientX, touch.clientY);
-  }
-});
-
-document.addEventListener('touchend', () => {
-  dragging = false;
-  widget.style.transition = ".2s";
-});
-
-// =====================
-// MOVEMENT FUNCTION
-// =====================
-function moveWidget(x, y) {
-  let newX = x - offsetX;
-  let newY = y - offsetY;
-
-  // DILI MO LABANG SA SCREEN
-  newX = Math.max(0, Math.min(window.innerWidth - widget.offsetWidth, newX));
-  newY = Math.max(0, Math.min(window.innerHeight - widget.offsetHeight, newY));
-
-  widget.style.left = newX + "px";
-  widget.style.top = newY + "px";
+// ===== LIVE TIME =====
+function updateTime() {
+    const now = new Date();
+    document.getElementById("headerTime").textContent =
+        now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
 }
-</script>
+setInterval(updateTime, 1000);
+updateTime();
 
-<script>
-// Dark mode
-const toggle = document.getElementById('darkToggle');
-toggle.addEventListener('click', ()=>{document.body.classList.toggle('dark');toggle.textContent=document.body.classList.contains('dark')?'Light Mode':'Dark Mode';});
-
-// Modal
-const modal = document.getElementById('projectModal');
-const closeModal = document.querySelector('.close-modal');
-closeModal.addEventListener('click', ()=> modal.style.display='none');
-window.addEventListener('click', e=>{ if(e.target==modal) modal.style.display='none'; });
-
-// Auto quotes
-const quotes = document.querySelectorAll('.quote');
-let currentQuote=0;
-function showQuote(i){ quotes.forEach((q,j)=>q.style.opacity=(i===j)?1:0);}
-showQuote(currentQuote);
-setInterval(()=>{currentQuote=(currentQuote+1)%quotes.length;showQuote(currentQuote);},4000);
-
-// Time
-function updateTime(){ const now=new Date(); document.getElementById('currentTime').textContent=now.toLocaleTimeString();}
-setInterval(updateTime,1000); updateTime();
-
-// Local Gallery
-const fileInput=document.getElementById('fileInput');
-const galleryDrop=document.getElementById('galleryDrop');
-
-function createMediaItem(src,type){
-    let mediaWrapper = document.createElement('div');
-    mediaWrapper.style.position='relative';
-    mediaWrapper.style.display = 'inline-block';
-    mediaWrapper.style.margin='5px';
-
-    let media;
-    if(type.startsWith('video')){
-        media=document.createElement('video');
-        media.src=src;
-        media.controls=true;
-    } else{
-        media=document.createElement('img');
-        media.src=src;
-    }
-    media.className='media-item';
-
-    media.addEventListener('click', ()=>{
-        modal.style.display='flex';
-        const modalContent = modal.querySelector('.modal-content');
-        modalContent.innerHTML='';
-        modalContent.appendChild(media.cloneNode(true));
-    });
-
-    let delBtn = document.createElement('span');
-    delBtn.textContent = '×';
-    delBtn.style.position='absolute';
-    delBtn.style.top='2px';
-    delBtn.style.right='4px';
-    delBtn.style.color='white';
-    delBtn.style.background='rgba(0,0,0,0.6)';
-    delBtn.style.borderRadius='50%';
-    delBtn.style.padding='2px 6px';
-    delBtn.style.cursor='pointer';
-    delBtn.style.fontWeight='bold';
-    delBtn.addEventListener('click', e=>{ e.stopPropagation(); mediaWrapper.remove(); saveGallery(); });
-
-    mediaWrapper.appendChild(media);
-    mediaWrapper.appendChild(delBtn);
-    return mediaWrapper;
-}
-
-function loadGallery(){
-    const saved=JSON.parse(localStorage.getItem('myGallery')||'[]');
-    galleryDrop.innerHTML='';
-    if(saved.length===0){
-        const p=document.createElement('p');
-        p.textContent='Select, upload, or drag & drop your photos/videos here';
-        galleryDrop.appendChild(p);
-    } else{
-        for(let item of saved){
-            galleryDrop.appendChild(createMediaItem(item.src,item.type));
-        }
-    }
-}
-loadGallery();
-
-function saveGallery(){
-    const arr=[];
-    const items=galleryDrop.querySelectorAll('.media-item');
-    items.forEach(item=>{
-        arr.push({src:item.src,type:item.tagName.toLowerCase()});
-    });
-    localStorage.setItem('myGallery',JSON.stringify(arr));
-}
-
-fileInput.addEventListener('change', e=>{ handleFiles(e.target.files); });
-
-galleryDrop.addEventListener('dragover', e=>{ e.preventDefault(); galleryDrop.style.borderColor='blue'; });
-galleryDrop.addEventListener('dragleave', e=>{ e.preventDefault(); galleryDrop.style.borderColor=''; });
-galleryDrop.addEventListener('drop', e=>{ e.preventDefault(); galleryDrop.style.borderColor=''; handleFiles(e.dataTransfer.files); });
-
-function handleFiles(files){
-    for(let file of files){
-        const reader=new FileReader();
-        reader.onload=ev=>{
-            galleryDrop.appendChild(createMediaItem(ev.target.result,file.type));
-            saveGallery();
-        };
-        reader.readAsDataURL(file);
-    }
-}
-
-// Pexels Gallery
-const PEXELS_API_KEY='8uXf3MT2ivKWnZ1sJlq5ePQCYcYhx52YVT25WUFfmRKqGP8FXx4jPUxi';
-const pexelsGallery=document.getElementById('pexelsGallery');
-const searchBtn=document.getElementById('searchBtn');
-const pexelsSearch=document.getElementById('pexelsSearch');
-
-async function loadPexelsPhotos(query='nature',perPage=12){
-    pexelsGallery.innerHTML='Loading...';
-    try{
-        const res=await fetch(`https://api.pexels.com/v1/search?query=${query}&per_page=${perPage}`,{
-            headers:{Authorization:PEXELS_API_KEY}
+// ===== LOCAL GALLERY =====
+const galleryDrop = document.getElementById("galleryDrop");
+galleryDrop.addEventListener("click", () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*,video/*";
+    input.multiple = true;
+    input.onchange = () => {
+        [...input.files].forEach(file => {
+            const url = URL.createObjectURL(file);
+            if (file.type.startsWith("image")) {
+                const img = document.createElement("img");
+                img.src = url;
+                img.className = "media-item";
+                galleryDrop.appendChildgalleryDrop.appendChild(img);
+            } else if (file.type.startsWith("video")) {
+                const video = document.createElement("video");
+                video.src = url;
+                video.controls = true;
+                video.className = "media-item";
+                galleryDrop.appendChild(video);
+            }
         });
-        const data=await res.json();
-        displayPhotos(data.photos);
-    }catch(err){pexelsGallery.innerHTML='Failed to load photos.'; console.error(err);}
-}
+    };
+    input.click();
+});
 
-function displayPhotos(photos){
-    pexelsGallery.innerHTML='';
-    photos.forEach(photo=>{
-        const card=document.createElement('div');
-        card.style.width='150px'; card.style.height='100px'; card.style.borderRadius='12px';
-        card.style.overflow='hidden'; card.style.cursor='pointer';
-        card.style.transition='transform 0.3s, box-shadow 0.3s';
-        card.style.background=`url(${photo.src.medium}) center/cover no-repeat`;
-        card.addEventListener('mouseover',()=>{ card.style.transform='scale(1.05)'; card.style.boxShadow='0 8px 20px rgba(0,0,0,0.4)'; });
-        card.addEventListener('mouseout',()=>{ card.style.transform='scale(1)'; card.style.boxShadow='none'; });
-        card.addEventListener('click',()=>{ modal.style.display='flex'; modal.querySelector('.modal-content').innerHTML=`<img src="${photo.src.large}">`; });
-        pexelsGallery.appendChild(card);
-    });
-}
-searchBtn.addEventListener('click', ()=>{ if(pexelsSearch.value) loadPexelsPhotos(pexelsSearch.value); });
-loadPexelsPhotos('nature',12);
-
- // ======= TRACKS =======
-const tracks = [
-  { title:"Heavy ft. Kiiara", artist:"LINKIN PARK", src:"media/Linkin Park - Heavy ft. Kiiara (Lyrics).m4a", cover:"media/IMG_20251207_120239.jpg"},
-  { title:"Final Masquerade", artist:"LINKIN PARK", src:"media/Linkin Park_ Final Masquerade (Lyrics).m4a", cover:"media/Untitled---2025-02-26T173509.790.png" },
-  { title:"It Won't Go Away Again", artist:"PARABELLE", src:"media/It Won_t Go Away Again.m4a", cover:"media/IMG_20251207_111744.jpg" },
-  { title:"The Conversation Ends", artist:"PARABELLE", src:"media/The Conversation Ends.m4a", cover:"media/IMG_20251207_111755.jpg" },
-  { title:"Time & Place", artist:"PARABELLE", src:"media/Time & Place.m4a", cover:"media/HD-wallpaper-parabelle-a-drop-oceanic-music-matisyn-a-summit-borderline.jpg" },
-  { title:"Us", artist:"PARABELLE", src:"media/Us.m4a", cover:"media/IMG_20251207_111817.jpg" },
-  { title:"Ten Thousand Fists (Full Album)", artist:"DISTURBED", src:"media/Disturbed - Ten Thousand Fists (Full Album).m4a", cover:"media/IMG_20251207_120256.jpg" },
-];
-
-// ======= ELEMENTS =======
-const tracksGrid = document.getElementById('tracksGrid');
-const audio = document.getElementById('audio');
-const playBtn = document.getElementById('playBtn');
-const prevBtn = document.getElementById('prevBtn');
-const nextBtn = document.getElementById('nextBtn');
-const nowTitle = document.querySelector('.now-title');
-const nowArtist = document.querySelector('.now-artist');
-const progress = document.getElementById('progress');
-const currentTimeEl = document.getElementById('currentTime');
-const durationEl = document.getElementById('duration');
-const volume = document.getElementById('volume');
-const playerCover = document.getElementById('playerCover');
-const playerBg = document.getElementById('playerBg');
-
+// ===== LIGHTBOX =====
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = lightbox.querySelector("img");
+let lightboxItems = [];
 let currentIndex = 0;
-let isPlaying = false;
-let trackCards = [];
 
-// ======= FUNCTIONS =======
-function formatTime(sec){
-  if(!sec||isNaN(sec)) return "0:00"; 
-  sec=Math.floor(sec); 
-  const m=Math.floor(sec/60); 
-  const s=sec%60; 
-  return `${m}:${s.toString().padStart(2,'0')}`;
+function openLightbox(index) {
+    lightboxItems = Array.from(document.querySelectorAll("#galleryDrop img"));
+    if (lightboxItems.length === 0) return;
+    currentIndex = index;
+    lightboxImg.src = lightboxItems[currentIndex].src;
+    lightbox.style.visibility = "visible";
+    lightbox.style.opacity = "1";
 }
 
-// Render track cards
-function renderTracks(){
-  tracksGrid.innerHTML = '';
-  tracks.forEach((t, idx)=>{
-    const card = document.createElement('div');
-    card.className='track-card';
-    card.innerHTML=`<div class="track-cover"><img src="${t.cover}"></div>
-    <div class="track-info"><div class="track-title">${t.title}</div><div class="track-artist">${t.artist}</div></div>
-    <div class="track-actions"><button class="btn-play">▶</button></div>`;
-    
-    // Play when click button or card
-    card.querySelector('.btn-play').addEventListener('click', e=>{ e.stopPropagation(); playTrack(idx); });
-    card.addEventListener('click', ()=>playTrack(idx));
-    
-    tracksGrid.appendChild(card);
-  });
-  trackCards = Array.from(document.querySelectorAll('.track-card'));
-}
-
-// Highlight active track
-function setActiveCard(index){
-  trackCards.forEach(c=>c.classList.remove('active')); 
-  const card=trackCards[index]; 
-  if(card) card.classList.add('active'); 
-}
-
-// Load track info
-function loadTrack(index){
-  const t = tracks[index];
-  audio.src = t.src;
-  nowTitle.textContent = t.title;
-  nowArtist.textContent = t.artist;
-
-  // Track cover
-  playerCover.src = t.cover;
-
-  // Full background from track cover
-  playerBg.style.backgroundImage = `url('${t.cover}')`;
-
-  setActiveCard(index);
-}
-
-// Play / Pause
-function playTrack(index){
-  currentIndex=index;
-  loadTrack(currentIndex);
-  audio.play().then(()=>{ isPlaying=true; updatePlayBtn(); }).catch(()=>{});
-}
-
-function pauseTrack(){ audio.pause(); isPlaying=false; updatePlayBtn(); }
-
-function updatePlayBtn(){ playBtn.textContent = isPlaying?'⏸':'▶️'; }
-
-// Controls
-prevBtn.addEventListener('click', ()=>{ currentIndex=(currentIndex-1+tracks.length)%tracks.length; playTrack(currentIndex); });
-nextBtn.addEventListener('click', ()=>{ currentIndex=(currentIndex+1)%tracks.length; playTrack(currentIndex); });
-playBtn.addEventListener('click', ()=>{
-  if(!audio.src) loadTrack(currentIndex);
-  isPlaying?pauseTrack():playTrack(currentIndex);
+document.querySelector("#galleryDrop").addEventListener("click", e => {
+    if (e.target.tagName === "IMG") {
+        const imgs = Array.from(document.querySelectorAll("#galleryDrop img"));
+        openLightbox(imgs.indexOf(e.target));
+    }
 });
 
-// Update progress
-audio.addEventListener('loadedmetadata', ()=>{ durationEl.textContent=formatTime(audio.duration); progress.max=Math.floor(audio.duration); });
-audio.addEventListener('timeupdate', ()=>{ progress.value=Math.floor(audio.currentTime); currentTimeEl.textContent=formatTime(audio.currentTime); });
-progress.addEventListener('input', e=>{ audio.currentTime=e.target.value; });
-
-// Volume
-volume.addEventListener('input', e=>{ audio.volume=e.target.value; });
-audio.volume=volume.value;
-
-// Auto next track
-audio.addEventListener('ended', ()=>{ nextBtn.click(); });
-
-// ===== INIT =====
-renderTracks();
-loadTrack(currentIndex);
-
-// Update progress & current time
-audio.addEventListener('timeupdate', ()=>{
-  if(!isNaN(audio.duration)){
-    progress.value = audio.currentTime;
-    currentTimeEl.textContent = formatTime(audio.currentTime);
-    durationEl.textContent = formatTime(audio.duration);
-  }
+lightbox.querySelector(".close").addEventListener("click", () => {
+    lightbox.style.visibility = "hidden";
+    lightbox.style.opacity = "0";
 });
 
-// Progress input (seek)
-progress.addEventListener('input', e=>{
-  audio.currentTime = e.target.value;
+lightbox.querySelector(".arrow.left").addEventListener("click", () => {
+    currentIndex = (currentIndex - 1 + lightboxItems.length) % lightboxItems.length;
+    lightboxImg.src = lightboxItems[currentIndex].src;
 });
+
+lightbox.querySelector(".arrow.right").addEventListener("click", () => {
+    currentIndex = (currentIndex + 1) % lightboxItems.length;
+    lightboxImg.src = lightboxItems[currentIndex].src;
+});
+
+// ===== UNSPLASH SEARCH + LIGHTBOX =====
+const unsplashKey = "M6s7dxtyudzoG5xvzUM-oBUfrx_SmJu11VQ10txCl7U"; // replace sa imo key
+const unsplashGallery = document.getElementById("unsplashGallery");
+let unsplashImages = [];
+
+function openUnsplashLightbox(index) {
+    currentIndex = index;
+    lightboxImg.src = unsplashImages[currentIndex];
+    lightbox.style.visibility = "visible";
+    lightbox.style.opacity = "1";
+}
+
+async function searchUnsplash() {
+    const query = document.getElementById("unsplashSearch").value.trim();
+    if (!query) return;
+    unsplashGallery.innerHTML = "Loading...💭🙄";
+    unsplashImages = [];
+    try {
+        const res = await fetch(`https://api.unsplash.com/search/photos?query=${query}&per_page=12&client_id=${unsplashKey}`);
+        const data = await res.json();
+        unsplashGallery.innerHTML = "";
+        data.results.forEach((photo, index) => {
+            unsplashImages.push(photo.urls.full);
+            const div = document.createElement("div");
+            div.className = "unsplash-card";
+            div.style.backgroundImage = `url(${photo.urls.small})`;
+            div.title = photo.alt_description || "Unsplash Image";
+            div.addEventListener("click", () => openUnsplashLightbox(index));
+            unsplashGallery.appendChild(div);
+        });
+    } catch (err) {
+        unsplashGallery.innerHTML = "Failed to load images.";
+        console.error(err);
+    }
+}
+
+document.getElementById("searchUnsplashBtn").addEventListener("click", searchUnsplash);
+document.getElementById("unsplashSearch").addEventListener("keypress", e => { 
+    if (e.key === "Enter") searchUnsplash(); 
+});
+
+// ===== QUOTES =====
+const quotesBox = document.getElementById("quotesBox");
+const quotes = [
+    "Keep it simple, keep it smart.",
+    "Code is like humor. When you have to explain it, it’s bad.",
+    "Strive for progress, not perfection.",
+    "Learning never exhausts the mind."
+];
+function showRandomQuote() {
+    quotesBox.textContent = quotes[Math.floor(Math.random() * quotes.length)];
+}
+setInterval(showRandomQuote, 8000);
+showRandomQuote();
+
+// ===== MUSIC PLAYER =====
+const tracks = [
+    { title: "FINAL MASQUERADE", artist: "LINKIN PARK", cover: "media/happy-22nd-anniversary-to-hybrid-theory-one-of-the-most-v0-6yuogntjpnv91.png", src: "media/Linkin Park_ Final Masquerade (Lyrics).m4a" },
+    { title: "Heavy ft. Kiiara", artist: "LINKIN PARK", cover: "media/images.jpeg", src: "media/Linkin Park - Heavy ft. Kiiara (Lyrics).m4a" }
+];
+const tracksGrid = document.getElementById("tracksGrid");
+const audio = document.getElementById("audio");
+const playBtn = document.getElementById("playBtn");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+const progress = document.getElementById("progress");
+const volume = document.getElementById("volume");
+const playerCover = document.getElementById("playerCover");
+const playerBg = document.getElementById("playerBg");
+const nowTitle = document.querySelector(".now-title");
+const nowArtist = document.querySelector(".now-artist");
+let currentTrack = 0;
+
+function loadTrack(index) {
+    const track = tracks[index];
+    audio.src = track.src;
+    playerCover.src = track.cover;
+    playerBg.style.backgroundImage = `url(${track.cover})`;
+    nowTitle.textContent = track.title;
+    nowArtist.textContent = track.artist;
+    document.querySelectorAll(".track-card").forEach(card => card.classList.remove("active"));
+    document.querySelectorAll(".track-card")[index]?.classList.add("active");
+}
+
+tracks.forEach((track, i) => {
+    const div = document.createElement("div");
+    div.className = "track-card";
+    div.innerHTML = `
+        <div class="track-cover"><img src="${track.cover}"></div>
+        <div class="track-info">
+            <div class="track-title">${track.title}</div>
+            <div class="track-artist">${track.artist}</div>
+        </div>
+    `;
+    div.addEventListener("click", () => { currentTrack = i; loadTrack(currentTrack); audio.play(); playBtn.textContent="⏸"; });
+    tracksGrid.appendChild(div);
+});
+
+loadTrack(currentTrack);
+
+playBtn.addEventListener("click", () => {
+    if(audio.paused){ audio.play(); playBtn.textContent="⏸"; }
+    else { audio.pause(); playBtn.textContent="▶️"; }
+});
+prevBtn.addEventListener("click", () => { currentTrack = (currentTrack -1 + tracks.length) % tracks.length; loadTrack(currentTrack); audio.play(); playBtn.textContent="⏸"; });
+nextBtn.addEventListener("click", () => { currentTrack = (currentTrack +1) % tracks.length; loadTrack(currentTrack); audio.play(); playBtn.textContent="⏸"; });
+
+audio.addEventListener("timeupdate", () => {
+    if(audio.duration){
+        progress.value = (audio.currentTime/audio.duration)*100;
+        document.getElementById("playerCurrentTime").textContent = `${Math.floor(audio.currentTime/60)}:${("0"+Math.floor(audio.currentTime%60)).slice(-2)}`;
+        document.getElementById("duration").textContent = `${Math.floor(audio.duration/60)}:${("0"+Math.floor(audio.duration%60)).slice(-2)}`;
+    }
+});
+
+progress.addEventListener("input", () => {
+    audio.currentTime = (progress.value/100)*audio.duration;
+});
+volume.addEventListener("input", () => { audio.volume = volume.value; });
+
+
+// ===== FLOATING WEATHER =====
+const apiKey = "8a252f61c3bb5b844bf4473729978c30"; // ilisi sa imong actual OpenWeatherMap key
+const defaultCity = "Minglanilla";
+const weatherTemp = document.getElementById("weatherTemp");
+const weatherCity = document.getElementById("weatherCity");
+const weatherIcon = document.getElementById("weatherIcon");
+const weatherWidget = document.getElementById("weatherWidget");
+
+// Weather by city name
+async function getWeather(city = defaultCity) {
+    try {
+        const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`);
+        const data = await res.json();
+        weatherCity.textContent = data.name;
+        weatherTemp.textContent = `${Math.round(data.main.temp)}°C`;
+        weatherIcon.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}.png`;
+    } catch (err) {
+        weatherTemp.textContent = "N/A";
+        weatherCity.textContent = city;
+        console.error("Weather API error:", err);
+    }
+}
+
+// Weather by coordinates
+async function getWeatherByCoords(lat, lon) {
+    try {
+        const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`);
+        const data = await res.json();
+        weatherCity.textContent = data.name;
+        weatherTemp.textContent = `${Math.round(data.main.temp)}°C`;
+        weatherIcon.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}.png`;
+    } catch (err) {
+        console.error("Coords weather error:", err);
+        getWeather(defaultCity);
+    }
+}
+
+// Try to get user location
+if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+        (pos) => {
+            const lat = pos.coords.latitude;
+            const lon = pos.coords.longitude;
+            getWeatherByCoords(lat, lon);
+        },
+        (err) => {
+            console.warn("Location denied, loading default city");
+            getWeather(defaultCity);
+        }
+    );
+} else {
+    getWeather(defaultCity);
+}
+
+// Make weather draggable
+let isDragging = false, offsetX, offsetY;
+weatherWidget.addEventListener("mousedown", e => { isDragging = true; offsetX = e.clientX - weatherWidget.offsetLeft; offsetY = e.clientY - weatherWidget.offsetTop; });
+document.addEventListener("mousemove", e => { if (isDragging) { weatherWidget.style.left = e.clientX - offsetX + "px"; weatherWidget.style.top = e.clientY - offsetY + "px"; } });
+document.addEventListener("mouseup", () => { isDragging = false; });
+
+// Refresh weather every 10 minutes
+setInterval(() => {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            (pos) => getWeatherByCoords(pos.coords.latitude, pos.coords.longitude),
+            () => getWeather(defaultCity)
+        );
+    } else {
+        getWeather(defaultCity);
+    }
+}, 600000);
+
 
 </script>
 </body>
