@@ -200,9 +200,144 @@ footer { background:rgba(0,0,0,0.5); color:white; text-align:center; padding:18p
   .sample-videos video { max-width:100%; }
   .unsplash-card { width:110px; height:70px; }
 }
+
+#hamburgerMenu {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 1000;
+}
+
+#hamburgerIcon {
+  width: 30px;
+  height: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+#hamburgerIcon span {
+  display: block;
+  height: 3px;
+  background: rgba(255,255,255,0.9);
+  border-radius: 2px;
+  transition: 0.3s;
+}
+
+#menuLinks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 35px;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s;
+}
+
+#menuLinks li a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  font-size: 18px;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+#menuLinks li a:hover {
+  background: rgba(125,211,252,0.4);
+  color: #7dd3fc;
+  transform: scale(1.1);
+}
+
+#hamburgerMenu.open #menuLinks {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#hamburgerMenu.open #hamburgerIcon span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+#hamburgerMenu.open #hamburgerIcon span:nth-child(2) {
+  opacity: 0;
+}
+#hamburgerMenu.open #hamburgerIcon span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* MOBILE ADJUSTMENTS */
+@media(max-width: 650px){
+  #hamburgerIcon {
+    width: 25px;
+    height: 20px;
+  }
+  #hamburgerIcon span {
+    height: 2.5px;
+  }
+  #menuLinks li a {
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
+  }
+}
+
+/* Hamburger Icon Highlight */
+.menu-icon:hover, .menu-icon.active {
+  background: #7dd3fc; /* highlight color */
+}
+
+/* Scroll Up Button */
+#scrollUpBtn {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  display: none; /* hidden by default */
+  z-index: 999;
+  background: #7dd3fc;
+  color: #000;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  transition: 0.3s;
+}
+#scrollUpBtn:hover {
+  transform: scale(1.1);
+}
+
 </style>
 </head>
 <body>
+
+<!-- Scroll Up Button -->
+<button id="scrollUpBtn" title="Scroll to top">⬆️</button>
+
+<div id="hamburgerMenu">
+  <div id="hamburgerIcon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+  <ul id="menuLinks">
+    <li><a href="#about" title="About"><i class="fas fa-user"></i></a></li>
+    <li><a href="#skills" title="Skills"><i class="fas fa-code"></i></a></li>
+    <li><a href="#music" title="Music"><i class="fas fa-music"></i></a></li>
+    <li><a href="#gallery" title="Gallery"><i class="fas fa-image"></i></a></li>
+    <li><a href="#unsplash" title="Live Photos"><i class="fas fa-camera"></i></a></li>
+    <li><a href="#quotes" title="Quotes"><i class="fas fa-quote-left"></i></a></li>
+  </ul>
+</div>
 
 <header>
   <h1>Gene Cartalla Guardiana</h1>
@@ -575,6 +710,44 @@ setInterval(() => {
     }
 }, 600000);
 
+const hamburgerMenu = document.getElementById("hamburgerMenu");
+const hamburgerIcon = document.getElementById("hamburgerIcon");
+const menuLinks = document.querySelectorAll("#menuLinks a");
+
+hamburgerIcon.addEventListener("click", () => {
+  hamburgerMenu.classList.toggle("open");
+});
+
+menuLinks.forEach(link => {
+  link.addEventListener("click", e => {
+    e.preventDefault();
+    const target = document.querySelector(link.getAttribute("href"));
+    target.scrollIntoView({ behavior: "smooth" });
+    hamburgerMenu.classList.remove("open"); 
+  });
+});
+
+// Scroll Up Button
+const scrollUpBtn = document.getElementById("scrollUpBtn");
+
+// Show button after scrolling 100px
+window.addEventListener("scroll", () => {
+  scrollUpBtn.style.display = window.scrollY > 100 ? "block" : "none";
+});
+
+// Scroll to top on click
+scrollUpBtn.addEventListener("click", () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+// Optional: Highlight hamburger if menu open
+const menuIcon = document.getElementById("menuIcon");
+const sideMenu = document.getElementById("sideMenu");
+
+menuIcon.addEventListener("click", () => {
+  const isOpen = sideMenu.style.left === "0px";
+  menuIcon.classList.toggle("active", !isOpen);
+});
 
 </script>
 </body>
