@@ -11,6 +11,127 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
+
+        /* Pop-up overlay */
+        .word-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .word-overlay.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Pop-up container */
+        .word-popup {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            animation: slideUp 0.4s ease;
+            color: white;
+            text-align: center;
+        }
+
+        /* Close button */
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            cursor: pointer;
+            color: rgba(255, 255, 255, 0.8);
+            transition: color 0.3s;
+            background: none;
+            border: none;
+            line-height: 1;
+        }
+
+        .close-btn:hover {
+            color: white;
+        }
+
+        /* Content styling */
+        .word-header {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .word-main {
+            font-size: 42px;
+            font-weight: bold;
+            margin: 20px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .word-translation {
+            font-size: 24px;
+            opacity: 0.95;
+            margin: 15px 0;
+            font-style: italic;
+        }
+
+        .word-definition {
+            font-size: 16px;
+            line-height: 1.6;
+            opacity: 0.9;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .word-example {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-top: 15px;
+            font-style: italic;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .word-popup {
+                padding: 30px 25px;
+            }
+            .word-main {
+                font-size: 32px;
+            }
+            .word-translation {
+                font-size: 20px;
+            }
+        }
+
 /* ===== BASE STYLE ===== */
 * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins', sans-serif; }
 html, body { height:100%; }
@@ -319,6 +440,18 @@ footer { background:rgba(0,0,0,0.5); color:white; text-align:center; padding:18p
 </style>
 </head>
 <body>
+
+ <!-- Word of the Day Pop-up -->
+    <div class="word-overlay" id="wordOverlay">
+        <div class="word-popup">
+            <button class="close-btn" onclick="closePopup()">×</button>
+            <div class="word-header">Word of the Day</div>
+            <div class="word-main" id="wordMain"></div>
+            <div class="word-translation" id="wordTranslation"></div>
+            <div class="word-definition" id="wordDefinition"></div>
+            <div class="word-example" id="wordExample"></div>
+        </div>
+    </div>
 
 <!-- Scroll Up Button -->
 <button id="scrollUpBtn" title="Scroll to top">⬆️</button>
@@ -701,6 +834,163 @@ window.onscroll=()=>{
 scrollUpBtn.onclick=()=>{
   window.scrollTo({top:0,behavior:"smooth"});
 };
+
+      // Word database with Bisaya and English words
+        const words = [
+            // Bisaya words
+            {
+                word: "Gugma",
+                translation: "Love",
+                definition: "Deep affection or care for someone or something.",
+                example: "Ang gugma dili mahimo nga sultihanon lang, kinahanglan ipakita."
+            },
+            {
+                word: "Kasingkasing",
+                translation: "Heart",
+                definition: "The center of emotions and feelings.",
+                example: "Ang imong kasingkasing maoy nagsulti sa tinuod."
+            },
+            {
+                word: "Pag-asa",
+                translation: "Hope",
+                definition: "A feeling of expectation and desire for something to happen.",
+                example: "Ayaw pagkawala sa pag-asa bisan unsa pa ka lisod."
+            },
+            {
+                word: "Kahimtang",
+                translation: "Situation",
+                definition: "The current state or condition of something.",
+                example: "Lisod ang kahimtang karon pero molabay ra ni."
+            },
+            {
+                word: "Paglaum",
+                translation: "Faith/Trust",
+                definition: "Complete trust or confidence in someone or something.",
+                example: "Kinahanglan nato ang paglaum sa atong kaugalingon."
+            },
+            {
+                word: "Kalipay",
+                translation: "Happiness",
+                definition: "A state of joy and contentment.",
+                example: "Ang kalipay dili gikan sa kwarta, kundi sa kalinaw."
+            },
+            {
+                word: "Damgo",
+                translation: "Dream",
+                definition: "A cherished aspiration or ambition.",
+                example: "Sundon ang imong damgo ug dili mo magsisi."
+            },
+            {
+                word: "Kaisog",
+                translation: "Courage",
+                definition: "The ability to do something that frightens one.",
+                example: "Kinahanglan ug kaisog para moatubang sa kahadlok."
+            },
+            {
+                word: "Kaalam",
+                translation: "Wisdom",
+                definition: "The quality of having experience and good judgment.",
+                example: "Ang kaalam dili gikan sa libro, kundi sa kasinatian."
+            },
+            {
+                word: "Paningkamot",
+                translation: "Effort",
+                definition: "A determined attempt to achieve something.",
+                example: "Ang paningkamot maoy yawi sa kalampusan."
+            },
+            // English words
+            {
+                word: "Serendipity",
+                translation: "Kalipay sa wala damha",
+                definition: "The occurrence of finding pleasant things by chance.",
+                example: "Meeting you was pure serendipity."
+            },
+            {
+                word: "Resilience",
+                translation: "Kusog sa pagbalik",
+                definition: "The capacity to recover quickly from difficulties.",
+                example: "Her resilience helped her overcome every challenge."
+            },
+            {
+                word: "Ephemeral",
+                translation: "Temporaryo/Mubo lang",
+                definition: "Lasting for a very short time.",
+                example: "Youth is ephemeral, so make the most of it."
+            },
+            {
+                word: "Wanderlust",
+                translation: "Kahinam sa pagbiyahe",
+                definition: "A strong desire to travel and explore the world.",
+                example: "His wanderlust took him to every continent."
+            },
+            {
+                word: "Perseverance",
+                translation: "Pagpadayon",
+                definition: "Persistence in doing something despite difficulty.",
+                example: "Success requires perseverance and dedication."
+            },
+            {
+                word: "Gratitude",
+                translation: "Pagpasalamat",
+                definition: "The quality of being thankful.",
+                example: "She expressed gratitude for all the support she received."
+            },
+            {
+                word: "Courage",
+                translation: "Kaisog",
+                definition: "Strength in the face of pain or grief.",
+                example: "It takes courage to stand up for what's right."
+            },
+            {
+                word: "Harmony",
+                translation: "Panag-uyon",
+                definition: "A state of peaceful coexistence.",
+                example: "The community lived in perfect harmony."
+            },
+            {
+                word: "Compassion",
+                translation: "Kaluoy",
+                definition: "Sympathetic concern for the sufferings of others.",
+                example: "Show compassion to those who are struggling."
+            },
+            {
+                word: "Authenticity",
+                translation: "Pagka-tinuod",
+                definition: "The quality of being genuine or real.",
+                example: "People appreciate authenticity over pretense."
+            }
+        ];
+
+        function getRandomWord() {
+            return words[Math.floor(Math.random() * words.length)];
+        }
+
+        function showPopup() {
+            const word = getRandomWord();
+            document.getElementById('wordMain').textContent = word.word;
+            document.getElementById('wordTranslation').textContent = word.translation;
+            document.getElementById('wordDefinition').textContent = word.definition;
+            document.getElementById('wordExample').textContent = `"${word.example}"`;
+            document.getElementById('wordOverlay').classList.add('active');
+        }
+
+        function closePopup() {
+            document.getElementById('wordOverlay').classList.remove('active');
+        }
+
+        // Show popup when page loads
+        window.addEventListener('load', () => {
+            setTimeout(showPopup, 500);
+        });
+
+        // Close popup when clicking outside
+        document.getElementById('wordOverlay').addEventListener('click', (e) => {
+            if (e.target.id === 'wordOverlay') {
+                closePopup();
+            }
+        });
+    </script>
+
 </script>
 
 </body>
