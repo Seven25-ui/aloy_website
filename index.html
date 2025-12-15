@@ -10,6 +10,86 @@
 <!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+
+<script>
+// Check if user is logged in
+async function checkLoginStatus() {
+    try {
+        const response = await fetch('check_auth.php');
+        const data = await response.json();
+        
+        if (data.logged_in) {
+            // User is logged in
+            console.log('Logged in as:', data.user.username);
+            updateUIForLoggedInUser(data.user);
+        } else {
+            // User is not logged in
+            console.log('Not logged in');
+            updateUIForGuest();
+        }
+    } catch (error) {
+        console.error('Auth check failed:', error);
+    }
+}
+
+function updateUIForLoggedInUser(user) {
+    // Update header with user info
+    const header = document.querySelector('header p');
+    if (header) {
+        header.innerHTML = `Welcome, <strong>${user.username}</strong>! • <a href="#" onclick="logout()" style="color:#7dd3fc;">Logout</a>`;
+    }
+    
+    // Hide signup section
+    const signupSection = document.getElementById('signup');
+    if (signupSection) {
+        signupSection.style.display = 'none';
+    }
+    
+    // Show user profile in some area
+    showUserProfile(user);
+}
+
+function updateUIForGuest() {
+    const header = document.querySelector('header p');
+    if (header) {
+        header.innerHTML += ` • <a href="auth.html" style="color:#7dd3fc;">Login / Sign Up</a>`;
+    }
+}
+
+function showUserProfile(user) {
+    // Add user avatar/name somewhere visible
+    const profileContainer = document.querySelector('.profile-weather-container');
+    if (profileContainer) {
+        const userBadge = document.createElement('div');
+        userBadge.style.cssText = 'background:rgba(125,211,252,0.3);padding:8px 15px;border-radius:20px;margin-top:10px;text-align:center;';
+        userBadge.innerHTML = `<i class="fas fa-user-circle"></i> ${user.username}`;
+        profileContainer.appendChild(userBadge);
+    }
+}
+
+async function logout() {
+    if (!confirm('Sure ka ba mo logout?')) return;
+    
+    try {
+        const response = await fetch('logout.php');
+        const data = await response.json();
+        
+        if (data.success) {
+            showToast('✅ Logged out successfully!');
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        }
+    } catch (error) {
+        showToast('❌ Logout failed');
+    }
+}
+
+// Run on page load
+window.addEventListener('load', checkLoginStatus);
+</script>
+
+
 <style>
 
         /* Pop-up overlay */
@@ -524,6 +604,430 @@ footer { background:rgba(0,0,0,0.5); color:white; text-align:center; padding:18p
 }
 .toast.show { opacity: 1; pointer-events: auto; }
 
+
+
+/* ===== BASE STYLES ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #4facfe);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+  padding: 20px;
+  color: #fff;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ===== CONTAINER ===== */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ===== HEADER ===== */
+.blog-header {
+  text-align: center;
+  padding: 30px 20px;
+  margin-bottom: 30px;
+}
+
+.blog-header h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+  margin-bottom: 10px;
+}
+
+.blog-header p {
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  opacity: 0.9;
+}
+
+/* ===== CREATE POST FORM ===== */
+.create-post-section {
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 30px;
+  margin-bottom: 40px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.create-post-section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.blog-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 12px;
+  background: rgba(0,0,0,0.3);
+  color: #fff;
+  font-size: 15px;
+  outline: none;
+  transition: 0.3s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  background: rgba(0,0,0,0.4);
+  box-shadow: 0 0 0 2px rgba(125,211,252,0.5);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: rgba(255,255,255,0.5);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 150px;
+  line-height: 1.6;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.btn {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  box-shadow: 0 5px 15px rgba(102,126,234,0.4);
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(102,126,234,0.6);
+}
+
+.btn-secondary {
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+}
+
+.btn-secondary:hover {
+  background: rgba(255,255,255,0.3);
+}
+
+/* ===== BLOG POSTS GRID ===== */
+.blog-posts-section h2 {
+  font-size: 1.8rem;
+  margin-bottom: 25px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 25px;
+  margin-bottom: 40px;
+}
+
+/* ===== BLOG POST CARD ===== */
+.blog-card {
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 18px;
+  padding: 25px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+  transition: 0.3s;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.blog-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+}
+
+.blog-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+  border-color: rgba(255,255,255,0.4);
+}
+
+.blog-card-header {
+  margin-bottom: 15px;
+}
+
+.blog-card-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  line-height: 1.3;
+  color: #fff;
+}
+
+.blog-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 0.85rem;
+  opacity: 0.8;
+  flex-wrap: wrap;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.blog-card-content {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin-bottom: 20px;
+  color: rgba(255,255,255,0.95);
+}
+
+.blog-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.tag {
+  padding: 5px 12px;
+  background: rgba(125,211,252,0.3);
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.blog-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255,255,255,0.2);
+}
+
+.blog-stats {
+  display: flex;
+  gap: 15px;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.stat-item:hover {
+  transform: scale(1.1);
+  opacity: 1;
+}
+
+.blog-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.action-btn {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s;
+  font-size: 14px;
+}
+
+.edit-btn {
+  background: rgba(255,193,7,0.3);
+  color: #fff;
+}
+
+.edit-btn:hover {
+  background: rgba(255,193,7,0.5);
+  transform: scale(1.1) rotate(10deg);
+}
+
+.delete-btn {
+  background: rgba(244,67,54,0.3);
+  color: #fff;
+}
+
+.delete-btn:hover {
+  background: rgba(244,67,54,0.5);
+  transform: scale(1.1) rotate(-10deg);
+}
+
+/* ===== EMPTY STATE ===== */
+.empty-state {
+  text-align: center;
+  padding: 80px 20px;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  margin: 40px 0;
+}
+
+.empty-state i {
+  font-size: 80px;
+  opacity: 0.5;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.empty-state h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.empty-state p {
+  opacity: 0.8;
+  font-size: 1.1rem;
+}
+
+/* ===== TOAST NOTIFICATION ===== */
+.toast {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: rgba(0,0,0,0.9);
+  color: #fff;
+  padding: 15px 25px;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  opacity: 0;
+  transform: translateY(100px);
+  transition: 0.3s;
+  z-index: 1000;
+  max-width: 350px;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.toast i {
+  font-size: 20px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .blog-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+  
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .blog-card-footer {
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+  }
+  
+  .toast {
+    right: 20px;
+    left: 20px;
+    max-width: none;
+  }
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.blog-card {
+  animation: fadeIn 0.5s ease;
+}
+
 </style>
 </head>
 <body>
@@ -590,6 +1094,83 @@ footer { background:rgba(0,0,0,0.5); color:white; text-align:center; padding:18p
   <div class="card">HTML • CSS • JavaScript • Responsive Design • UI Design</div>
 </section>
 
+<div class="container">
+  <!-- Header -->
+  <div class="blog-header">
+    <h1><i class="fas fa-blog"></i> My Blog</h1>
+    <p>Share your thoughts with the world</p>
+  </div>
+
+  <!-- Create Post Section -->
+  <div class="create-post-section">
+    <h2><i class="fas fa-pen-fancy"></i> Create New Post</h2>
+    <form class="blog-form" id="blogForm">
+      <div class="form-group">
+        <label for="postTitle">
+          <i class="fas fa-heading"></i> Title
+        </label>
+        <input 
+          type="text" 
+          id="postTitle" 
+          placeholder="Enter your post title..."
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="postContent">
+          <i class="fas fa-align-left"></i> Content
+        </label>
+        <textarea 
+          id="postContent" 
+          placeholder="Write your thoughts here..."
+          required
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="postTags">
+          <i class="fas fa-tags"></i> Tags (comma-separated)
+        </label>
+        <input 
+          type="text" 
+          id="postTags" 
+          placeholder="e.g. technology, lifestyle, travel"
+        >
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" id="cancelBtn">
+          <i class="fas fa-times"></i> Cancel
+        </button>
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-paper-plane"></i> Publish Post
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Blog Posts Section -->
+  <div class="blog-posts-section">
+    <h2><i class="fas fa-newspaper"></i> Recent Posts</h2>
+    <div class="blog-grid" id="blogGrid"></div>
+    
+    <!-- Empty State -->
+    <div class="empty-state" id="emptyState">
+      <i class="fas fa-inbox"></i>
+      <h3>No posts yet</h3>
+      <p>Create your first blog post to get started!</p>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Notification -->
+<div class="toast" id="toast">
+  <i class="fas fa-check-circle"></i>
+  <span id="toastMessage">Success!</span>
+</div>
+
+
 <section id="unsplash">
   <h2>Live Photos</h2>
   <div class="unsplash-search">
@@ -645,7 +1226,16 @@ footer { background:rgba(0,0,0,0.5); color:white; text-align:center; padding:18p
 <section id="signup">
   <h2>Create Account</h2>
   <div class="signup-card">
+    <p style="text-align:center;margin-bottom:20px;">
+      Already have an account? <a href="auth.html" style="color:#7dd3fc;font-weight:600;">Login here</a>
+    </p>
+    
     <form id="signupForm" class="signup-form">
+      <div class="input-group">
+        <i class="fas fa-user"></i>
+        <input type="text" name="username" placeholder="Username (optional)">
+      </div>
+
       <div class="input-group">
         <i class="fas fa-envelope"></i>
         <input type="email" name="email" placeholder="Email address" required>
@@ -653,14 +1243,13 @@ footer { background:rgba(0,0,0,0.5); color:white; text-align:center; padding:18p
 
       <div class="input-group">
         <i class="fas fa-lock"></i>
-        <input type="password" name="password" placeholder="Password" id="signupPassword" required>
+        <input type="password" name="password" placeholder="Password (min 6 chars)" id="signupPassword" required>
         <i class="fas fa-eye" id="togglePassword" style="cursor:pointer;color:#7dd3fc;"></i>
       </div>
 
       <button type="submit" class="signup-btn">
         <i class="fas fa-user-plus"></i> Sign Up
       </button>
-      <p class="signup-note">Already have an account? <span id="loginSwitch">Login</span></p>
     </form>
   </div>
 
@@ -1103,44 +1692,333 @@ scrollUpBtn.onclick=()=>{
             }
         });
 
+
+/* ================= SIGNUP FUNCTIONALITY ================= */
 // Toggle password visibility
 const togglePassword = document.getElementById("togglePassword");
 const signupPassword = document.getElementById("signupPassword");
-togglePassword.onclick = () => {
-  const type = signupPassword.type === "password" ? "text" : "password";
-  signupPassword.type = type;
-  togglePassword.classList.toggle("fa-eye-slash");
-};
 
-// Toast function
-function showToast(msg){
-  const toast = document.getElementById("toast");
-  toast.textContent = msg;
-  toast.classList.add("show");
-  setTimeout(()=>toast.classList.remove("show"),3000);
+if (togglePassword && signupPassword) {
+  togglePassword.onclick = () => {
+    const type = signupPassword.type === "password" ? "text" : "password";
+    signupPassword.type = type;
+    togglePassword.classList.toggle("fa-eye-slash");
+  };
 }
 
-// AJAX signup
-document.getElementById("signupForm").onsubmit = async (e) => {
-  e.preventDefault();
-  const form = e.target;
-  const data = new FormData(form);
-  try{
-    const res = await fetch("signup.php",{
-      method:"POST",
-      body:data
-    });
-    const text = await res.text();
-    if(res.ok){
-      showToast("✅ Signup successful!");
-      form.reset();
-    } else {
-      showToast("❌ "+text);
+// Toast function
+function showToast(msg) {
+  const toast = document.getElementById("toast");
+  if (!toast) return;
+  
+  toast.textContent = msg;
+  toast.classList.add("show");
+  setTimeout(() => toast.classList.remove("show"), 3000);
+}
+
+// Signup form submission
+const signupForm = document.getElementById("signupForm");
+if (signupForm) {
+  signupForm.onsubmit = async (e) => {
+    e.preventDefault();
+    
+    const btn = signupForm.querySelector('.signup-btn');
+    const originalText = btn.innerHTML;
+    
+    // Disable button
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating account...';
+    
+    const formData = new FormData(signupForm);
+    
+    try {
+      const res = await fetch("signup.php", {
+        method: "POST",
+        body: formData
+      });
+      
+      const data = await res.json();
+      
+      if (data.success) {
+        showToast("✅ " + data.message);
+        signupForm.reset();
+        
+        // Reload page after 1 second to show logged in state
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      } else {
+        showToast("❌ " + data.message);
+      }
+    } catch (err) {
+      showToast("❌ Network error. Please try again.");
+      console.error(err);
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = originalText;
     }
-  } catch(err){
-    showToast("❌ Network error");
+  };
+}
+
+
+// ===== STATE MANAGEMENT =====
+let posts = [];
+let editingPostId = null;
+
+// ===== DOM ELEMENTS =====
+const blogForm = document.getElementById('blogForm');
+const blogGrid = document.getElementById('blogGrid');
+const emptyState = document.getElementById('emptyState');
+const toast = document.getElementById('toast');
+const toastMessage = document.getElementById('toastMessage');
+
+// ===== STORAGE FUNCTIONS =====
+async function loadPosts() {
+  try {
+    const keys = await window.storage.list('blogpost:');
+    if (keys && keys.keys.length > 0) {
+      posts = [];
+      for (const key of keys.keys) {
+        const result = await window.storage.get(key);
+        if (result) {
+          posts.push(JSON.parse(result.value));
+        }
+      }
+      posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+    }
+  } catch (err) {
+    console.log('No saved posts yet');
   }
+  renderPosts();
+}
+
+async function savePost(post) {
+  try {
+    await window.storage.set(`blogpost:${post.id}`, JSON.stringify(post));
+  } catch (err) {
+    console.error('Failed to save post:', err);
+    showToast('Failed to save post', 'error');
+  }
+}
+
+async function deletePostFromStorage(id) {
+  try {
+    await window.storage.delete(`blogpost:${id}`);
+  } catch (err) {
+    console.error('Failed to delete post:', err);
+  }
+}
+
+// ===== RENDER FUNCTIONS =====
+function renderPosts() {
+  if (posts.length === 0) {
+    emptyState.style.display = 'block';
+    blogGrid.innerHTML = '';
+    return;
+  }
+
+  emptyState.style.display = 'none';
+  blogGrid.innerHTML = '';
+
+  posts.forEach((post) => {
+    const postCard = createPostCard(post);
+    blogGrid.appendChild(postCard);
+  });
+}
+
+function createPostCard(post) {
+  const card = document.createElement('div');
+  card.className = 'blog-card';
+  
+  const date = new Date(post.date);
+  const formattedDate = date.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric'
+  });
+  const formattedTime = date.toLocaleTimeString('en-US', {
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+
+  card.innerHTML = `
+    <div class="blog-card-header">
+      <h3 class="blog-card-title">${escapeHtml(post.title)}</h3>
+      <div class="blog-card-meta">
+        <div class="meta-item">
+          <i class="far fa-calendar"></i>
+          <span>${formattedDate}</span>
+        </div>
+        <div class="meta-item">
+          <i class="far fa-clock"></i>
+          <span>${formattedTime}</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="blog-card-content">${escapeHtml(post.content)}</p>
+
+    ${post.tags.length > 0 ? `
+      <div class="blog-card-tags">
+        ${post.tags.map(tag => `
+          <span class="tag">
+            <i class="fas fa-tag"></i>
+            ${escapeHtml(tag)}
+          </span>
+        `).join('')}
+      </div>
+    ` : ''}
+
+    <div class="blog-card-footer">
+      <div class="blog-stats">
+        <div class="stat-item" onclick="likePost('${post.id}')">
+          <i class="fas fa-heart"></i>
+          <span id="likes-${post.id}">${post.likes || 0}</span>
+        </div>
+        <div class="stat-item">
+          <i class="fas fa-eye"></i>
+          <span>${post.views || 0}</span>
+        </div>
+      </div>
+      <div class="blog-actions">
+        <button class="action-btn edit-btn" onclick="editPost('${post.id}')">
+          <i class="fas fa-edit"></i>
+        </button>
+        <button class="action-btn delete-btn" onclick="deletePost('${post.id}')">
+          <i class="fas fa-trash"></i>
+        </button>
+      </div>
+    </div>
+  `;
+
+  return card;
+}
+
+// ===== FORM HANDLING =====
+blogForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const title = document.getElementById('postTitle').value.trim();
+  const content = document.getElementById('postContent').value.trim();
+  const tagsInput = document.getElementById('postTags').value.trim();
+
+  if (!title || !content) {
+    showToast('Please fill in all required fields', 'error');
+    return;
+  }
+
+  const tags = tagsInput ? tagsInput.split(',').map(t => t.trim()).filter(t => t) : [];
+
+  if (editingPostId) {
+    // Update existing post
+    const postIndex = posts.findIndex(p => p.id === editingPostId);
+    if (postIndex !== -1) {
+      posts[postIndex] = {
+        ...posts[postIndex],
+        title,
+        content,
+        tags,
+        updatedDate: new Date().toISOString()
+      };
+      await savePost(posts[postIndex]);
+      showToast('Post updated successfully!', 'success');
+      editingPostId = null;
+    }
+  } else {
+    // Create new post
+    const newPost = {
+      id: Date.now().toString(),
+      title,
+      content,
+      tags,
+      date: new Date().toISOString(),
+      likes: 0,
+      views: 0
+    };
+
+    posts.unshift(newPost);
+    await savePost(newPost);
+    showToast('Post published successfully!', 'success');
+  }
+
+  blogForm.reset();
+  renderPosts();
+  window.scrollTo({ top: document.querySelector('.blog-posts-section').offsetTop - 20, behavior: 'smooth' });
+});
+
+document.getElementById('cancelBtn').addEventListener('click', () => {
+  blogForm.reset();
+  editingPostId = null;
+  showToast('Changes cancelled', 'info');
+});
+
+// ===== POST ACTIONS =====
+window.editPost = function(id) {
+  const post = posts.find(p => p.id === id);
+  if (!post) return;
+
+  document.getElementById('postTitle').value = post.title;
+  document.getElementById('postContent').value = post.content;
+  document.getElementById('postTags').value = post.tags.join(', ');
+
+  editingPostId = id;
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  showToast('Editing post...', 'info');
 };
+
+window.deletePost = async function(id) {
+  if (!confirm('Are you sure you want to delete this post?')) return;
+
+  await deletePostFromStorage(id);
+  posts = posts.filter(p => p.id !== id);
+  renderPosts();
+  showToast('Post deleted successfully', 'success');
+};
+
+window.likePost = async function(id) {
+  const post = posts.find(p => p.id === id);
+  if (!post) return;
+
+  post.likes = (post.likes || 0) + 1;
+  await savePost(post);
+  
+  const likesElement = document.getElementById(`likes-${id}`);
+  if (likesElement) {
+    likesElement.textContent = post.likes;
+  }
+  
+  showToast('❤️ Liked!', 'success');
+};
+
+// ===== UTILITIES =====
+function showToast(message, type = 'success') {
+  toastMessage.textContent = message;
+  
+  const icon = toast.querySelector('i');
+  icon.className = type === 'error' ? 'fas fa-exclamation-circle' : 
+                   type === 'info' ? 'fas fa-info-circle' : 
+                   'fas fa-check-circle';
+  
+  toast.style.background = type === 'error' ? 'rgba(244,67,54,0.95)' : 
+                           type === 'info' ? 'rgba(33,150,243,0.95)' : 
+                           'rgba(76,175,80,0.95)';
+  
+  toast.classList.add('show');
+  
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, 3000);
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// ===== INITIALIZE =====
+loadPosts();
 
 </script>
 
