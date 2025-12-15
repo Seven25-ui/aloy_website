@@ -10,86 +10,6 @@
 <!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-
-<script>
-// Check if user is logged in
-async function checkLoginStatus() {
-    try {
-        const response = await fetch('check_auth.php');
-        const data = await response.json();
-        
-        if (data.logged_in) {
-            // User is logged in
-            console.log('Logged in as:', data.user.username);
-            updateUIForLoggedInUser(data.user);
-        } else {
-            // User is not logged in
-            console.log('Not logged in');
-            updateUIForGuest();
-        }
-    } catch (error) {
-        console.error('Auth check failed:', error);
-    }
-}
-
-function updateUIForLoggedInUser(user) {
-    // Update header with user info
-    const header = document.querySelector('header p');
-    if (header) {
-        header.innerHTML = `Welcome, <strong>${user.username}</strong>! • <a href="#" onclick="logout()" style="color:#7dd3fc;">Logout</a>`;
-    }
-    
-    // Hide signup section
-    const signupSection = document.getElementById('signup');
-    if (signupSection) {
-        signupSection.style.display = 'none';
-    }
-    
-    // Show user profile in some area
-    showUserProfile(user);
-}
-
-function updateUIForGuest() {
-    const header = document.querySelector('header p');
-    if (header) {
-        header.innerHTML += ` • <a href="auth.html" style="color:#7dd3fc;">Login / Sign Up</a>`;
-    }
-}
-
-function showUserProfile(user) {
-    // Add user avatar/name somewhere visible
-    const profileContainer = document.querySelector('.profile-weather-container');
-    if (profileContainer) {
-        const userBadge = document.createElement('div');
-        userBadge.style.cssText = 'background:rgba(125,211,252,0.3);padding:8px 15px;border-radius:20px;margin-top:10px;text-align:center;';
-        userBadge.innerHTML = `<i class="fas fa-user-circle"></i> ${user.username}`;
-        profileContainer.appendChild(userBadge);
-    }
-}
-
-async function logout() {
-    if (!confirm('Sure ka ba mo logout?')) return;
-    
-    try {
-        const response = await fetch('logout.php');
-        const data = await response.json();
-        
-        if (data.success) {
-            showToast('✅ Logged out successfully!');
-            setTimeout(() => {
-                window.location.reload();
-            }, 1000);
-        }
-    } catch (error) {
-        showToast('❌ Logout failed');
-    }
-}
-
-// Run on page load
-window.addEventListener('load', checkLoginStatus);
-</script>
-
-
 <style>
 
         /* Pop-up overlay */
@@ -1223,40 +1143,6 @@ body {
   </div>
 </section>
 
-<section id="signup">
-  <h2>Create Account</h2>
-  <div class="signup-card">
-    <p style="text-align:center;margin-bottom:20px;">
-      Already have an account? <a href="auth.html" style="color:#7dd3fc;font-weight:600;">Login here</a>
-    </p>
-    
-    <form id="signupForm" class="signup-form">
-      <div class="input-group">
-        <i class="fas fa-user"></i>
-        <input type="text" name="username" placeholder="Username (optional)">
-      </div>
-
-      <div class="input-group">
-        <i class="fas fa-envelope"></i>
-        <input type="email" name="email" placeholder="Email address" required>
-      </div>
-
-      <div class="input-group">
-        <i class="fas fa-lock"></i>
-        <input type="password" name="password" placeholder="Password (min 6 chars)" id="signupPassword" required>
-        <i class="fas fa-eye" id="togglePassword" style="cursor:pointer;color:#7dd3fc;"></i>
-      </div>
-
-      <button type="submit" class="signup-btn">
-        <i class="fas fa-user-plus"></i> Sign Up
-      </button>
-    </form>
-  </div>
-
-  <!-- Toast -->
-  <div id="toast" class="toast"></div>
-</section>
-
 <!-- Lightbox -->
 <div id="lightbox">
   <span class="close">&times;</span>
@@ -1691,74 +1577,6 @@ scrollUpBtn.onclick=()=>{
                 closePopup();
             }
         });
-
-
-/* ================= SIGNUP FUNCTIONALITY ================= */
-// Toggle password visibility
-const togglePassword = document.getElementById("togglePassword");
-const signupPassword = document.getElementById("signupPassword");
-
-if (togglePassword && signupPassword) {
-  togglePassword.onclick = () => {
-    const type = signupPassword.type === "password" ? "text" : "password";
-    signupPassword.type = type;
-    togglePassword.classList.toggle("fa-eye-slash");
-  };
-}
-
-// Toast function
-function showToast(msg) {
-  const toast = document.getElementById("toast");
-  if (!toast) return;
-  
-  toast.textContent = msg;
-  toast.classList.add("show");
-  setTimeout(() => toast.classList.remove("show"), 3000);
-}
-
-// Signup form submission
-const signupForm = document.getElementById("signupForm");
-if (signupForm) {
-  signupForm.onsubmit = async (e) => {
-    e.preventDefault();
-    
-    const btn = signupForm.querySelector('.signup-btn');
-    const originalText = btn.innerHTML;
-    
-    // Disable button
-    btn.disabled = true;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating account...';
-    
-    const formData = new FormData(signupForm);
-    
-    try {
-      const res = await fetch("signup.php", {
-        method: "POST",
-        body: formData
-      });
-      
-      const data = await res.json();
-      
-      if (data.success) {
-        showToast("✅ " + data.message);
-        signupForm.reset();
-        
-        // Reload page after 1 second to show logged in state
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
-      } else {
-        showToast("❌ " + data.message);
-      }
-    } catch (err) {
-      showToast("❌ Network error. Please try again.");
-      console.error(err);
-    } finally {
-      btn.disabled = false;
-      btn.innerHTML = originalText;
-    }
-  };
-}
 
 
 // ===== STATE MANAGEMENT =====
