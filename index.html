@@ -416,26 +416,6 @@ footer { background:rgba(0,0,0,0.5); color:white; text-align:center; padding:18p
   background: #7dd3fc; /* highlight color */
 }
 
-/* Scroll Up Button */
-#scrollUpBtn {
-  position: fixed;
-  bottom: 25px;
-  right: 25px;
-  display: none; /* hidden by default */
-  z-index: 999;
-  background: #7dd3fc;
-  color: #000;
-  border: none;
-  padding: 10px 14px;
-  border-radius: 50%;
-  font-size: 20px;
-  cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-  transition: 0.3s;
-}
-#scrollUpBtn:hover {
-  transform: scale(1.1);
-}
 
 /* ===== SIGNUP AREA ===== */
 #signup { padding: 30px 15px; }
@@ -948,6 +928,68 @@ body {
   animation: fadeIn 0.5s ease;
 }
 
+.coffee-popup {
+    position: fixed;
+    bottom: 90px;
+    right: 16px;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.4s ease;
+}
+
+/* Icon button */
+.coffee-btn.icon-only {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 22px;
+    text-decoration: none;
+    color: #fff;
+
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    transition: all 0.25s ease;
+}
+
+/* Hover / tap */
+.coffee-btn.icon-only:hover {
+    transform: scale(1.08);
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* POPUP MODE */
+.coffee-popup.show {
+    opacity: 1;
+    bottom: 50%;
+    left: 50%;
+    transform: translate(-50%, 50%) scale(1.4);
+    pointer-events: auto;
+}
+
+/* FLOATING MODE */
+.coffee-popup.float {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .coffee-btn.icon-only {
+        width: 48px;
+        height: 48px;
+        font-size: 20px;
+    }
+}
+
 </style>
 </head>
 <body>
@@ -965,7 +1007,7 @@ body {
     </div>
 
 <!-- Scroll Up Button -->
-<button id="scrollUpBtn" title="Scroll to top">⬆️</button>
+<button id="scrollUpBtn" title="Scroll to top">👆</button>
 
 <div id="hamburgerMenu">
   <div id="hamburgerIcon">
@@ -985,6 +1027,12 @@ body {
 
 </div>
 
+<div class="weather-floating" id="weatherWidget">
+  <img id="weatherIcon" src="">
+  <span id="weatherTemp">--°C</span>
+  <span id="weatherCity">City</span>
+</div>
+
 <header>
   <h1>Gene Cartalla Guardiana</h1>
   <p>Alias: <strong>Aloygene</strong> • Beginner Web Developer</p>
@@ -994,12 +1042,6 @@ body {
 <div class="profile-weather-container">
   <div class="time-card"><p id="headerTime">Loading...</p></div>
   <img src="media/luffy_veut_devenir_roi_pirate_9e3ac603-2dea-44fe-bb1f-74b234fdf16f.jpg" class="profile-img">
-</div>
-
-<div class="weather-floating" id="weatherWidget">
-  <img id="weatherIcon" src="">
-  <span id="weatherTemp">--°C</span>
-  <span id="weatherCity">City</span>
 </div>
 
 <section id="about">
@@ -1129,6 +1171,8 @@ However, infrastructure and adoption remain challenges. Governments and tech com
         <button class="big-btn" id="prevBtn">⏮</button>
         <button class="big-btn" id="playBtn">▶️</button>
         <button class="big-btn" id="nextBtn">⏭</button>
+        <button class="big-btn" id="shuffleBtn">🔀</button>
+        <button class="big-btn" id="repeatBtn">🔁</button>
       </div>
       <input type="range" id="volume" class="vol" min="0" max="1" step="0.01" value="0.9">
     </div>
@@ -1168,6 +1212,12 @@ However, infrastructure and adoption remain challenges. Governments and tech com
   </a>
   </div>
 </footer>
+
+<div class="coffee-popup" id="coffeePopup">
+    <a href="https://your-link-here" target="_blank" class="coffee-btn icon-only">
+        ☕
+    </a>
+</div>
 
 <script>
 /* ================= DARK MODE ================= */
@@ -1390,7 +1440,7 @@ volume.oninput=()=> audio.volume=volume.value;
 
 /* ================= WEATHER ================= */
 const apiKey="8a252f61c3bb5b844bf4473729978c30";
-const defaultCity="Minglanilla";
+const defaultCity="Cebu";
 const weatherTemp=document.getElementById("weatherTemp");
 const weatherCity=document.getElementById("weatherCity");
 const weatherIcon=document.getElementById("weatherIcon");
@@ -1853,6 +1903,22 @@ function escapeHtml(text) {
   div.textContent = text;
   return div.innerHTML;
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    const coffee = document.getElementById("coffeePopup");
+
+    // After 20 seconds → popup
+    setTimeout(() => {
+        coffee.classList.add("show");
+
+        // After 5 seconds → balik sa floating
+        setTimeout(() => {
+            coffee.classList.remove("show");
+            coffee.classList.add("float");
+        }, 5000);
+
+    }, 20000);
+});
 
 // ===== INITIALIZE =====
 loadPosts();
