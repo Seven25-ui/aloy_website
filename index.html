@@ -934,6 +934,48 @@ body {
 .bmc-float img { width: 20px; height: 20px; }
 body.light .bmc-float { background: #ffdd00; color: #111; }
 
+.track-card {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+  background: #1e1e1e; /* dark card */
+}
+
+.track-card.active {
+  background: #3b82f6; /* highlight blue */
+}
+
+.track-card:hover {
+  background: #2563eb;
+}
+
+.track-cover img {
+  width: 50px;
+  height: 50px;
+  border-radius: 6px;
+  margin-right: 10px;
+}
+
+#loadMoreBtn {
+  display: block;
+  margin: 10px auto;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  background-color: #3b82f6;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+#loadMoreBtn:hover {
+  background-color: #2563eb;
+}
+
 </style>
 </head>
 <body>
@@ -1061,10 +1103,10 @@ body.light .bmc-float { background: #ffdd00; color: #111; }
     <!-- Empty State -->
     <div class="empty-state" id="emptyState">
       <i class="fas fa-inbox"></i>
-      <h3>The 5G Revolution</h3>
-      <p>5G technology promises lightning-fast internet and seamless connectivity. Streaming, gaming, and communication are all enhanced, creating new opportunities for businesses and consumers alike. Cities are becoming smarter, and mobile experiences are smoother than ever.
+      <h3>5 Minute Morning Routines That Actually Boost Productivity</h3>
+      <p>Actually Boost Productivity
+Starting your day doesn’t have to be complicated. In just five minutes, you can do simple activities like stretching, making your bed, or jotting down your top three tasks for the day. These small actions set a positive tone, making you feel accomplished even before your coffee kicks in.<br>Consistency is key. By practicing a short, focused morning routine, you train your brain to start each day with purpose. Over time, this tiny ritual can improve your focus, reduce stress, and make productivity feel almost effortless.
 
-However, infrastructure and adoption remain challenges. Governments and tech companies must collaborate to ensure coverage and accessibility. As 5G expands, it will redefine the digital landscape and set the stage for future innovations.
 
 </p>
     </div>
@@ -1095,6 +1137,7 @@ However, infrastructure and adoption remain challenges. Governments and tech com
 <section class="music-section">
   <h2>🎵 My Music Tracks</h2>
   <div class="tracks-grid" id="tracksGrid"></div>
+  <button id="loadMoreBtn">Load More</button>
   <div class="player full-cover-player">
     <div class="player-bg" id="playerBg"></div>
     <div class="player-content">
@@ -1299,129 +1342,136 @@ const tracks=[
  {title:"SITTING Ducks",artist:"SMILE EMPTY SOUL",cover:"media/IMG_20251222_201922.jpg",src:"media/Sitting Ducks.m4a"},
  {title:"L.A. River",artist:"SMILE EMPTY SOUL",cover:"media/IMG_20251222_201607.jpg",src:"media/Smile Empty Soul - L.A. River.m4a"},
  {title:"Landslide",artist:"SMILE EMPTY SOUL",cover:"media/IMG_20251222_202325.jpg",src:"media/Landslide.m4a"},
- {title:"FINAL MASQUERADE",artist:"LINKIN PARK",
-  cover:"media/happy-22nd-anniversary-to-hybrid-theory-one-of-the-most-v0-6yuogntjpnv91.png",
-  src:"media/Linkin Park_ Final Masquerade (Lyrics).m4a"},
- {title:"Heavy ft. Kiara",artist:"LINKIN PARK",
-  cover:"media/chester&kiara.jpeg",
-  src:"media/Linkin Park - Heavy ft. Kiiara (Lyrics).m4a"},
+ {title:"FINAL MASQUERADE",artist:"LINKIN PARK",cover:"media/happy-22nd-anniversary-to-hybrid-theory-one-of-the-most-v0-6yuogntjpnv91.png",src:"media/Linkin Park_ Final Masquerade (Lyrics).m4a"},
+ {title:"Heavy ft. Kiara",artist:"LINKIN PARK",cover:"media/chester&kiara.jpeg",src:"media/Linkin Park - Heavy ft. Kiiara (Lyrics).m4a"},
  {title:"Battle Symphony",artist:"LINKIN PARK",cover:"media/IMG_20251207_120239.jpg",src:"media/Linkin Park - Battle Symphony [Lyrics].m4a"},
  {title:"In Pieces",artist:"LINKIN PARK",cover:"media/lpip.jpeg",src:"media/Linkin Park - In Pieces [Lyrics on screen] HD.m4a"},
  {title:"Discovering The Waterfront",artist:"SILVERSTEIN",cover:"media/1476450254.png",src:"media/Silverstein - Discovering The Waterfront (Official Visualizer).m4a"}
 ];
 
-const tracksGrid=document.getElementById("tracksGrid");
-const audio=document.getElementById("audio");
-const playBtn=document.getElementById("playBtn");
-const prevBtn=document.getElementById("prevBtn");
-const nextBtn=document.getElementById("nextBtn");
-const progress=document.getElementById("progress");
-const volume=document.getElementById("volume");
-const playerCover=document.getElementById("playerCover");
-const playerBg=document.getElementById("playerBg");
-const nowTitle=document.querySelector(".now-title");
-const nowArtist=document.querySelector(".now-artist");
+const tracksGrid = document.getElementById("tracksGrid");
+const audio = document.getElementById("audio");
+const playBtn = document.getElementById("playBtn");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+const progress = document.getElementById("progress");
+const volume = document.getElementById("volume");
+const playerCover = document.getElementById("playerCover");
+const playerBg = document.getElementById("playerBg");
+const nowTitle = document.querySelector(".now-title");
+const nowArtist = document.querySelector(".now-artist");
 const shuffleBtn = document.getElementById("shuffleBtn");
 const repeatBtn = document.getElementById("repeatBtn");
+const loadMoreBtn = document.getElementById("loadMoreBtn");
+const playerCurrentTime = document.getElementById("playerCurrentTime");
+const duration = document.getElementById("duration");
 
-let currentTrack=0;
+let currentTrack = 0;
 let isShuffle = false;
-let isRepeat = false;
+let repeatState = 0; // 0=off, 1=repeat one, 2=repeat all
+let tracksToShow = 4; // initial tracks
 
+// ===== LOAD TRACK =====
 function loadTrack(i){
-  const t=tracks[i];
-  audio.src=t.src;
-  playerCover.src=t.cover;
-  playerBg.style.backgroundImage=`url(${t.cover})`;
-  nowTitle.textContent=t.title;
-  nowArtist.textContent=t.artist;
+  const t = tracks[i];
+  audio.src = t.src;
+  playerCover.src = t.cover;
+  playerBg.style.backgroundImage = `url(${t.cover})`;
+  nowTitle.textContent = t.title;
+  nowArtist.textContent = t.artist;
 
-  document.querySelectorAll(".track-card")
-    .forEach(c=>c.classList.remove("active"));
-  document.querySelectorAll(".track-card")[i]?.classList.add("active");
+  document.querySelectorAll(".track-card").forEach(c => c.classList.remove("active"));
+  const card = document.querySelectorAll(".track-card")[i];
+  if(card) card.classList.add("active");
 }
 
-tracks.forEach((t,i)=>{
-  const div=document.createElement("div");
-  div.className="track-card";
-  div.innerHTML=`
-    <div class="track-cover"><img src="${t.cover}"></div>
-    <div class="track-info">
-      <div class="track-title">${t.title}</div>
-      <div class="track-artist">${t.artist}</div>
-    </div>`;
-  div.onclick=()=>{
-    currentTrack=i;
-    loadTrack(i);
-    audio.play();
-    playBtn.textContent="⏸";
-  };
-  tracksGrid.appendChild(div);
-});
+// ===== RENDER TRACKS =====
+function renderTracks(limit){
+  tracksGrid.innerHTML = "";
+  for(let i=0;i<Math.min(limit,tracks.length);i++){
+    const t = tracks[i];
+    const div = document.createElement("div");
+    div.className = "track-card";
+    div.innerHTML = `
+      <div class="track-cover"><img src="${t.cover}"></div>
+      <div class="track-info">
+        <div class="track-title">${t.title}</div>
+        <div class="track-artist">${t.artist}</div>
+      </div>`;
+    div.onclick = () => {
+      currentTrack = i;
+      loadTrack(i);
+      audio.play();
+    };
+    tracksGrid.appendChild(div);
+  }
+  loadMoreBtn.style.display = (limit >= tracks.length) ? "none" : "block";
+}
+
+// ===== INITIAL RENDER =====
+renderTracks(tracksToShow);
 loadTrack(0);
 
-playBtn.onclick=()=>{
-  if(audio.paused){audio.play();playBtn.textContent="⏸";}
-  else{audio.pause();playBtn.textContent="▶️";}
-};
-prevBtn.onclick=()=>{
-  currentTrack=(currentTrack-1+tracks.length)%tracks.length;
-  loadTrack(currentTrack);
-  audio.play();
-};
-nextBtn.onclick=()=>{
-  currentTrack=(currentTrack+1)%tracks.length;
-  loadTrack(currentTrack);
-  audio.play();
-};
+// ===== PLAY / PAUSE =====
+playBtn.onclick = () => { if(audio.paused) audio.play(); else audio.pause(); };
+audio.onplay = () => { playBtn.textContent="⏸"; playerCover.classList.add("playing"); };
+audio.onpause = () => { playBtn.textContent="▶️"; playerCover.classList.remove("playing"); };
 
-shuffleBtn.onclick = () => {
-  isShuffle = !isShuffle;
-  shuffleBtn.style.color = isShuffle ? "#7dd3fc" : "#fff";
-};
+// ===== NEXT / PREV =====
+function playNextTrack(){
+  if(repeatState===1){ audio.currentTime=0; audio.play(); return; } // repeat one
+  if(isShuffle){
+    let next; do { next=Math.floor(Math.random()*tracks.length);} while(next===currentTrack && tracks.length>1);
+    currentTrack=next;
+  } else {
+    currentTrack=(currentTrack+1)%tracks.length;
+    if(repeatState===0 && currentTrack===0){ audio.pause(); return; }
+  }
+  loadTrack(currentTrack); audio.play();
+}
+function playPrevTrack(){
+  if(isShuffle){
+    let prev; do { prev=Math.floor(Math.random()*tracks.length);} while(prev===currentTrack && tracks.length>1);
+    currentTrack=prev;
+  } else { currentTrack=(currentTrack-1+tracks.length)%tracks.length; }
+  loadTrack(currentTrack); audio.play();
+}
+nextBtn.onclick = playNextTrack;
+prevBtn.onclick = playPrevTrack;
+audio.onended = playNextTrack;
 
+// ===== SHUFFLE =====
+shuffleBtn.onclick = () => { isShuffle=!isShuffle; shuffleBtn.style.color=isShuffle?"#7dd3fc":"#fff"; };
+
+// ===== REPEAT =====
 repeatBtn.onclick = () => {
-  isRepeat = !isRepeat;
-  repeatBtn.style.color = isRepeat ? "#7dd3fc" : "#fff";
+  repeatState=(repeatState+1)%3;
+  switch(repeatState){
+    case 0: repeatBtn.style.color="#fff"; repeatBtn.textContent="🔁"; break;
+    case 1: repeatBtn.style.color="#7dd3fc"; repeatBtn.textContent="🔂"; break;
+    case 2: repeatBtn.style.color="#facc15"; repeatBtn.textContent="🔁"; break;
+  }
 };
 
-audio.ontimeupdate=()=>{
+// ===== PROGRESS & VOLUME =====
+audio.ontimeupdate = () => {
   if(audio.duration){
-    progress.value=(audio.currentTime/audio.duration)*100;
-    playerCurrentTime.textContent=
-      Math.floor(audio.currentTime/60)+":"+("0"+Math.floor(audio.currentTime%60)).slice(-2);
-    duration.textContent=
-      Math.floor(audio.duration/60)+":"+("0"+Math.floor(audio.duration%60)).slice(-2);
+    progress.value = (audio.currentTime/audio.duration)*100;
+    const curM=Math.floor(audio.currentTime/60);
+    const curS=("0"+Math.floor(audio.currentTime%60)).slice(-2);
+    playerCurrentTime.textContent=`${curM}:${curS}`;
+    const durM=Math.floor(audio.duration/60);
+    const durS=("0"+Math.floor(audio.duration%60)).slice(-2);
+    duration.textContent=`${durM}:${durS}`;
   }
 };
-progress.oninput=()=> audio.currentTime=(progress.value/100)*audio.duration;
-volume.oninput=()=> audio.volume=volume.value;
+progress.oninput = ()=>{ audio.currentTime=(progress.value/100)*audio.duration; };
+volume.oninput = ()=>{ audio.volume=volume.value; };
 
-audio.onended = () => {
-
-  // 🔁 REPEAT CURRENT TRACK
-  if (isRepeat) {
-    audio.currentTime = 0;
-    audio.play();
-    return;
-  }
-
-  // 🔀 SHUFFLE MODE
-  if (isShuffle) {
-    let next;
-    do {
-      next = Math.floor(Math.random() * tracks.length);
-    } while (next === currentTrack);
-
-    currentTrack = next;
-  } 
-  // ⏭ NORMAL NEXT
-  else {
-    currentTrack = (currentTrack + 1) % tracks.length;
-  }
-
-  loadTrack(currentTrack);
-  audio.play();
+// ===== LOAD MORE =====
+loadMoreBtn.onclick = () => {
+  tracksToShow+=4;
+  renderTracks(tracksToShow);
 };
 
 /* ================= WEATHER ================= */
