@@ -157,6 +157,12 @@ body.dark {
   100%{background-position:0% 50%;}
 }
 
+section, .card {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(6px);
+  border-radius: 14px;
+}
+
 /* ===== HEADER ===== */
 header {
   background:rgba(0,0,0,0.4);
@@ -516,7 +522,7 @@ footer { background:rgba(0,0,0,0.5); color:white; text-align:center; padding:18p
 
 body {
   min-height: 100vh;
-  background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #4facfe);
+  background: linear-gradient(-45deg, #77216F, #5E2750, #772953, #5E2750);
   background-size: 400% 400%;
   animation: gradientBG 15s ease infinite;
   padding: 20px;
@@ -961,19 +967,24 @@ body.light .bmc-float { background: #ffdd00; color: #111; }
 }
 
 #loadMoreBtn {
-  display: block;
-  margin: 10px auto;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 8px;
-  background-color: #3b82f6;
-  color: white;
+  display: inline-block;
+  padding: 10px 0;
+  margin: 20px auto;
+  font-size: 16px;
+  font-weight: 500;
+  color: #fff; /* white text */
+  background: transparent; /* no background */
+  border: none; /* no border */
   cursor: pointer;
-  transition: background 0.3s;
+  text-align: center;
+  text-decoration: underline; /* optional modern style */
+  transition: color 0.3s ease, transform 0.2s ease;
+  display: block;
 }
 
 #loadMoreBtn:hover {
-  background-color: #2563eb;
+  color: #ffcc00; /* highlight color on hover, optional */
+  transform: translateY(-2px); /* subtle hover lift */
 }
 
 </style>
