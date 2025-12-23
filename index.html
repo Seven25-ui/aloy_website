@@ -928,67 +928,11 @@ body {
   animation: fadeIn 0.5s ease;
 }
 
-.coffee-popup {
-    position: fixed;
-    bottom: 90px;
-    right: 16px;
-    z-index: 9999;
-    opacity: 0;
-    pointer-events: none;
-    transition: all 0.4s ease;
-}
-
-/* Icon button */
-.coffee-btn.icon-only {
-    width: 54px;
-    height: 54px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    font-size: 22px;
-    text-decoration: none;
-    color: #fff;
-
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-
-    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-    transition: all 0.25s ease;
-}
-
-/* Hover / tap */
-.coffee-btn.icon-only:hover {
-    transform: scale(1.08);
-    background: rgba(255, 255, 255, 0.3);
-}
-
-/* POPUP MODE */
-.coffee-popup.show {
-    opacity: 1;
-    bottom: 50%;
-    left: 50%;
-    transform: translate(-50%, 50%) scale(1.4);
-    pointer-events: auto;
-}
-
-/* FLOATING MODE */
-.coffee-popup.float {
-    opacity: 1;
-    transform: none;
-    pointer-events: auto;
-}
-
-/* Mobile */
-@media (max-width: 600px) {
-    .coffee-btn.icon-only {
-        width: 48px;
-        height: 48px;
-        font-size: 20px;
-    }
-}
+/* BMC FLOAT */
+.bmc-float {position: fixed; bottom: 15px; right: 15px; background: #ffdd00; color: #000; padding: 6px 10px; border-radius: 30px; display: flex; align-items: center; gap: 5px; font-weight: 600; font-size: 12px; cursor: grab; text-decoration: none; box-shadow: 0px 3px 6px rgba(0,0,0,0.35); z-index: 999; transition: 0.3s;}
+.bmc-float:hover { transform: scale(1.05); background: #ffe347; }
+.bmc-float img { width: 20px; height: 20px; }
+body.light .bmc-float { background: #ffdd00; color: #111; }
 
 </style>
 </head>
@@ -1005,9 +949,6 @@ body {
             <div class="word-example" id="wordExample"></div>
         </div>
     </div>
-
-<!-- Scroll Up Button -->
-<button id="scrollUpBtn" title="Scroll to top">👆</button>
 
 <div id="hamburgerMenu">
   <div id="hamburgerIcon">
@@ -1213,11 +1154,9 @@ However, infrastructure and adoption remain challenges. Governments and tech com
   </div>
 </footer>
 
-<div class="coffee-popup" id="coffeePopup">
-    <a href="https://your-link-here" target="_blank" class="coffee-btn icon-only">
-        ☕
-    </a>
-</div>
+<a class="bmc-float" href="https://www.maya.ph/app/registration?invite=@gseven33" target="_blank">
+    <img src="https://cdn-icons-png.flaticon.com/512/924/924514.png" alt="Coffee">Buy Me a Coffee
+</a>
 
 <script>
 /* ================= DARK MODE ================= */
@@ -1333,7 +1272,13 @@ const quotes=[
   "Keep it simple, keep it smart.",
   "Code is like humor. When you have to explain it, it’s bad.",
   "Strive for progress, not perfection.",
-  "Learning never exhausts the mind."
+  "Learning never exhausts the mind.",
+  "Success grows quietly in the moments no one sees.",
+  "Your mindset is the steering wheel; your actions are the engine.",
+  "Peace begins when you stop arguing with what you cannot control.",
+  "Growth feels uncomfortable, but comfort never creates growth.",
+  "Sometimes the hardest battles are the ones fought inside your mind.",
+  "Strength isn’t loud; it’s the courage to keep going."
 ];
 function showQuote(){
   quotesBox.textContent = quotes[Math.floor(Math.random()*quotes.length)];
@@ -1904,24 +1849,11 @@ function escapeHtml(text) {
   return div.innerHTML;
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-    const coffee = document.getElementById("coffeePopup");
-
-    // After 20 seconds → popup
-    setTimeout(() => {
-        coffee.classList.add("show");
-
-        // After 5 seconds → balik sa floating
-        setTimeout(() => {
-            coffee.classList.remove("show");
-            coffee.classList.add("float");
-        }, 5000);
-
-    }, 20000);
-});
-
 // ===== INITIALIZE =====
 loadPosts();
+
+// ==== DRAGGABLE BMC ====
+const bmcButton=document.querySelector('.bmc-float');let isDragging=false,offsetX=0,offsetY=0;bmcButton.addEventListener('mousedown',e=>{isDragging=true;offsetX=e.clientX-bmcButton.getBoundingClientRect().left;offsetY=e.clientY-bmcButton.getBoundingClientRect().top;});document.addEventListener('mouseup',()=>{isDragging=false;});document.addEventListener('mousemove',e=>{if(!isDragging) return;let left=e.clientX-offsetX;let top=e.clientY-offsetY;const maxLeft=window.innerWidth-bmcButton.offsetWidth;const maxTop=window.innerHeight-bmcButton.offsetHeight;left=Math.max(0,Math.min(left,maxLeft));top=Math.max(0,Math.min(top,maxTop));bmcButton.style.left=left+'px';bmcButton.style.top=top+'px';bmcButton.style.right='auto';bmcButton.style.bottom='auto';});
 
 </script>
 
