@@ -1321,8 +1321,12 @@ const playerCover=document.getElementById("playerCover");
 const playerBg=document.getElementById("playerBg");
 const nowTitle=document.querySelector(".now-title");
 const nowArtist=document.querySelector(".now-artist");
+const shuffleBtn = document.getElementById("shuffleBtn");
+const repeatBtn = document.getElementById("repeatBtn");
 
 let currentTrack=0;
+let isShuffle = false;
+let isRepeat = false;
 
 function loadTrack(i){
   const t=tracks[i];
@@ -1371,6 +1375,16 @@ nextBtn.onclick=()=>{
   audio.play();
 };
 
+shuffleBtn.onclick = () => {
+  isShuffle = !isShuffle;
+  shuffleBtn.style.color = isShuffle ? "#7dd3fc" : "#fff";
+};
+
+repeatBtn.onclick = () => {
+  isRepeat = !isRepeat;
+  repeatBtn.style.color = isRepeat ? "#7dd3fc" : "#fff";
+};
+
 audio.ontimeupdate=()=>{
   if(audio.duration){
     progress.value=(audio.currentTime/audio.duration)*100;
@@ -1382,6 +1396,33 @@ audio.ontimeupdate=()=>{
 };
 progress.oninput=()=> audio.currentTime=(progress.value/100)*audio.duration;
 volume.oninput=()=> audio.volume=volume.value;
+
+audio.onended = () => {
+
+  // 🔁 REPEAT CURRENT TRACK
+  if (isRepeat) {
+    audio.currentTime = 0;
+    audio.play();
+    return;
+  }
+
+  // 🔀 SHUFFLE MODE
+  if (isShuffle) {
+    let next;
+    do {
+      next = Math.floor(Math.random() * tracks.length);
+    } while (next === currentTrack);
+
+    currentTrack = next;
+  } 
+  // ⏭ NORMAL NEXT
+  else {
+    currentTrack = (currentTrack + 1) % tracks.length;
+  }
+
+  loadTrack(currentTrack);
+  audio.play();
+};
 
 /* ================= WEATHER ================= */
 const apiKey="8a252f61c3bb5b844bf4473729978c30";
@@ -1427,15 +1468,6 @@ document.querySelectorAll("#menuLinks a").forEach(a=>{
   };
 });
 hamburgerIcon.onclick=()=>hamburgerMenu.classList.toggle("open");
-
-/* ================= SCROLL UP ================= */
-const scrollUpBtn=document.getElementById("scrollUpBtn");
-window.onscroll=()=>{
-  scrollUpBtn.style.display=window.scrollY>100?"block":"none";
-};
-scrollUpBtn.onclick=()=>{
-  window.scrollTo({top:0,behavior:"smooth"});
-};
 
       // Word database with Bisaya and English words
         const words = [
@@ -1854,6 +1886,46 @@ loadPosts();
 
 // ==== DRAGGABLE BMC ====
 const bmcButton=document.querySelector('.bmc-float');let isDragging=false,offsetX=0,offsetY=0;bmcButton.addEventListener('mousedown',e=>{isDragging=true;offsetX=e.clientX-bmcButton.getBoundingClientRect().left;offsetY=e.clientY-bmcButton.getBoundingClientRect().top;});document.addEventListener('mouseup',()=>{isDragging=false;});document.addEventListener('mousemove',e=>{if(!isDragging) return;let left=e.clientX-offsetX;let top=e.clientY-offsetY;const maxLeft=window.innerWidth-bmcButton.offsetWidth;const maxTop=window.innerHeight-bmcButton.offsetHeight;left=Math.max(0,Math.min(left,maxLeft));top=Math.max(0,Math.min(top,maxTop));bmcButton.style.left=left+'px';bmcButton.style.top=top+'px';bmcButton.style.right='auto';bmcButton.style.bottom='auto';});
+
+/* ================= WORD OF THE DAY POPUP ================= */
+
+// Elements
+const wordOverlay = document.getElementById("wordOverlay");
+const wordMain = document.getElementById("wordMain");
+const wordTranslation = document.getElementById("wordTranslation");
+const wordDefinition = document.getElementById("wordDefinition");
+const wordExample = document.getElementById("wordExample");
+
+// Show popup with random word
+function showWordPopup() {
+  if (!wordOverlay) return;
+
+  const randomWord = words[Math.floor(Math.random() * words.length)];
+
+  wordMain.textContent = randomWord.word;
+  wordTranslation.textContent = randomWord.translation;
+  wordDefinition.textContent = randomWord.definition;
+  wordExample.textContent = `"${randomWord.example}"`;
+
+  wordOverlay.classList.add("active");
+}
+
+// Close popup
+function closePopup() {
+  wordOverlay.classList.remove("active");
+}
+
+// Auto popup after 5 seconds
+window.addEventListener("load", () => {
+  setTimeout(showWordPopup, 5000);
+});
+
+// Close when clicking outside popup
+wordOverlay.addEventListener("click", (e) => {
+  if (e.target === wordOverlay) {
+    closePopup();
+  }
+});
 
 </script>
 
