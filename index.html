@@ -134,18 +134,101 @@
         }
 
 /* ===== BASE STYLE ===== */
-* { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins', sans-serif; }
-html, body { height:100%; }
+
+/* ===== BODY ===== */
 body {
-  line-height:1.5;
-  font-size:clamp(12px, 1vw + 0.5rem, 16px);
-  font-weight:400;
-  color:#fff;
-  background: linear-gradient(-45deg, #4facfe, #00f2fe, #ff6ec7, #ff9a8b);
-  background-size:400% 400%;
-  animation: gradientBG 15s ease infinite;
-  transition:0.4s ease;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #DD4814, #E95420, #772953, #5E2750);
+  background-size: cover;
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.5;
+  font-size: 14px; /* desktop */
+  padding: 20px;
+  position: relative;
 }
+
+/* Dark overlay */
+body::before {
+  content: "";
+  position: absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background: rgba(0,0,0,0.25);
+  z-index:-1;
+}
+
+/* ===== HEADER / NAVBAR ===== */
+header {
+  background: rgba(0,0,0,0.35);
+  padding: 15px 10px;
+  text-align: center;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  backdrop-filter: blur(5px);
+}
+
+header h1 {
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
+  font-weight: 700;
+  color: #fff;
+}
+
+header p {
+  font-size: clamp(0.8rem, 1.5vw, 0.95rem);
+  opacity: 0.9;
+}
+
+/* ===== CARDS / SECTIONS ===== */
+section, .card {
+  background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(6px);
+  border-radius: 14px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+/* ===== BUTTONS ===== */
+button, .bmc-float, #loadMoreBtn {
+  background: #DD4814; /* Ubuntu orange */
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover, .bmc-float:hover, #loadMoreBtn:hover {
+  background: #E95420;
+}
+
+/* ===== LINKS ===== */
+a {
+  color: #FFCC66; /* light orange highlight */
+  text-decoration: none;
+  transition: 0.3s;
+}
+a:hover { color: #fff; }
+
+/* ===== MUSIC PLAYER / POPUPS ===== */
+.now-title, #playerCover, .popup {
+  background: rgba(0,0,0,0.35);
+  border-radius: 10px;
+  padding: 10px;
+  color: #fff;
+}
+
+.bmc-float {
+  bottom: 20px;
+  right: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+/* ===== RESPONSIVE FONT ===== */
+@media(max-width:1200px){ body { font-size: 13px; } }
+@media(max-width:768px){ body { font-size: 12px; } }
 
 body.dark {
   color:#e0e0e0;
@@ -440,30 +523,6 @@ footer { background:rgba(0,0,0,0.5); color:white; text-align:center; padding:18p
 }
 .toast.show { opacity: 1; pointer-events: auto; }
 
-/* ===== BASE STYLES ===== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
-}
-
-body {
-  min-height: 100vh;
-  background: linear-gradient(-45deg, #77216F, #5E2750, #772953, #5E2750);
-  background-size: 400% 400%;
-  animation: gradientBG 15s ease infinite;
-  padding: 20px;
-  color: #fff;
-}
-
-@keyframes gradientBG {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-
 /* ===== TOAST NOTIFICATION ===== */
 .toast {
   position: fixed;
@@ -642,6 +701,7 @@ body.light .bmc-float { background: #ffdd00; color: #111; }
     <audio id="audio" preload="metadata"></audio>
   </div>
 </section>
+
 <section id="gallery">
   <h2>Local Photo & Video Gallery</h2>
   <input type="file" id="fileInput" multiple accept="image/*,video/*">
@@ -821,7 +881,12 @@ const tracks=[
  {title:"I Miss You",artist:"BLINK182",cover:"media/IMG_20251222_193518.jpg",src:"media/blink-182 - I Miss You (Lyrics).m4a"},
  {title:"Away",artist:"BREAKING BENJAMIN",cover:"media/IMG_20251222_214957.jpg",src:"media/Away.m4a"},
  {title:"Without You Here",artist:"FINCH",cover:"media/IMG_20251222_214917.jpg",src:"media/Without You Here.m4a"},
- {title:"Move",artist:"Thousand Foot Krutch",cover:"media/IMG_20251222_220807.jpg",src:"media/Thousand Foot Krutch - Move.m4a"},
+ {title:"My Heart",artist:"PARAMORE",cover:"media/IMG_20251224_093245.jpg",src:"media/My Heart (lyrics) - Paramore.m4a"},
+ {title:"Not Gonna Die",artist:"SKILLET",cover:"media/IMG_20251224_094323.jpg",src:"media/Skillet - _Not Gonna Die_ (Lyric Video).m4a"},
+ {title:"Broken Down",artist:"SEVENDUST",cover:"media/IMG_20251224_093324.jpg",src:"media/Sevendust - Broken Down (with lyrics).m4a"},
+ {title:"Hang On",artist:"SEETHER",cover:"media/IMG_20251224_093353.jpg",src:"media/Seether - Hang On (Official Visualizer).m4a"},
+ {title:"Right Before Your Eyes",artist:"HOOBASTANK",cover:"media/IMG_20251224_093430.jpg",src:"media/Right Before Your Eyes - Hoobastank.m4a"},
+ {title:"Better Than Me",artist:"HINDER",cover:"media/IMG_20251224_093305.jpg",src:"media/Better Than Me - Hinder (Lyrics) 🎵.m4a"},
  {title:"Ocean Wide",artist:"THE AFTERS",cover:"media/IMG_20251222_222810.jpg",src:"media/Ocean Wide - The Afters - song lyrics.m4a"},
  {title:"Sleeping Awake",artist:"P.O.D",cover:"media/IMG_20251222_221953.jpg",src:"media/P.O.D. - Sleeping Awake (Official Music Video).m4a"},
  {title:"Beautiful",artist:"P.O.D",cover:"media/IMG_20251222_222010.jpg",src:"media/P.O.D. - Beautiful (audio).m4a"},
@@ -832,8 +897,7 @@ const tracks=[
  {title:"FINAL MASQUERADE",artist:"LINKIN PARK",cover:"media/happy-22nd-anniversary-to-hybrid-theory-one-of-the-most-v0-6yuogntjpnv91.png",src:"media/Linkin Park_ Final Masquerade (Lyrics).m4a"},
  {title:"Heavy ft. Kiara",artist:"LINKIN PARK",cover:"media/chester&kiara.jpeg",src:"media/Linkin Park - Heavy ft. Kiiara (Lyrics).m4a"},
  {title:"Battle Symphony",artist:"LINKIN PARK",cover:"media/IMG_20251207_120239.jpg",src:"media/Linkin Park - Battle Symphony [Lyrics].m4a"},
- {title:"In Pieces",artist:"LINKIN PARK",cover:"media/lpip.jpeg",src:"media/Linkin Park - In Pieces [Lyrics on screen] HD.m4a"},
- {title:"Discovering The Waterfront",artist:"SILVERSTEIN",cover:"media/1476450254.png",src:"media/Silverstein - Discovering The Waterfront (Official Visualizer).m4a"}
+ {title:"As Long As It Matters",artist:"GIN BLOssoms",cover:"media/IMG_20251224_110112.jpg",src:"media/Gin Blossoms - As Long As It Matters (lyrics).m4a"}
 ];
 
 const tracksGrid = document.getElementById("tracksGrid");
