@@ -1,0 +1,135 @@
+/* ---------------- BASE ---------------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    overflow: hidden;
+    position: relative;
+    transition: background 2s ease; /* smooth background change */
+}
+
+/* ---------------- PARTICLES ---------------- */
+.particle {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.7;
+    pointer-events: none;
+    animation: floatParticle linear infinite;
+}
+
+@keyframes floatParticle {
+    0% { transform: translateY(0) translateX(0); }
+    100% { transform: translateY(-1000px) translateX(50px); }
+}
+
+/* ---------------- CONTAINER ---------------- */
+.container {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease, opacity 0.3s ease;
+    z-index: 10;
+    position: relative;
+}
+
+/* ---------------- SEARCH BOX ---------------- */
+.search-box {
+    margin: 25px 0;
+    display: flex;
+    gap: 10px;
+}
+
+.search-box input {
+    flex: 1;
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.3);
+    font-size: 18px;
+    background: rgba(255,255,255,0.3);
+    color: #000;
+    backdrop-filter: blur(5px);
+}
+
+.search-box input::placeholder { color: rgba(0,0,0,0.6); }
+
+.search-box button {
+    padding: 14px 20px;
+    border-radius: 12px;
+    background: #4facfe;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background 0.3s ease;
+}
+
+.search-box button:hover { background: #2696ff; }
+
+/* ---------------- WEATHER BOX ---------------- */
+.weather-box { margin-top: 25px; }
+.hidden { display: none; }
+
+.weather-box h3 {
+    font-size: 28px;
+    margin-bottom: 12px;
+    color: #fff;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+}
+
+.weather-box p {
+    font-size: 18px;
+    margin: 5px 0;
+    color: #fff;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+}
+
+/* ---------------- ICON WRAPPER ---------------- */
+.icon-wrapper { width: 100%; height: 300px; margin: 15px 0; position: relative; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
+.icon { width: 100%; height: 100%; background-size: cover; background-position: center; border-radius: 15px; animation: float 3s ease-in-out infinite; transition: opacity 0.3s ease; opacity: 1; }
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+
+/* ---------------- WEATHER ANIMATIONS ---------------- */
+.rain-drop { position: absolute; width: 2px; height: 10px; background: rgba(255,255,255,0.7); animation: fall linear infinite; }
+@keyframes fall { 0% { transform: translateY(0) } 100% { transform: translateY(500px) } }
+
+.snowflake { position: absolute; top: -10px; width: 6px; height: 6px; background: rgba(255,255,255,0.8); border-radius: 50%; animation: fallSnow linear infinite; }
+@keyframes fallSnow { 0% { transform: translateY(0) translateX(0); } 100% { transform: translateY(500px) translateX(50px); } }
+
+.cloud { position: absolute; top: 20%; width: 80px; height: 50px; background: rgba(255,255,255,0.7); border-radius: 50%; animation: floatCloud linear infinite; }
+@keyframes floatCloud { 0% { transform: translateX(-100px); } 100% { transform: translateX(600px); } }
+
+.lightning { position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(255,255,255,0.5); opacity:0; animation: flash 0.2s ease 0s 1 forwards; }
+@keyframes flash { 0% {opacity:0;} 50%{opacity:1;} 100%{opacity:0;} }
+
+.sun { position: absolute; top:50%; left:50%; width:80px; height:80px; background: radial-gradient(circle, #fff200, #ffc700); border-radius:50%; transform:translate(-50%, -50%); animation: spinSun 10s linear infinite, glowSun 2s ease-in-out infinite alternate; box-shadow: 0 0 30px 10px rgba(255,255,0,0.5); }
+@keyframes spinSun { 0% {transform:translate(-50%, -50%) rotate(0deg);} 100% {transform:translate(-50%, -50%) rotate(360deg);} }
+@keyframes glowSun { 0% {box-shadow:0 0 20px 5px rgba(255,255,0,0.3);} 100% {box-shadow:0 0 40px 20px rgba(255,255,0,0.7);} }
+
+.wind { position:absolute; width:60px; height:2px; background: rgba(255,255,255,0.5); border-radius:2px; top:50%; animation: moveWind linear infinite; }
+@keyframes moveWind { 0%{transform:translateX(-100px);} 100%{transform:translateX(600px);} }
+
+/* ---------------- MOBILE ---------------- */
+@media(max-width:600px){
+    .container{max-width:100%; padding:20px;}
+    .search-box{flex-direction:column;}
+    .search-box button{width:100%; font-size:16px; padding:12px;}
+    .search-box input{font-size:16px;}
+    .weather-box h3{font-size:24px;}
+    .weather-box p{font-size:16px;}
+    .icon-wrapper{height:200px;}
+}

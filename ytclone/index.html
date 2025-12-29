@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aloygene YouTube Clone</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
+html{scroll-behavior: smooth;}
+body{background:#0f0f0f;color:white;display:flex;flex-direction:column;min-height:100vh;transition:0.3s;}
+body.light{background:#f5f5f5;color:#111;}
+
+/* HEADER */
+.header{display:flex;flex-direction:column;gap:12px;padding:15px;background:#111;position:sticky;top:0;z-index:10;cursor:pointer;}
+.title{font-size:20px;font-weight:700;text-align:center;}
+
+/* BACK TO TOP BUTTON */
+#back-to-top {position: fixed; bottom: 70px; right: 15px; padding: 10px 15px; background: #ff0000; color: white; border: none; border-radius: 50%; font-size: 18px; cursor: pointer; z-index: 999; opacity: 0; pointer-events: none; transition: 0.3s, opacity 0.3s;}
+#back-to-top.show {opacity: 1; pointer-events: auto;}
+#back-to-top:hover {background: #cc0000;}
+
+/* THEME TOGGLE */
+.theme-toggle{position:absolute;top:15px;right:15px;padding:5px 10px;background:#ff0000;color:white;border:none;border-radius:15px;cursor:pointer;font-size:12px;font-weight:600;}
+.theme-toggle:hover{background:#cc0000;}
+
+/* SEARCH */
+.search-box{display:flex;gap:10px;width:100%;}
+.search-box input{flex:1;padding:10px;border-radius:25px;border:none;background:#1c1c1c;color:white;outline:none;font-size:14px;}
+.search-box button{padding:10px 20px;border:none;border-radius:25px;background:#ff0000;color:white;cursor:pointer;font-size:14px;font-weight:600;}
+.search-box button:hover{background:#cc0000;}
+
+/* CHANNEL BAR */
+.channel-bar{display:flex;gap:8px;overflow-x:auto;padding-bottom:5px;scrollbar-width:none;margin-top:5px;}
+.channel-bar::-webkit-scrollbar{display:none;}
+.channel-btn{display:flex;align-items:center;gap:5px;background:#222;padding:7px 14px;border:none;color:white;border-radius:20px;flex-shrink:0;cursor:pointer;opacity:0.9;font-size:13px;white-space:nowrap;transition:0.2s;}
+.channel-btn:hover{opacity:1;transform:scale(1.05);}
+.all-btn{background:#ff0000;}
+.all-btn:hover{background:#cc0000;transform:scale(1.05);}
+
+/* CATEGORY BAR */
+.category-bar{display:flex;gap:8px;overflow-x:auto;padding-bottom:5px;scrollbar-width:none;margin-top:5px;}
+.category-bar::-webkit-scrollbar{display:none;}
+.category-btn{padding:6px 12px;background:#333;border:none;border-radius:20px;cursor:pointer;color:white;font-size:12px;flex-shrink:0;transition:0.2s;}
+.category-btn:hover{background:#555;transform:scale(1.05);}
+.active-category{background:#ff0000 !important;}
+
+/* VIDEO GRID */
+.results{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;padding:15px;flex:1;}
+.video-card{background:#1a1a1a;border-radius:12px;overflow:hidden;cursor:pointer;transition:0.3s;display:flex;flex-direction:column;position:relative;}
+.video-card:hover{transform:scale(1.03);}
+.video-card img{width:100%;display:block;border-radius:12px;}
+.video-card video{width:100%;display:block;border-radius:12px;position:absolute;top:0;left:0;display:none;}
+.video-card .video-info{padding:8px;}
+.video-card .title-txt{font-size:13px;font-weight:600;}
+.video-card .author{font-size:11px;opacity:0.7;margin-top:2px;}
+
+/* MODAL PLAYER */
+#modal-player{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);justify-content:center;align-items:center;z-index:100;transition:0.3s;}
+#modal-player .modal-content{position:relative;width:90%;max-width:900px;background:#111;border-radius:12px;overflow:hidden;}
+#modal-player #player{width:100%;height:500px;}
+#modal-player .close-btn{position:absolute;top:10px;right:10px;font-size:20px;color:white;background:rgba(0,0,0,0.5);border:none;border-radius:50%;width:30px;height:30px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+
+/* FOOTER */
+footer{background:#222;text-align:center;padding:12px;margin-top:auto;border-radius:12px;font-size:12px;color:#aaa;}
+
+/* BMC FLOAT */
+.bmc-float {position: fixed; bottom: 15px; right: 15px; background: #ffdd00; color: #000; padding: 6px 10px; border-radius: 30px; display: flex; align-items: center; gap: 5px; font-weight: 600; font-size: 12px; cursor: grab; text-decoration: none; box-shadow: 0px 3px 6px rgba(0,0,0,0.35); z-index: 999; transition: 0.3s;}
+.bmc-float:hover { transform: scale(1.05); background: #ffe347; }
+.bmc-float img { width: 20px; height: 20px; }
+body.light .bmc-float { background: #ffdd00; color: #111; }
+
+/* QR popup */
+#qr-popup {display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; z-index: 10000;}
+#qr-popup div {background: #fff; padding: 20px; border-radius: 12px; text-align: center; max-width: 300px; position: relative;}
+#qr-popup img { width: 200px; border-radius: 8px;}
+#close-qr { position: absolute; top: 10px; right: 15px; cursor: pointer; font-weight: bold; font-size: 18px; }
+
+@media(max-width:600px){.results{grid-template-columns:1fr;gap:15px;}#modal-player #player{height:250px;}}
+@media(min-width:601px) and (max-width:900px){.results{grid-template-columns:repeat(2,1fr);}#modal-player #player{height:350px;}}
+@media(min-width:901px){.results{grid-template-columns:repeat(3,1fr);}#modal-player #player{height:450px;}}
+</style>
+</head>
+<body id="top">
+
+<button class="theme-toggle" onclick="toggleTheme()">Theme</button>
+
+<div class="header" id="top-header">
+    <h2 class="title">Aloygene Youtube clone</h2>
+    <div class="search-box">
+        <input type="text" id="search" placeholder="Search videos...">
+        <button onclick="searchVideos()">Search</button>
+    </div>
+    <div class="channel-bar" id="channels-buttons"></div>
+    <div class="category-bar">
+        <button class="category-btn active-category" onclick="filterCategory('all')">All</button>
+        <button class="category-btn" onclick="filterCategory('music')">Music</button>
+        <button class="category-btn" onclick="filterCategory('gaming')">Gaming</button>
+        <button class="category-btn" onclick="filterCategory('tech')">Tech</button>
+        <button class="category-btn" onclick="filterCategory('news')">News</button>
+        <button class="category-btn" onclick="filterCategory('learning')">Learning</button>
+    </div>
+</div>
+
+<div id="results" class="results"></div>
+
+<div id="modal-player">
+    <div class="modal-content">
+        <button class="close-btn" onclick="closePlayer()">×</button>
+        <div id="player"></div>
+    </div>
+</div>
+
+<footer>&copy; 2025 Aloygene YouTube Clone. All rights reserved.</footer>
+
+<a class="bmc-float" href="https://www.maya.ph/app/registration?invite=@gseven33" target="_blank">
+    <img src="https://cdn-icons-png.flaticon.com/512/924/924514.png" alt="Coffee">Buy Me a Coffee
+</a>
+
+<button id="back-to-top">↑</button>
+<button id="qr-btn">Donate via QR</button>
+<div id="qr-popup">
+  <div>
+    <span id="close-qr">&times;</span>
+    <p style="margin-bottom:10px;">Scan to Donate</p>
+    <img src="media/myqr_1765267416489.jpg" alt="Donate QR">
+  </div>
+</div>
+
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+// ==== VIDEO & CHANNEL LOGIC ====
+let player, allVideos=[], filteredVideos=[], currentCategory='all', currentVideoIndex=0;
+const channels=[
+    {id:'UC_x5XG1OV2P6uZZ5FSM9Ttw', name:'Google Developers'},
+    {id:'UC29ju8bIPH5as8OGnQzwJyA', name:'Traversy Media'},
+    {id:'UCWv7vMbMWH4-V0ZXdmDpPBA', name:'freeCodeCamp'},
+    {id:'UCSJbGtTlrDami-tDGPUV9-w', name:'Programming with Mosh'},
+    {id:'UCYO_jab_esuFRV4b17AJtAw', name:'3Blue1Brown'},
+    {id:'UC1k9c0gJ1a1kDFG1V2B2GDA', name:'David Bombal'},
+    {id:'UC9x0AN7BWHpCDHSm9NiJFJQ', name:'NetworkChuck'},
+    {id:'UCVeW9qkBjo3zosnqUbG7CFw', name:'John Hammond'},
+    {id:'UCJklo0Zl5tLV9kkk_Jd81EA', name:'Breaking Benjamin'}
+];
+const chBox=document.getElementById('channels-buttons');
+channels.forEach(ch=>{
+    const btn=document.createElement('button');
+    btn.className='channel-btn';
+    btn.innerText=ch.name;
+    btn.onclick=()=>loadChannel(ch.id);
+    chBox.appendChild(btn);
+});
+
+async function loadChannel(channelId){
+    const url=`https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
+    const res=await fetch(url);
+    const data=await res.json();
+    allVideos=(data.items||[]).map(v=>{
+        let t=v.title.toLowerCase();
+        let category='other';
+        if(t.includes('music')||t.includes('song')||t.includes('breaking benjamin')) category='music';
+        else if(t.includes('game')||t.includes('gaming')) category='gaming';
+        else if(t.includes('tech')||t.includes('javascript')||t.includes('program')) category='tech';
+        else if(t.includes('news')||t.includes('update')) category='news';
+        else if(t.includes('tutorial')||t.includes('learn')||t.includes('course')) category='learning';
+        return {...v,category};
+    });
+    filteredVideos=allVideos;
+    applyFilters();
+    // Autoplay first video
+    if(filteredVideos.length>0) playVideoModal(0);
+}
+
+async function loadAllChannels(){
+    allVideos=[];
+    for(const ch of channels){
+        try{
+            const res=await fetch(`https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=${ch.id}`);
+            const data=await res.json();
+            const videos=(data.items||[]).map(v=>{
+                let t=v.title.toLowerCase();
+                let category='other';
+                if(t.includes('music')||t.includes('song')||t.includes('breaking benjamin')) category='music';
+                else if(t.includes('game')||t.includes('gaming')) category='gaming';
+                else if(t.includes('tech')||t.includes('javascript')||t.includes('program')) category='tech';
+                else if(t.includes('news')||t.includes('update')) category='news';
+                else if(t.includes('tutorial')||t.includes('learn')||t.includes('course')) category='learning';
+                return {...v,category};
+            });
+            allVideos=allVideos.concat(videos);
+        }catch(e){console.error("Failed:",ch.name);}
+    }
+    filteredVideos=allVideos;
+    applyFilters();
+}
+
+// Filter/Search
+function filterCategory(category){
+    currentCategory=category;
+    document.querySelectorAll('.category-btn').forEach(btn=>btn.classList.remove('active-category'));
+    let selected=Array.from(document.querySelectorAll('.category-btn')).find(btn=>btn.innerText.toLowerCase().includes(category));
+    if(selected) selected.classList.add('active-category');
+    applyFilters();
+}
+function applyFilters(){
+    let query=document.getElementById('search').value.toLowerCase().trim();
+    filteredVideos=allVideos.filter(v=>v.title.toLowerCase().includes(query));
+    if(currentCategory!=='all') filteredVideos=filteredVideos.filter(v=>v.category===currentCategory);
+    displayVideos(filteredVideos);
+}
+function searchVideos(){applyFilters();}
+function displayVideos(videos){
+    const results=document.getElementById('results');
+    results.innerHTML='';
+    videos.forEach((v,index)=>{
+        const videoId=v.link.split('v=')[1];
+        const card=document.createElement('div');
+        card.className='video-card';
+        card.innerHTML=`
+            <img loading="lazy" src="${v.thumbnail}" />
+            <video muted loop></video>
+            <div class="video-info">
+                <div class="title-txt">${v.title}</div>
+                <div class="author">${v.author}</div>
+            </div>
+        `;
+        card.onmouseenter=()=>playPreview(card,videoId);
+        card.onmouseleave=()=>stopPreview(card);
+        card.onclick=()=>playVideoModal(index);
+        results.appendChild(card);
+    });
+}
+function playPreview(card,videoId){const video=card.querySelector('video');video.src=`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1`;video.style.display='block';}
+function stopPreview(card){const video=card.querySelector('video');video.pause();video.src='';video.style.display='none';}
+function onYouTubeIframeAPIReady(){player=new YT.Player('player',{height:'500',width:'100%',videoId:'',events:{'onStateChange':onPlayerStateChange}});}
+function playVideoModal(index){currentVideoIndex=index;const modal=document.getElementById('modal-player');modal.style.display='flex';const videoId=filteredVideos[currentVideoIndex].link.split('v=')[1];player.loadVideoById(videoId);}
+function onPlayerStateChange(event){if(event.data===YT.PlayerState.ENDED){currentVideoIndex++;if(currentVideoIndex>=filteredVideos.length) currentVideoIndex=0;const nextId=filteredVideos[currentVideoIndex].link.split('v=')[1];player.loadVideoById(nextId);}}
+function closePlayer(){const modal=document.getElementById('modal-player');modal.style.display='none';player.stopVideo();}
+function toggleTheme(){document.body.classList.toggle('light');}
+
+// INIT
+loadAllChannels();
+
+// ==== DRAGGABLE BMC ====
+const bmcButton=document.querySelector('.bmc-float');let isDragging=false,offsetX=0,offsetY=0;bmcButton.addEventListener('mousedown',e=>{isDragging=true;offsetX=e.clientX-bmcButton.getBoundingClientRect().left;offsetY=e.clientY-bmcButton.getBoundingClientRect().top;});document.addEventListener('mouseup',()=>{isDragging=false;});document.addEventListener('mousemove',e=>{if(!isDragging) return;let left=e.clientX-offsetX;let top=e.clientY-offsetY;const maxLeft=window.innerWidth-bmcButton.offsetWidth;const maxTop=window.innerHeight-bmcButton.offsetHeight;left=Math.max(0,Math.min(left,maxLeft));top=Math.max(0,Math.min(top,maxTop));bmcButton.style.left=left+'px';bmcButton.style.top=top+'px';bmcButton.style.right='auto';bmcButton.style.bottom='auto';});
+
+// ==== QR POPUP ====
+const qrBtn=document.getElementById('qr-btn');const qrPopup=document.getElementById('qr-popup');const closeQr=document.getElementById('close-qr');qrBtn.addEventListener('click',()=>{qrPopup.style.display='flex';});closeQr.addEventListener('click',()=>{qrPopup.style.display='none';});qrPopup.addEventListener('click',e=>{if(e.target===qrPopup) qrPopup.style.display='none';});
+
+// ==== BACK TO TOP + HEADER CLICK ====
+const backToTop=document.getElementById('back-to-top');const topHeader=document.getElementById('top-header');window.addEventListener('scroll',()=>{if(window.scrollY>200){backToTop.classList.add('show');}else{backToTop.classList.remove('show');}});backToTop.addEventListener('click',()=>{window.scrollTo({top:0,behavior:'smooth'});});topHeader.addEventListener('click',()=>{window.scrollTo({top:0,behavior:'smooth'});});
+</script>
+</body>
+</html>
