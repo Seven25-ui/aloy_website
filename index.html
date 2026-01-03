@@ -1077,6 +1077,10 @@ const tracks=[
  {title:"I Miss You",artist:"BLINK182",cover:"media/IMG_20251222_193518.jpg",src:"media/blink-182 - I Miss You (Lyrics).m4a"},
  {title:"Away",artist:"BREAKING BENJAMIN",cover:"media/IMG_20251222_214957.jpg",src:"media/Away.m4a"},
  {title:"Without You Here",artist:"FINCH",cover:"media/IMG_20251222_214917.jpg",src:"media/Without You Here.m4a"},
+ {title:"Mistress", artist:"DISTURBED", cover:"media/IMG_20260103_131534.jpg",src:"media/Disturbed - Mistress [Official Audio].m4a"},
+ {title:"Sons Of Plunder", artist:"DISTURBED", cover:"media/IMG_20260103_131609.jpg",scr:"media/Disturbed - Sons Of Plunder [Official Audio].m4a"},
+ {title:"All I Wanted", artist:"PARAMORE", cover:"media/IMG_20260103_131746.jpg", src:"media/Paramore - All I Wanted (Official Audio).m4a"},
+ {title:"Last Hope", artist:"PARAMORE", cover:"media/IMG_20260103_131801.jpg",src:"media/Paramore - Last Hope (Official Audio).m4a"},
  {title:"My Heart",artist:"PARAMORE",cover:"media/IMG_20251229_105941.jpg",src:"media/My Heart (lyrics) - Paramore.m4a"},
  {title:"Not Gonna Die",artist:"SKILLET",cover:"media/IMG_20251224_094323.jpg",src:"media/Skillet - _Not Gonna Die_ (Lyric Video).m4a"},
  {title:"Broken Down",artist:"SEVENDUST",cover:"media/IMG_20251224_093324.jpg",src:"media/Sevendust - Broken Down (with lyrics).m4a"},
@@ -1116,7 +1120,7 @@ const duration = document.getElementById("duration");
 let currentTrack = 0;
 let isShuffle = false;
 let repeatState = 0; // 0=off, 1=repeat one, 2=repeat all
-let tracksToShow = 4; // initial tracks
+let tracksToShow = 8; // initial tracks
 
 // ===== LOAD TRACK =====
 function loadTrack(i){
