@@ -131,23 +131,114 @@
             .word-translation {
                 font-size: 20px;
             }
-        }
-
+       }
 
 body {
   min-height: 100vh;
-  background: linear-gradient(135deg,
-    #772953,
-    #8b2f6b,
-    #5E2750
-  ); /* Ubuntu PINK / purple base */
-  background-size: cover;
-  color: #fff;
+  background: linear-gradient(135deg, #1e1e2f, #2a2a3f, #34344f); /* Pop!_OS dark gray gradient */
+  color: #e0e0e0; /* light gray text */
   font-family: 'Poppins', sans-serif;
   line-height: 1.5;
   font-size: 14px;
   padding: 20px;
   position: relative;
+  background-size: cover;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.1); /* subtle overlay for depth */
+  z-index: -1;
+}
+
+/* Accent colors for links/buttons, Pop!_OS purple/blue */
+a, button, .bmc-float {
+  color: #7f5af0; /* Pop!_OS accent purple */
+  transition: 0.3s;
+}
+
+a:hover, button:hover, .bmc-float:hover {
+  color: #6b4df0; /* slightly darker on hover */
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(30, 30, 50, 0.3); /* bluish dark overlay */
+  z-index: -1;
+}
+
+/* Ubuntu accent for links/buttons */
+a, button, .bmc-float {
+  color: #ffb74d; /* light orange accent */
+  transition: 0.3s;
+}
+
+a:hover, button:hover, .bmc-float:hover {
+  color: #ff9800; /* darker accent on hover */
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.1); /* subtle overlay for depth */
+  z-index: -1;
+}
+
+/* Mint green accent for links/buttons */
+a, button, .bmc-float {
+  color: #3eb370; /* classic Mint green highlight */
+  transition: 0.3s;
+}
+
+a:hover, button:hover, .bmc-float:hover {
+  color: #2a8a52; /* darker green on hover */
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.1); /* subtle overlay for depth */
+  z-index: -1;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.1); /* subtle overlay */
+  z-index: -1;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.05); /* subtle overlay for depth */
+  z-index: -1;
+}
+
+/* subtle dark overlay for depth */
+body::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.25);
+  z-index: -1;
+}
+
+/* Remove dark overlay if any */
+body::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: none; /* no overlay */
+  z-index: -1;
 }
 
 /* subtle dark overlay */
