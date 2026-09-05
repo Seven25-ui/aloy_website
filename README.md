@@ -5,7 +5,7 @@
 **Description:**  
 Personal portfolio website showcasing my projects, skills, and live demos. Designed to demonstrate responsive layouts, dark mode, and interactive UI components.
 
-**Live Demo:** [https://seven25.click](https://seven25.click)
+**Live Demo:** https://seven25-ui.github.io/aloy_website/
 
 **Features:**  
 - Responsive design for mobile and desktop  
