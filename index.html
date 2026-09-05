@@ -3,1013 +3,439 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aloygene | Portfolio</title>
+<title>Aloygene | Gene Cartalla Guardiana</title>
 
-<!-- Font Awesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
-
-        
-       /* Pop-up overlay */
-        .word-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 9999;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .word-overlay.active {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* Pop-up container */
-        .word-popup {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 500px;
-            width: 90%;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            position: relative;
-            animation: slideUp 0.4s ease;
-            color: white;
-            text-align: center;
-        }
-
-        /* Close button */
-        .close-btn {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 28px;
-            cursor: pointer;
-            color: rgba(255, 255, 255, 0.8);
-            transition: color 0.3s;
-            background: none;
-            border: none;
-            line-height: 1;
-        }
-
-        .close-btn:hover {
-            color: white;
-        }
-
-        /* Content styling */
-        .word-header {
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            opacity: 0.9;
-            margin-bottom: 10px;
-        }
-
-        .word-main {
-            font-size: 42px;
-            font-weight: bold;
-            margin: 20px 0;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        .word-translation {
-            font-size: 24px;
-            opacity: 0.95;
-            margin: 15px 0;
-            font-style: italic;
-        }
-
-        .word-definition {
-            font-size: 16px;
-            line-height: 1.6;
-            opacity: 0.9;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .word-example {
-            font-size: 14px;
-            opacity: 0.8;
-            margin-top: 15px;
-            font-style: italic;
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Responsive */
-        @media (max-width: 600px) {
-            .word-popup {
-                padding: 30px 25px;
-            }
-            .word-main {
-                font-size: 32px;
-            }
-            .word-translation {
-                font-size: 20px;
-            }
-       }
-
-body {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #1e1e2f, #2a2a3f, #34344f); /* Pop!_OS dark gray gradient */
-  color: #e0e0e0; /* light gray text */
-  font-family: 'Poppins', sans-serif;
-  line-height: 1.5;
-  font-size: 14px;
-  padding: 20px;
-  position: relative;
-  background-size: cover;
-}
-
-body::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.1); /* subtle overlay for depth */
-  z-index: -1;
-}
-
-/* Accent colors for links/buttons, Pop!_OS purple/blue */
-a, button, .bmc-float {
-  color: #7f5af0; /* Pop!_OS accent purple */
-  transition: 0.3s;
-}
-
-a:hover, button:hover, .bmc-float:hover {
-  color: #6b4df0; /* slightly darker on hover */
-}
-
-body::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(30, 30, 50, 0.3); /* bluish dark overlay */
-  z-index: -1;
-}
-
-/* Ubuntu accent for links/buttons */
-a, button, .bmc-float {
-  color: #ffb74d; /* light orange accent */
-  transition: 0.3s;
-}
-
-a:hover, button:hover, .bmc-float:hover {
-  color: #ff9800; /* darker accent on hover */
-}
-
-body::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(255,255,255,0.1); /* subtle overlay for depth */
-  z-index: -1;
-}
-
-/* Mint green accent for links/buttons */
-a, button, .bmc-float {
-  color: #3eb370; /* classic Mint green highlight */
-  transition: 0.3s;
-}
-
-a:hover, button:hover, .bmc-float:hover {
-  color: #2a8a52; /* darker green on hover */
-}
-
-body::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.1); /* subtle overlay for depth */
-  z-index: -1;
-}
-
-body::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.1); /* subtle overlay */
-  z-index: -1;
-}
-
-body::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.05); /* subtle overlay for depth */
-  z-index: -1;
-}
-
-/* subtle dark overlay for depth */
-body::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.25);
-  z-index: -1;
-}
-
-/* Remove dark overlay if any */
-body::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: none; /* no overlay */
-  z-index: -1;
-}
-
-/* subtle dark overlay */
-body::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.25);
-  z-index: -1;
-}
-
-/* ===== HEADER / NAVBAR ===== */
-header {
-  background: rgba(0,0,0,0.35);
-  padding: 15px 10px;
-  text-align: center;
-  border-bottom-left-radius: 15px;
-  border-bottom-right-radius: 15px;
-  backdrop-filter: blur(5px);
-}
-
-header h1 {
-  font-size: clamp(1.2rem, 3vw, 1.6rem);
-  font-weight: 700;
-  color: #fff;
-}
-
-header p {
-  font-size: clamp(0.8rem, 1.5vw, 0.95rem);
-  opacity: 0.9;
-}
-
-/* ===== CARDS / SECTIONS ===== */
-section, .card {
-  background: rgba(0,0,0,0.35);
-  backdrop-filter: blur(6px);
-  border-radius: 14px;
-  padding: 15px;
-  margin-bottom: 20px;
-}
-
-/* ===== BUTTONS ===== */
-button, .bmc-float, #loadMoreBtn {
-  background: #DD4814; /* Ubuntu orange */
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-button:hover, .bmc-float:hover, #loadMoreBtn:hover {
-  background: #E95420;
-}
-
-/* ===== LINKS ===== */
-a {
-  color: #FFCC66; /* light orange highlight */
-  text-decoration: none;
-  transition: 0.3s;
-}
-a:hover { color: #fff; }
-
-/* ===== MUSIC PLAYER / POPUPS ===== */
-.now-title, #playerCover, .popup {
-  background: rgba(0,0,0,0.35);
-  border-radius: 10px;
-  padding: 10px;
-  color: #fff;
-}
-
-.bmc-float {
-  bottom: 20px;
-  right: 20px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-}
-
-/* ===== RESPONSIVE FONT ===== */
-@media(max-width:1200px){ body { font-size: 13px; } }
-@media(max-width:768px){ body { font-size: 12px; } }
-
-body.dark {
-  color:#e0e0e0;
-  background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #1a2a6c);
-  background-size:400% 400%;
-  animation: gradientBG 20s ease infinite;
-}
-@keyframes gradientBG {
-  0%{background-position:0% 50%;}
-  50%{background-position:100% 50%;}
-  100%{background-position:0% 50%;}
-}
-
-section, .card {
-  background: rgba(255,255,255,0.08);
-  backdrop-filter: blur(6px);
-  border-radius: 14px;
-}
-
-/* ===== HEADER ===== */
-header {
-  background:rgba(0,0,0,0.4);
-  padding:15px 10px;
-  text-align:center;
-  border-bottom-left-radius:15px;
-  border-bottom-right-radius:15px;
-  position:relative;
-  backdrop-filter:blur(5px);
-}
-header h1 {
-  font-size:clamp(1.2rem,3vw,1.6rem);
-  font-weight:700;
-}
-header p {
-  font-size:clamp(0.8rem,1.5vw,0.95rem);
-  opacity:0.85;
-  margin-top:5px;
-}
-#darkToggle {
-  position:absolute;
-  top:10px;
-  right:10px;
-  padding:5px 10px;
-  background:white;
-  color:#1f1f1f;
-  border:none;
-  border-radius:6px;
-  cursor:pointer;
-  font-size:0.75rem;
-  font-weight:600;
-}
-
-/* PROFILE */
-.profile-weather-container {
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  margin:15px auto;
-  max-width:180px;
-}
-.profile-img { width:95px; height:95px; border-radius:50%; border:3px solid #fff; object-fit:cover; }
-
-/* TIME CARD */
-.time-card p { font-size:0.85rem; font-weight:600; }
-
-/* FLOATING WEATHER */
-.weather-floating {
-  position:fixed;
-  left:15px; top:210px;
-  display:flex; align-items:center; gap:6px;
-  padding:6px 10px;
-  background:rgba(255,255,255,0.3);
-  backdrop-filter:blur(12px); border-radius:10px;
-  font-size:0.75rem; font-weight:600; color:#fff;
-  cursor:pointer;
-}
-.weather-floating img { width:24px; }
-
-/* SECTION */
-section { padding:22px 15px; max-width:850px; margin:auto; }
-h2 { font-size:clamp(1.1rem,2.5vw,1.4rem); font-weight:700; text-align:center; margin-bottom:12px; }
-.card { background:rgba(255,255,255,0.15); padding:15px; border-radius:12px; box-shadow:0 6px 15px rgba(0,0,0,0.2); }
-
-/* LOCAL GALLERY */
-#galleryDrop {
-  display:flex; flex-wrap:wrap; gap:6px; justify-content:flex-start; align-items:flex-start;
-  overflow-x:auto; padding:8px; margin:12px auto;
-  border:2px dashed #fff; border-radius:12px; background:rgba(255,255,255,0.1);
-  scrollbar-width:thin;
-}
-#galleryDrop::-webkit-scrollbar { height:6px; }
-#galleryDrop::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.3); border-radius:3px; }
-.media-item { flex:0 0 auto; width:100px; height:70px; object-fit:cover; border-radius:8px; margin:4px; }
-.sample-videos video { width:100%; max-width:400px; border-radius:12px; margin:8px 0; }
-
-/* UNSPLASH */
-.unsplash-search { display:flex; justify-content:center; margin-bottom:10px; }
-.unsplash-search input { padding:6px; width:65%; border-radius:8px; border:none; outline:none; margin-right:6px; }
-.unsplash-search button { padding:6px 12px; border:none; border-radius:8px; cursor:pointer; background:white; color:#1f1f1f; font-weight:600; }
-#unsplashGallery { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; }
-.unsplash-card { width:130px; height:80px; border-radius:10px; background-size:cover; background-position:center; cursor:pointer; }
-
-/* LIGHTBOX */
-#lightbox { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); display:flex; justify-content:center; align-items:center; visibility:hidden; opacity:0; transition:0.3s; z-index:9999; }
-#lightbox img { max-width:90%; max-height:90%; border-radius:12px; }
-#lightbox span.close { position:absolute; top:20px; right:30px; font-size:3rem; color:white; cursor:pointer; }
-#lightbox span.arrow { position:absolute; top:50%; font-size:3rem; color:white; cursor:pointer; user-select:none; transform:translateY(-50%); }
-#lightbox span.arrow.left { left:20px; }
-#lightbox span.arrow.right { right:20px; }
-
-/* QUOTES */
-.quotes-box { padding:15px; background:rgba(255,255,255,0.2); border-radius:12px; text-align:center; font-size:clamp(0.85rem,1.5vw,0.95rem); font-weight:500; }
-
-/* FOOTER */
-footer { background:rgba(0,0,0,0.5); color:white; text-align:center; padding:18px; border-top-left-radius:15px; border-top-right-radius:15px; margin-top:25px; }
-.footer-icons { margin-top:10px; }
-.footer-icons a { color:white; margin:0 10px; font-size:22px; transition:0.3s; }
-.footer-icons a:hover { color:#ffdd59; text-shadow:0 0 6px #ffdd59,0 0 10px #ffdd59; transform:scale(1.15); }
-
-/* MUSIC PLAYER */
-.music-section{
-  padding:28px;
-  color:#fff;
-  font-family:Inter, "Segoe UI", sans-serif;
-}
-.tracks-grid{
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:12px;
-  margin-bottom:18px;
-}
-.track-card{
-  background:rgba(255,255,255,0.03);
-  border-radius:10px;
-  padding:10px;
-  display:flex;
-  gap:10px;
-  align-items:center;
-  cursor:pointer;
-  transition:.15s;
-}
-.track-card:hover{ transform:translateY(-5px); box-shadow:0 8px 18px rgba(0,0,0,0.4);}
-.track-card.active{ outline:2px solid rgba(125,211,252,0.15);}
-.track-cover{ width:60px; height:60px; border-radius:8px; overflow:hidden; flex-shrink:0; }
-.track-cover img{ width:100%; height:100%; object-fit:cover; }
-.track-info{ flex:1; display:flex; flex-direction:column; gap:4px; }
-.track-title{ font-size:14px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.track-artist{ font-size:12px; color:#9ca3af; }
-.btn-play{ background:transparent; border:1px solid rgba(255,255,255,0.06); width:36px;height:36px;border-radius:8px; display:grid; place-items:center; cursor:pointer; }
-.full-cover-player{ position:relative; width:100%; max-width:700px; margin:20px auto; border-radius:16px; overflow:hidden; backdrop-filter:blur(8px); }
-.full-cover-player .player-bg{ position:absolute; top:0; left:0; right:0; bottom:0; background-size:cover; background-position:center; filter:blur(12px) brightness(0.4); z-index:0; transition: background-image 0.5s ease; }
-.full-cover-player .player-content{ position:relative; z-index:1; display:flex; flex-direction:column; gap:12px; padding:16px; color:#fff; }
-.player-cover img{ width:100%; height:100%; object-fit:cover; border-radius:16px; box-shadow:0 0 18px rgba(125,211,252,0.4); }
-.track-now .now-title{ font-weight:700; font-size:15px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
-.track-now .now-artist{ font-size:13px; color:#8ea2bd; margin-top:2px; }
-.progress-wrap{ display:flex; align-items:center; gap:10px; width:100%; }
-.progress{ width:100%; height:7px; background:rgba(255,255,255,0.1); border-radius:7px; cursor:pointer; }
-.progress::-webkit-slider-thumb{ appearance:none; width:18px; height:18px; border-radius:50%; background:#7dd3fc; box-shadow:0 0 10px #7dd3fc; transition:.2s; }
-.progress::-webkit-slider-thumb:hover{ transform:scale(1.2); }
-.vol{ width:100px; accent-color:#7dd3fc; }
-.big-btn{ width:48px;height:48px;border-radius:12px;border:1px solid rgba(255,255,255,0.15); background:rgba(255,255,255,0.06); display:grid; place-items:center; font-size:20px; cursor:pointer; transition:.2s ease; }
-.big-btn:hover{ background:rgba(255,255,255,0.15); transform:scale(1.07); }
-.big-btn:active{ transform:scale(0.92); }
-
-@media(max-width:1200px){.tracks-grid{grid-template-columns:repeat(4,1fr);}}
-@media(max-width:960px){.tracks-grid{grid-template-columns:repeat(3,1fr);}}
-@media(max-width:650px){.tracks-grid{grid-template-columns:repeat(2,1fr);}}
-@media(max-width:420px){
-  .tracks-grid{grid-template-columns:1fr;}
-  .player-content{flex-direction:column;}
-  .progress-wrap{width:100%;}
-}
-
-.controls{ display:flex; justify-content:center; gap:12px; margin-top:6px; }
-.big-btn{ width:36px; height:36px; font-size:16px; border-radius:8px; }
-
-@media(max-width:600px){
-  #darkToggle { font-size:0.65rem; padding:4px 8px; }
-  .profile-img { width:80px; height:80px; }
-  .media-item { width:80px; height:60px; }
-  .sample-videos video { max-width:100%; }
-  .unsplash-card { width:110px; height:70px; }
-}
-
-#hamburgerMenu {
-  position: fixed;
-  top: 15px;
-  left: 15px;
-  z-index: 1000;
-}
-
-#hamburgerIcon {
-  width: 30px;
-  height: 25px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  cursor: pointer;
-}
-
-#hamburgerIcon span {
-  display: block;
-  height: 3px;
-  background: rgba(255,255,255,0.9);
-  border-radius: 2px;
-  transition: 0.3s;
-}
-
-#menuLinks {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  position: absolute;
-  top: 35px;
-  left: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  opacity: 0;
-  pointer-events: none;
-  transition: 0.3s;
-}
-
-#menuLinks li a {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  background: rgba(0,0,0,0.5);
-  color: #fff;
-  font-size: 18px;
-  border-radius: 8px;
-  transition: 0.3s;
-}
-
-#menuLinks li a:hover {
-  background: rgba(125,211,252,0.4);
-  color: #7dd3fc;
-  transform: scale(1.1);
-}
-
-#hamburgerMenu.open #menuLinks {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-#hamburgerMenu.open #hamburgerIcon span:nth-child(1) {
-  transform: rotate(45deg) translate(5px, 5px);
-}
-#hamburgerMenu.open #hamburgerIcon span:nth-child(2) {
-  opacity: 0;
-}
-#hamburgerMenu.open #hamburgerIcon span:nth-child(3) {
-  transform: rotate(-45deg) translate(5px, -5px);
-}
-
-/* MOBILE ADJUSTMENTS */
-@media(max-width: 650px){
-  #hamburgerIcon {
-    width: 25px;
-    height: 20px;
+  /* ============ TOKENS ============ */
+  :root{
+    --bg:#1b1e27;
+    --bg-alt:#242837;
+    --panel:#2b3040;
+    --line: rgba(234,231,224,0.10);
+    --text:#eae7e0;
+    --text-dim:#9aa0b4;
+    --accent:#d98e4a;
+    --accent-2:#6fa8a0;
+    --radius:10px;
+    --serif:'Fraunces', serif;
+    --sans:'Poppins', sans-serif;
   }
-  #hamburgerIcon span {
-    height: 2.5px;
+  body.light{
+    --bg:#f3efe6;
+    --bg-alt:#ffffff;
+    --panel:#ffffff;
+    --line: rgba(28,29,34,0.10);
+    --text:#1c1d22;
+    --text-dim:#5b5c66;
+    --accent:#c06a2c;
+    --accent-2:#3f7d76;
   }
-  #menuLinks li a {
-    width: 35px;
-    height: 35px;
-    font-size: 16px;
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    transition: background .3s ease, color .3s ease;
   }
-}
+  h1,h2,h3{font-family:var(--serif); font-weight:600; margin:0;}
+  a{color:var(--accent-2); text-decoration:none;}
+  a:hover{color:var(--accent);}
+  img{max-width:100%; display:block;}
+  ::selection{background:var(--accent); color:#1b1e27;}
 
-/* Hamburger Icon Highlight */
-.menu-icon:hover, .menu-icon.active {
-  background: #7dd3fc; /* highlight color */
-}
-/* Toast notification */
-.toast {
-  position: fixed;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(50,50,50,0.9);
-  color: #fff;
-  padding: 12px 22px;
-  border-radius: 12px;
-  opacity: 0;
-  pointer-events: none;
-  transition: 0.5s;
-  z-index: 9999;
-}
-.toast.show { opacity: 1; pointer-events: auto; }
+  .wrap{max-width:720px; margin:0 auto; padding:0 20px;}
 
-/* ===== TOAST NOTIFICATION ===== */
-.toast {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  background: rgba(0,0,0,0.9);
-  color: #fff;
-  padding: 15px 25px;
-  border-radius: 12px;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.5);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  opacity: 0;
-  transform: translateY(100px);
-  transition: 0.3s;
-  z-index: 1000;
-  max-width: 350px;
-}
+  /* ============ HEADER ============ */
+  header.top{
+    padding:52px 20px 34px;
+    text-align:center;
+    position:relative;
+  }
+  .toggle-row{
+    position:absolute; top:18px; right:18px; display:flex; gap:8px;
+  }
+  #darkToggle{
+    background:var(--panel);
+    border:1px solid var(--line);
+    color:var(--text);
+    padding:7px 13px;
+    border-radius:20px;
+    font-family:var(--sans);
+    font-size:12px;
+    cursor:pointer;
+  }
+  .avatar-block{
+    display:flex; flex-direction:column; align-items:center; gap:14px;
+  }
+  .profile-img{
+    width:104px; height:104px; border-radius:50%;
+    object-fit:cover;
+    border:2px solid var(--accent);
+    padding:3px;
+  }
+  header.top h1{font-size: clamp(1.6rem, 4vw, 2.2rem);}
+  .alias-line{
+    color:var(--text-dim);
+    font-size:14px;
+    margin-top:6px;
+  }
+  .alias-line strong{color:var(--accent);}
+  .status-row{
+    display:flex; gap:14px; justify-content:center; margin-top:14px;
+    font-size:12.5px; color:var(--text-dim);
+    flex-wrap:wrap;
+  }
+  .status-row span{
+    display:flex; align-items:center; gap:6px;
+    background:var(--bg-alt);
+    border:1px solid var(--line);
+    padding:5px 12px;
+    border-radius:20px;
+  }
+  .status-row img{width:16px; height:16px;}
 
-.toast.show {
-  opacity: 1;
-  transform: translateY(0);
-}
+  /* ============ NAV (hamburger) ============ */
+  #hamburgerMenu{position:fixed; top:18px; left:18px; z-index:1000;}
+  #hamburgerIcon{
+    width:26px; height:20px; display:flex; flex-direction:column;
+    justify-content:space-between; cursor:pointer;
+  }
+  #hamburgerIcon span{
+    display:block; height:2px; background:var(--text); border-radius:2px; transition:.3s;
+  }
+  #menuLinks{
+    list-style:none; margin:0; padding:0; position:absolute; top:34px; left:0;
+    display:flex; flex-direction:column; gap:8px; opacity:0; pointer-events:none; transition:.25s;
+  }
+  #menuLinks li a{
+    display:flex; align-items:center; justify-content:center;
+    width:36px; height:36px; background:var(--panel); border:1px solid var(--line);
+    color:var(--text); font-size:14px; border-radius:8px;
+  }
+  #menuLinks li a:hover{ color:var(--accent); border-color:var(--accent); }
+  #hamburgerMenu.open #menuLinks{opacity:1; pointer-events:auto;}
+  #hamburgerMenu.open #hamburgerIcon span:nth-child(1){transform:rotate(45deg) translate(5px,5px);}
+  #hamburgerMenu.open #hamburgerIcon span:nth-child(2){opacity:0;}
+  #hamburgerMenu.open #hamburgerIcon span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px);}
 
-.toast i {
-  font-size: 20px;
-}
+  /* ============ SECTIONS ============ */
+  section{
+    padding:44px 0;
+    border-top:1px solid var(--line);
+  }
+  section:first-of-type{border-top:none;}
+  .section-label{
+    font-size:12.5px; color:var(--accent); margin-bottom:6px; font-weight:600;
+  }
+  section h2{font-size:1.4rem; margin-bottom:18px;}
+  .card{
+    background:var(--bg-alt);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:18px 20px;
+  }
 
-/* BMC FLOAT */
-.bmc-float {position: fixed; bottom: 15px; right: 15px; background: #ffdd00; color: #000; padding: 6px 10px; border-radius: 30px; display: flex; align-items: center; gap: 5px; font-weight: 600; font-size: 12px; cursor: grab; text-decoration: none; box-shadow: 0px 3px 6px rgba(0,0,0,0.35); z-index: 999; transition: 0.3s;}
-.bmc-float:hover { transform: scale(1.05); background: #ffe347; }
-.bmc-float img { width: 20px; height: 20px; }
-body.light .bmc-float { background: #ffdd00; color: #111; }
+  /* ============ ABOUT / SKILLS ============ */
+  #about p{color:var(--text); font-size:15px;}
+  .skills-list{display:flex; flex-wrap:wrap; gap:8px;}
+  .skills-list span{
+    background:var(--panel); border:1px solid var(--line);
+    padding:6px 13px; border-radius:20px; font-size:13px; color:var(--text-dim);
+  }
 
-.track-card {
-  display: flex;
-  align-items: center;
-  padding: 8px;
-  border-radius: 8px;
-  margin-bottom: 8px;
-  cursor: pointer;
-  transition: background 0.3s;
-  background: transparent; /* dark card */
-}
+  /* ============ MUSIC (mixtape tracklist) ============ */
+  .tracklist{border-top:1px solid var(--line); margin-top:6px;}
+  .track-row{
+    display:flex; align-items:center; gap:12px;
+    padding:10px 4px; border-bottom:1px solid var(--line);
+    cursor:pointer; transition:.15s;
+  }
+  .track-row:hover{background:var(--bg-alt);}
+  .track-row.active{background:var(--panel);}
+  .track-num{
+    width:22px; text-align:right; color:var(--text-dim); font-size:13px; font-variant-numeric:tabular-nums;
+  }
+  .track-row.active .track-num{color:var(--accent);}
+  .track-cover{width:42px; height:42px; border-radius:6px; overflow:hidden; flex-shrink:0;}
+  .track-cover img{width:100%; height:100%; object-fit:cover;}
+  .track-info{flex:1; min-width:0;}
+  .track-title{font-size:14px; font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .track-artist{font-size:12px; color:var(--text-dim);}
+  .track-row .fa-play{color:var(--text-dim); font-size:13px;}
+  .track-row.active .fa-play{color:var(--accent);}
 
-.track-card.active {
-  background: #3b82f6; /* highlight blue */
-}
+  #loadMoreBtn{
+    display:block; margin:16px auto 0; background:none; border:1px solid var(--line);
+    color:var(--text-dim); padding:8px 18px; border-radius:20px; cursor:pointer; font-family:var(--sans); font-size:13px;
+  }
+  #loadMoreBtn:hover{color:var(--accent); border-color:var(--accent);}
 
-.track-card:hover {
-  background: #2563eb;
-}
+  .player{
+    margin-top:22px; border-radius:var(--radius); overflow:hidden; position:relative;
+    background:var(--bg-alt); border:1px solid var(--line);
+  }
+  .player-bg{
+    position:absolute; inset:0; background-size:cover; background-position:center;
+    filter:blur(20px) brightness(0.35); transition:.4s;
+  }
+  .player-content{position:relative; z-index:1; padding:18px; display:flex; flex-direction:column; gap:12px; align-items:center; text-align:center;}
+  .player-cover{width:130px; height:130px; border-radius:10px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,.4);}
+  .player-cover img{width:100%; height:100%; object-fit:cover;}
+  .now-title{font-weight:600; font-size:16px; color:#fff;}
+  .now-artist{font-size:13px; color:rgba(255,255,255,.7); margin-top:2px;}
+  .progress-wrap{display:flex; align-items:center; gap:10px; width:100%; max-width:360px;}
+  .time{font-size:11px; color:rgba(255,255,255,.75); font-variant-numeric:tabular-nums;}
+  .progress{flex:1; height:5px; border-radius:5px; accent-color:var(--accent); cursor:pointer;}
+  .controls{display:flex; gap:10px; align-items:center;}
+  .big-btn{
+    width:38px; height:38px; border-radius:50%; border:1px solid rgba(255,255,255,.2);
+    background:rgba(255,255,255,.08); color:#fff; display:grid; place-items:center;
+    cursor:pointer; font-size:14px; transition:.2s;
+  }
+  .big-btn:hover{background:rgba(255,255,255,.2);}
+  #playBtn{width:46px; height:46px; font-size:16px; background:var(--accent); border:none; color:#1b1e27;}
+  .toggled{color:var(--accent) !important;}
+  .vol{width:90px; accent-color:var(--accent);}
 
-.track-cover img {
-  width: 50px;
-  height: 50px;
-  border-radius: 6px;
-  margin-right: 10px;
-}
+  /* ============ GALLERY ============ */
+  #fileInput{
+    display:inline-block; margin-bottom:14px; color:var(--text-dim); font-size:13px;
+  }
+  #galleryDrop{
+    display:flex; flex-wrap:wrap; gap:8px; padding:14px;
+    border:1.5px dashed var(--line); border-radius:var(--radius);
+    background:var(--bg-alt); min-height:60px;
+  }
+  #galleryDrop p{color:var(--text-dim); font-size:13px; margin:0;}
+  .media-item{width:100px; height:74px; object-fit:cover; border-radius:6px; cursor:pointer;}
+  .sample-videos{display:grid; gap:12px; margin-top:18px; grid-template-columns:repeat(auto-fit,minmax(220px,1fr));}
+  .sample-videos video{width:100%; border-radius:8px;}
 
-#loadMoreBtn {
-  display: inline-block;
-  padding: 10px 0;
-  margin: 20px auto;
-  font-size: 16px;
-  font-weight: 500;
-  color: #fff; /* white text */
-  background: transparent; /* no background */
-  border: none; /* no border */
-  cursor: pointer;
-  text-align: center;
-  text-decoration: underline; /* optional modern style */
-  transition: color 0.3s ease, transform 0.2s ease;
-  display: block;
-}
+  /* ============ LIVE PHOTOS (unsplash) ============ */
+  .unsplash-search{display:flex; gap:8px; margin-bottom:14px;}
+  .unsplash-search input{
+    flex:1; padding:9px 12px; border-radius:8px; border:1px solid var(--line);
+    background:var(--bg-alt); color:var(--text); font-family:var(--sans); outline:none;
+  }
+  .unsplash-search button{
+    padding:9px 16px; border-radius:8px; border:none; background:var(--accent); color:#1b1e27;
+    font-weight:600; cursor:pointer; font-family:var(--sans);
+  }
+  #unsplashGallery{display:grid; grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); gap:8px;}
+  .unsplash-card{aspect-ratio:4/3; border-radius:8px; background-size:cover; background-position:center; cursor:pointer;}
 
-#loadMoreBtn:hover {
-  color: #ffcc00; /* highlight color on hover, optional */
-  transform: translateY(-2px); /* subtle hover lift */
-}
+  /* ============ LIGHTBOX ============ */
+  #lightbox{
+    position:fixed; inset:0; background:rgba(10,10,14,.92); display:flex; justify-content:center; align-items:center;
+    visibility:hidden; opacity:0; transition:.25s; z-index:9999;
+  }
+  #lightbox img{max-width:90%; max-height:85%; border-radius:10px;}
+  #lightbox span.close{position:absolute; top:20px; right:26px; font-size:2.2rem; color:#fff; cursor:pointer;}
+  #lightbox span.arrow{position:absolute; top:50%; font-size:2.2rem; color:#fff; cursor:pointer; transform:translateY(-50%);}
+  #lightbox span.arrow.left{left:20px;} #lightbox span.arrow.right{right:20px;}
 
-/* ===== BASE STYLE ===== */
-body {
-  min-height: 100vh;
-  color: #fff;
-  font-family: 'Poppins', sans-serif;
-  line-height: 1.5;
-  font-size: 14px;
-  padding: 20px;
-  position: relative;
-}
+  /* ============ QUOTES ============ */
+  .quotes-box{
+    font-family:var(--serif); font-size:1.05rem; font-style:italic; color:var(--text);
+    padding:6px 0; min-height:2.4em;
+  }
 
-/* Dark overlay */
-body::before {
-  content: "";
-  position: absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background: rgba(0,0,0,0.25);
-  z-index:-1;
-}
+  /* ============ WEATHER ============ */
+  .weather-floating{
+    position:fixed; left:16px; top:200px; z-index:998;
+    display:flex; align-items:center; gap:6px; padding:6px 12px;
+    background:var(--panel); border:1px solid var(--line); border-radius:20px;
+    font-size:12.5px; cursor:grab; color:var(--text);
+  }
+  .weather-floating img{width:22px;}
 
-/* ===== DARK MODE ===== */
-body.dark {
-  color: #e0e0e0;
-  background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #1a2a6c);
-  background-size: 400% 400%;
-  animation: gradientBG 20s ease infinite;
-}
+  /* ============ WORD OF THE DAY POPUP ============ */
+  .word-overlay{
+    display:none; position:fixed; inset:0; background:rgba(10,10,14,.75); z-index:9999;
+  }
+  .word-overlay.active{display:flex; justify-content:center; align-items:center;}
+  .word-popup{
+    background:var(--bg-alt); border:1px solid var(--line); border-radius:14px;
+    padding:34px; max-width:420px; width:88%; text-align:center; position:relative;
+    color:var(--text);
+  }
+  .close-btn{
+    position:absolute; top:12px; right:16px; font-size:24px; background:none; border:none;
+    color:var(--text-dim); cursor:pointer; line-height:1;
+  }
+  .close-btn:hover{color:var(--text);}
+  .word-header{font-size:12.5px; color:var(--accent); margin-bottom:8px;}
+  .word-main{font-family:var(--serif); font-size:2.1rem; margin:8px 0;}
+  .word-translation{font-size:1.1rem; color:var(--accent-2); font-style:italic; margin:8px 0;}
+  .word-definition{font-size:14px; color:var(--text-dim); margin-top:16px; padding-top:16px; border-top:1px solid var(--line);}
+  .word-example{font-size:13px; color:var(--text-dim); margin-top:10px; font-style:italic;}
 
-@keyframes gradientBG {
-  0% { background-position:0% 50%; }
-  50% { background-position:100% 50%; }
-  100% { background-position:0% 50%; }
-}
+  /* ============ TOAST ============ */
+  .toast{
+    position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px);
+    background:var(--panel); color:var(--text); border:1px solid var(--line);
+    padding:11px 20px; border-radius:10px; font-size:13px; opacity:0; pointer-events:none;
+    transition:.3s; z-index:1000; display:flex; align-items:center; gap:8px;
+  }
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
 
-section, .card {
-  background: rgba(255,255,255,0.08);
-  backdrop-filter: blur(6px);
-  border-radius: 14px;
-}
+  /* ============ FOOTER ============ */
+  footer{
+    text-align:center; padding:34px 20px 90px; border-top:1px solid var(--line); margin-top:20px;
+  }
+  footer p{color:var(--text-dim); font-size:13px;}
+  .footer-icons{margin-top:12px; display:flex; justify-content:center; gap:16px;}
+  .footer-icons a{color:var(--text); font-size:19px;}
+  .footer-icons a:hover{color:var(--accent);}
 
-/* ===== LIGHT MODE (MacOS-style) ===== */
-body.light {
-  color: #1f1f1f;
-  background: #ffffff; /* clean white background like macOS */
-}
+  .bmc-float{
+    position:fixed; bottom:16px; right:16px; background:var(--accent); color:#1b1e27;
+    padding:9px 14px; border-radius:24px; display:flex; align-items:center; gap:7px;
+    font-size:12.5px; font-weight:600; cursor:grab; box-shadow:0 6px 18px rgba(0,0,0,.35); z-index:999;
+  }
+  .bmc-float img{width:18px; height:18px;}
 
-body.light::before {
-  background: none; /* remove dark overlay */
-}
-
-body.light header {
-  background: rgba(255,255,255,0.8);
-  color: #1f1f1f;
-  backdrop-filter: blur(5px);
-}
-
-body.light header h1,
-body.light header p {
-  color: #1f1f1f;
-}
-
-body.light section,
-body.light .card {
-  background: rgba(255,255,255,0.85);
-  color: #1f1f1f;
-  backdrop-filter: blur(6px);
-}
-
-body.light a {
-  color: #007aff; /* macOS-style blue links */
-}
-
-body.light a:hover {
-  color: #0051a8;
-}
-
-body.light button,
-body.light .bmc-float,
-body.light #loadMoreBtn {
-  background: #007aff;
-  color: #fff;
-}
-
-body.light button:hover,
-body.light .bmc-float:hover,
-body.light #loadMoreBtn:hover {
-  background: #0051a8;
-}
-
-/* WORD POPUP */
-body.light .word-popup {
-  background: #f5f5f5;
-  color: #1f1f1f;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-}
-
-body.light .close-btn {
-  color: rgba(0,0,0,0.6);
-}
-
-body.light .close-btn:hover {
-  color: #000;
-}
-
-/* MUSIC PLAYER / TRACK CARDS */
-body.light .track-card {
-  background: #eaeaea;
-  color: #1f1f1f;
-}
-
-body.light .track-card.active {
-  background: #007aff;
-  color: #fff;
-}
-
-body.light .track-card:hover {
-  background: #0051a8;
-}
-
-body.light .full-cover-player .player-content,
-body.light .popup {
-  color: #1f1f1f;
-}
-
-/* LIGHTBOX */
-body.light #lightbox {
-  background: rgba(255,255,255,0.9);
-}
-
-body.light #lightbox span.close,
-body.light #lightbox span.arrow {
-  color: #1f1f1f;
-}
-
-/* QUOTES */
-body.light .quotes-box {
-  background: rgba(255,255,255,0.7);
-  color: #1f1f1f;
-}
-
-/* FOOTER */
-body.light footer {
-  background: rgba(255,255,255,0.85);
-  color: #1f1f1f;
-}
-
-body.light .footer-icons a {
-  color: #1f1f1f;
-}
-
-body.light .footer-icons a:hover {
-  color: #007aff;
-  text-shadow: none;
-}
-
-/* BMC FLOAT */
-body.light .bmc-float {
-  background: #ffdd00;
-  color: #111;
-}
-
-body.light .bmc-float:hover {
-  background: #ffe347;
-}
-
-/* TOAST NOTIFICATION */
-body.light .toast {
-  background: rgba(240,240,240,0.95);
-  color: #1f1f1f;
-}
-
-/* TRACK PLAYER BUTTONS */
-body.light .big-btn,
-body.light .btn-play {
-  border: 1px solid rgba(0,0,0,0.15);
-  background: rgba(255,255,255,0.85);
-  color: #1f1f1f;
-}
-
-body.light .big-btn:hover,
-body.light .btn-play:hover {
-  background: rgba(255,255,255,1);
-}
-
-/* POPUP ANIMATION COLORS */
-body.light .word-main {
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-}
-
+  @media(max-width:600px){
+    .profile-img{width:88px; height:88px;}
+    .player-cover{width:100px; height:100px;}
+  }
 </style>
 </head>
-
-
 <body>
 
- <!-- Word of the Day Pop-up -->
-    <div class="word-overlay" id="wordOverlay">
-        <div class="word-popup">
-            <button class="close-btn" onclick="closePopup()">×</button>
-            <div class="word-header">Word of the Day</div>
-            <div class="word-main" id="wordMain"></div>
-            <div class="word-translation" id="wordTranslation"></div>
-            <div class="word-definition" id="wordDefinition"></div>
-            <div class="word-example" id="wordExample"></div>
-        </div>
-    </div>
-
-<div id="hamburgerMenu">
-  <div id="hamburgerIcon">
-    <span></span>
-    <span></span>
-    <span></span>
+<!-- Word of the Day -->
+<div class="word-overlay" id="wordOverlay">
+  <div class="word-popup">
+    <button class="close-btn" onclick="closeWordPopup()">&times;</button>
+    <div class="word-header">Word of the Day</div>
+    <div class="word-main" id="wordMain"></div>
+    <div class="word-translation" id="wordTranslation"></div>
+    <div class="word-definition" id="wordDefinition"></div>
+    <div class="word-example" id="wordExample"></div>
   </div>
+</div>
 
-<ul id="menuLinks">
-  <li><a href="#about" title="About Me"><i class="fas fa-user"></i></a></li>
-  <li><a href="#skills" title="Skills"><i class="fas fa-code"></i></a></li>
-  <li><a href="#music" title="Music"><i class="fas fa-music"></i></a></li>
-  <li><a href="#gallery" title="Gallery"><i class="fas fa-image"></i></a></li>
-  <li><a href="#unsplash" title="Live Photos"><i class="fas fa-camera"></i></a></li>
-  <li><a href="#quotes" title="Quotes"><i class="fas fa-quote-left"></i></a></li>
-</ul>
-
+<!-- Nav -->
+<div id="hamburgerMenu">
+  <div id="hamburgerIcon"><span></span><span></span><span></span></div>
+  <ul id="menuLinks">
+    <li><a href="#about" title="About"><i class="fas fa-user"></i></a></li>
+    <li><a href="#skills" title="Skills"><i class="fas fa-code"></i></a></li>
+    <li><a href="#music" title="Music"><i class="fas fa-music"></i></a></li>
+    <li><a href="#gallery" title="Gallery"><i class="fas fa-image"></i></a></li>
+    <li><a href="#unsplash" title="Live Photos"><i class="fas fa-camera"></i></a></li>
+    <li><a href="#quotes" title="Quotes"><i class="fas fa-quote-left"></i></a></li>
+  </ul>
 </div>
 
 <div class="weather-floating" id="weatherWidget">
   <img id="weatherIcon" src="">
-  <span id="weatherTemp">--°C</span>
+  <span id="weatherTemp">--&deg;C</span>
   <span id="weatherCity">City</span>
 </div>
 
-<header>
-  <h1>Gene Cartalla Guardiana</h1>
-  <p>Alias: <strong>Aloygene</strong> • Beginner Web Developer</p>
-  <button id="darkToggle">Dark Mode</button>
+<header class="top">
+  <div class="toggle-row"><button id="darkToggle">Light mode</button></div>
+  <div class="avatar-block">
+    <img src="media/luffy_veut_devenir_roi_pirate_9e3ac603-2dea-44fe-bb1f-74b234fdf16f.jpg" class="profile-img" alt="Gene">
+    <div>
+      <h1>Gene Cartalla Guardiana</h1>
+      <div class="alias-line">Also known as <strong>Aloygene</strong> &middot; self-taught web developer</div>
+    </div>
+    <div class="status-row">
+      <span><i class="far fa-clock"></i> <span id="headerTime">--:--</span></span>
+      <span><i class="fas fa-location-dot"></i> Cebu, Philippines</span>
+    </div>
+  </div>
 </header>
 
-<div class="profile-weather-container">
-  <div class="time-card"><p id="headerTime">Loading...</p></div>
-  <img src="media/luffy_veut_devenir_roi_pirate_9e3ac603-2dea-44fe-bb1f-74b234fdf16f.jpg" class="profile-img">
-</div>
-<section id="unsplash">
-  <h2>Live Photos</h2>
-  <div class="unsplash-search">
-    <input id="unsplashSearch" placeholder="Search photos...">
-    <button id="searchUnsplashBtn">Search</button>
-  </div>
-  <div id="unsplashGallery"></div>
-</section>
-<section id="quotes">
-  <h2>Quotes</h2>
-  <div class="quotes-box" id="quotesBox">Loading…</div>
-</section> 
-<!-- Toast Notification -->
-<div class="toast" id="toast">
-  <i class="fas fa-check-circle"></i>
-  <span id="toastMessage">Success!</span>
-</div>
-<section class="music-section">
-  <h2>🎵 My Music Tracks</h2>
-  <div class="tracks-grid" id="tracksGrid"></div>
-  <button id="loadMoreBtn">Load More</button>
-  <div class="player full-cover-player">
-    <div class="player-bg" id="playerBg"></div>
-    <div class="player-content">
-      <div class="player-cover"><img id="playerCover" src="" alt="cover"></div>
-      <div class="track-now" id="nowInfo">
-        <div class="now-title">Not Playing</div>
-        <div class="now-artist"></div>
-      </div>
-      <div class="progress-wrap">
-        <span class="time" id="playerCurrentTime">0:00</span>
-        <input type="range" id="progress" class="progress" min="0" max="100" value="0">
-        <span class="time" id="duration">0:00</span>
-      </div>
-      <div class="controls">
-        <button class="big-btn" id="prevBtn">⏮</button>
-        <button class="big-btn" id="playBtn">▶️</button>
-        <button class="big-btn" id="nextBtn">⏭</button>
-        <button class="big-btn" id="shuffleBtn">🔀</button>
-        <button class="big-btn" id="repeatBtn">🔁</button>
-      </div>
-      <input type="range" id="volume" class="vol" min="0" max="1" step="0.01" value="0.9">
-    </div>
-    <audio id="audio" preload="metadata"></audio>
-  </div>
-</section>
+<div class="wrap">
 
-<section id="gallery">
-  <h2>Local Photo & Video Gallery</h2>
-  <input type="file" id="fileInput" multiple accept="image/*,video/*">
-  <div id="galleryDrop"><p>Select or drag & drop photos/videos</p></div>
-  <div class="sample-videos">
-    <video src="media/Every Dangerous Hacking Gadgets Explained in 8 Minutes.mp4" controls></video>
-    <video src="media/Every Networking Technology Explained In 12 Minutes.mp4" controls></video>
-    <video src="media/Every Internet Tracking Method Explained In 12 Minutes.mp4" controls></video>
-    <video src="media/Building My First Gaming PC with No Experience... (High-End).mp4" controls></video>
-  </div>
-</section>
-<section id="skills">
-  <h2>Skills</h2>
-  <div class="card">HTML • CSS • JavaScript • Responsive Design • UI Design</div>
-</section>
-<section id="about">
-  <h2>About Me</h2>
-  <div class="card">
-     <p>
-    I’m a self-taught web developer passionate about creating responsive, modern, and user-friendly websites. I specialize in HTML, CSS, and JavaScript for frontend development, and I also have basic backend experience using <strong>Python and Flask</strong>. I enjoy building live projects, solving real-world problems, and continuously improving my skills in web development.
-  </p>
-  </div>
-</section>
-<!-- Lightbox -->
+  <section id="about">
+    <div class="section-label">About</div>
+    <h2>What I do</h2>
+    <p>I'm a self-taught web developer who enjoys building responsive, modern, and user-friendly sites. I work mostly in HTML, CSS, and JavaScript on the frontend, with some backend experience using Python and Flask. I like shipping real, working projects and learning by building rather than just reading about it.</p>
+  </section>
+
+  <section id="skills">
+    <div class="section-label">Skills</div>
+    <h2>What I work with</h2>
+    <div class="skills-list">
+      <span>HTML</span><span>CSS</span><span>JavaScript</span><span>Responsive Design</span>
+      <span>Python</span><span>Flask</span><span>UI Design</span>
+    </div>
+  </section>
+
+  <section id="music" class="music-section">
+    <div class="section-label">Playlist</div>
+    <h2>What's on repeat</h2>
+    <div class="tracklist" id="tracksGrid"></div>
+    <button id="loadMoreBtn">Show more tracks</button>
+
+    <div class="player">
+      <div class="player-bg" id="playerBg"></div>
+      <div class="player-content">
+        <div class="player-cover"><img id="playerCover" src="" alt="cover"></div>
+        <div>
+          <div class="now-title" id="nowTitle">Not playing</div>
+          <div class="now-artist" id="nowArtist"></div>
+        </div>
+        <div class="progress-wrap">
+          <span class="time" id="playerCurrentTime">0:00</span>
+          <input type="range" id="progress" class="progress" min="0" max="100" value="0">
+          <span class="time" id="duration">0:00</span>
+        </div>
+        <div class="controls">
+          <button class="big-btn" id="shuffleBtn" title="Shuffle"><i class="fas fa-shuffle"></i></button>
+          <button class="big-btn" id="prevBtn" title="Previous"><i class="fas fa-backward-step"></i></button>
+          <button class="big-btn" id="playBtn" title="Play"><i class="fas fa-play"></i></button>
+          <button class="big-btn" id="nextBtn" title="Next"><i class="fas fa-forward-step"></i></button>
+          <button class="big-btn" id="repeatBtn" title="Repeat"><i class="fas fa-repeat"></i></button>
+        </div>
+        <input type="range" id="volume" class="vol" min="0" max="1" step="0.01" value="0.9">
+        <audio id="audio" preload="metadata"></audio>
+      </div>
+    </div>
+  </section>
+
+  <section id="gallery">
+    <div class="section-label">Gallery</div>
+    <h2>Photos &amp; clips</h2>
+    <input type="file" id="fileInput" multiple accept="image/*,video/*">
+    <div id="galleryDrop"><p>Select or drag &amp; drop photos/videos to preview them here</p></div>
+    <div class="sample-videos">
+      <video src="media/Every Dangerous Hacking Gadgets Explained in 8 Minutes.mp4" controls></video>
+      <video src="media/Every Networking Technology Explained In 12 Minutes.mp4" controls></video>
+      <video src="media/Every Internet Tracking Method Explained In 12 Minutes.mp4" controls></video>
+      <video src="media/Building My First Gaming PC with No Experience... (High-End).mp4" controls></video>
+    </div>
+  </section>
+
+  <section id="unsplash">
+    <div class="section-label">Live photos</div>
+    <h2>Search Unsplash</h2>
+    <div class="unsplash-search">
+      <input id="unsplashSearch" placeholder="Search photos...">
+      <button id="searchUnsplashBtn">Search</button>
+    </div>
+    <div id="unsplashGallery"></div>
+  </section>
+
+  <section id="quotes">
+    <div class="section-label">Notes to self</div>
+    <h2>Quotes</h2>
+    <div class="quotes-box" id="quotesBox">Loading&hellip;</div>
+  </section>
+
+</div>
+
 <div id="lightbox">
   <span class="close">&times;</span>
   <span class="arrow left">&#10094;</span>
@@ -1018,62 +444,79 @@ body.light .word-main {
 </div>
 
 <footer>
-  <p>© 2025 🤘Aloygene🤘</p>
+  <p>&copy; 2026 Aloygene</p>
   <div class="footer-icons">
-    <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
-    <a href="https://x.com" target="_blank"><i class="fab fa-x-twitter"></i></a>
-    <a href="ytclone/index.html" target="_blank"><i class="fab fa-youtube"></i></a>
-    <a href="mailto:guardianagene6@gmail.com"><i class="fas fa-envelope"></i></a>
-    <a href="weather/index.html" target="_blank" title="My Weather App">
-    <i class="fas fa-cloud-sun"></i>
-  </a>
-    <a href="https://seven33.site" target="_blank" aria-label="Website">
-  <i class="fas fa-globe"></i>
-</a>
+    <a href="https://facebook.com" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+    <a href="https://x.com" target="_blank" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+    <a href="ytclone/index.html" target="_blank" aria-label="YouTube project"><i class="fab fa-youtube"></i></a>
+    <a href="mailto:guardianagene6@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+    <a href="weather/index.html" target="_blank" aria-label="Weather app"><i class="fas fa-cloud-sun"></i></a>
+    <a href="https://seven33.site" target="_blank" aria-label="Main portfolio"><i class="fas fa-globe"></i></a>
   </div>
 </footer>
 
+<div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="toastMessage">Done</span></div>
+
 <a class="bmc-float" href="https://www.maya.ph/app/registration?invite=@gseven33" target="_blank">
-    <img src="https://cdn-icons-png.flaticon.com/512/924/924514.png" alt="Coffee">Buy Me a Coffee
+  <img src="https://cdn-icons-png.flaticon.com/512/924/924514.png" alt="">Buy me a coffee
 </a>
 
 <script>
-/* ================= DARK MODE ================= */
-document.getElementById("darkToggle").onclick = () => {
-  document.body.classList.toggle("dark");
+/* ================= THEME TOGGLE ================= */
+const darkToggle = document.getElementById("darkToggle");
+darkToggle.onclick = () => {
+  document.body.classList.toggle("light");
+  darkToggle.textContent = document.body.classList.contains("light") ? "Dark mode" : "Light mode";
 };
 
 /* ================= LIVE TIME ================= */
 function updateTime(){
-  const now = new Date();
   document.getElementById("headerTime").textContent =
-    now.toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit"});
+    new Date().toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit"});
 }
 setInterval(updateTime,1000);
 updateTime();
+
+/* ================= TOAST ================= */
+function showToast(message){
+  const toast = document.getElementById("toast");
+  document.getElementById("toastMessage").textContent = message;
+  toast.classList.add("show");
+  setTimeout(()=> toast.classList.remove("show"), 2500);
+}
+
+/* ================= HAMBURGER NAV ================= */
+const hamburgerMenu = document.getElementById("hamburgerMenu");
+const hamburgerIcon = document.getElementById("hamburgerIcon");
+document.querySelectorAll("#menuLinks a").forEach(a=>{
+  a.onclick = e => {
+    e.preventDefault();
+    document.querySelector(a.getAttribute("href"))?.scrollIntoView({behavior:"smooth"});
+    hamburgerMenu.classList.remove("open");
+  };
+});
+hamburgerIcon.onclick = () => hamburgerMenu.classList.toggle("open");
 
 /* ================= LOCAL GALLERY ================= */
 const fileInput = document.getElementById("fileInput");
 const galleryDrop = document.getElementById("galleryDrop");
 
 fileInput.addEventListener("change", () => {
+  if(!fileInput.files.length) return;
+  galleryDrop.querySelector("p")?.remove();
   [...fileInput.files].forEach(file => {
     const url = URL.createObjectURL(file);
-
-    if (file.type.startsWith("image")) {
+    if(file.type.startsWith("image")){
       const img = document.createElement("img");
-      img.src = url;
-      img.className = "media-item";
+      img.src = url; img.className = "media-item";
       galleryDrop.appendChild(img);
-    } 
-    else if (file.type.startsWith("video")) {
+    } else if(file.type.startsWith("video")){
       const video = document.createElement("video");
-      video.src = url;
-      video.controls = true;
-      video.className = "media-item";
+      video.src = url; video.controls = true; video.className = "media-item";
       galleryDrop.appendChild(video);
     }
   });
+  showToast(`${fileInput.files.length} file(s) added`);
 });
 
 /* ================= LIGHTBOX ================= */
@@ -1082,30 +525,32 @@ const lightboxImg = lightbox.querySelector("img");
 let lightboxItems = [];
 let currentIndex = 0;
 
+function openLightbox(items, index){
+  lightboxItems = items;
+  currentIndex = index;
+  lightboxImg.src = items[index];
+  lightbox.style.visibility = "visible";
+  lightbox.style.opacity = "1";
+}
 galleryDrop.addEventListener("click", e => {
-  if (e.target.tagName === "IMG") {
-    lightboxItems = [...galleryDrop.querySelectorAll("img")];
-    currentIndex = lightboxItems.indexOf(e.target);
-    lightboxImg.src = e.target.src;
-    lightbox.style.visibility = "visible";
-    lightbox.style.opacity = "1";
+  if(e.target.tagName === "IMG"){
+    const imgs = [...galleryDrop.querySelectorAll("img")];
+    openLightbox(imgs.map(i=>i.src), imgs.indexOf(e.target));
   }
 });
-
 lightbox.querySelector(".close").onclick = () => {
-  lightbox.style.visibility = "hidden";
-  lightbox.style.opacity = "0";
+  lightbox.style.visibility = "hidden"; lightbox.style.opacity = "0";
 };
 lightbox.querySelector(".arrow.left").onclick = () => {
   currentIndex = (currentIndex - 1 + lightboxItems.length) % lightboxItems.length;
-  lightboxImg.src = lightboxItems[currentIndex].src;
+  lightboxImg.src = lightboxItems[currentIndex];
 };
 lightbox.querySelector(".arrow.right").onclick = () => {
   currentIndex = (currentIndex + 1) % lightboxItems.length;
-  lightboxImg.src = lightboxItems[currentIndex].src;
+  lightboxImg.src = lightboxItems[currentIndex];
 };
 
-/* ================= UNSPLASH ================= */
+/* ================= UNSPLASH SEARCH ================= */
 const unsplashKey = "M6s7dxtyudzoG5xvzUM-oBUfrx_SmJu11VQ10txCl7U";
 const unsplashGallery = document.getElementById("unsplashGallery");
 let unsplashImages = [];
@@ -1113,43 +558,33 @@ let unsplashImages = [];
 async function searchUnsplash(){
   const q = document.getElementById("unsplashSearch").value.trim();
   if(!q) return;
-
   unsplashGallery.innerHTML = "Loading...";
   unsplashImages = [];
-
   try{
-    const res = await fetch(
-      `https://api.unsplash.com/search/photos?query=${q}&per_page=12&client_id=${unsplashKey}`
-    );
+    const res = await fetch(`https://api.unsplash.com/search/photos?query=${encodeURIComponent(q)}&per_page=12&client_id=${unsplashKey}`);
     const data = await res.json();
     unsplashGallery.innerHTML = "";
-
-    data.results.forEach((p,i)=>{
+    (data.results||[]).forEach((p,i)=>{
       unsplashImages.push(p.urls.full);
       const div = document.createElement("div");
-      div.className="unsplash-card";
-      div.style.backgroundImage=`url(${p.urls.small})`;
-      div.onclick=()=>{
-        lightboxImg.src=unsplashImages[i];
-        lightbox.style.visibility="visible";
-        lightbox.style.opacity="1";
-      };
+      div.className = "unsplash-card";
+      div.style.backgroundImage = `url(${p.urls.small})`;
+      div.onclick = () => openLightbox(unsplashImages, i);
       unsplashGallery.appendChild(div);
     });
+    if(!data.results || !data.results.length) unsplashGallery.textContent = "No results found";
   }catch(e){
-    unsplashGallery.textContent="Failed to load images";
+    unsplashGallery.textContent = "Failed to load images";
   }
 }
 document.getElementById("searchUnsplashBtn").onclick = searchUnsplash;
-document.getElementById("unsplashSearch").onkeypress = e => {
-  if(e.key==="Enter") searchUnsplash();
-};
+document.getElementById("unsplashSearch").onkeypress = e => { if(e.key==="Enter") searchUnsplash(); };
 
 /* ================= QUOTES ================= */
-const quotesBox=document.getElementById("quotesBox");
-const quotes=[
+const quotesBox = document.getElementById("quotesBox");
+const quotes = [
   "Keep it simple, keep it smart.",
-  "Code is like humor. When you have to explain it, it’s bad.",
+  "Code is like humor. When you have to explain it, it's bad.",
   "Strive for progress, not perfection.",
   "Learning never exhausts the mind.",
   "Success grows quietly in the moments no one sees.",
@@ -1157,52 +592,50 @@ const quotes=[
   "Peace begins when you stop arguing with what you cannot control.",
   "Growth feels uncomfortable, but comfort never creates growth.",
   "Sometimes the hardest battles are the ones fought inside your mind.",
-  "Strength isn’t loud; it’s the courage to keep going."
+  "Strength isn't loud; it's the courage to keep going."
 ];
-function showQuote(){
-  quotesBox.textContent = quotes[Math.floor(Math.random()*quotes.length)];
-}
+function showQuote(){ quotesBox.textContent = quotes[Math.floor(Math.random()*quotes.length)]; }
 showQuote();
-setInterval(showQuote,8000);
+setInterval(showQuote, 8000);
 
 /* ================= MUSIC PLAYER ================= */
-const tracks=[
- {title:"Ode To My Family",artist:"Dolores O_Riordan",cover:"media/IMG_20260106_110011.jpg",src:"media/The Cranberries- Ode To My Family (Lyrics).m4a"},
- {title:"When You_re Gone",artist:"Dolores O_Riordan",cover:"media/IMG_20260106_110026.jpg",src:"media/The Cranberries - When You_re Gone.m4a"},
- {title:"Ordinary day",artist:"Dolores O_Riordan",cover:"media/IMG_20260106_110042.jpg",src:"media/Dolores O_Riordan - Ordinary day (Official Audio).m4a"},
+const tracks = [
+ {title:"Ode To My Family",artist:"Dolores O'Riordan",cover:"media/IMG_20260106_110011.jpg",src:"media/The Cranberries- Ode To My Family (Lyrics).m4a"},
+ {title:"When You're Gone",artist:"Dolores O'Riordan",cover:"media/IMG_20260106_110026.jpg",src:"media/The Cranberries - When You're Gone.m4a"},
+ {title:"Ordinary day",artist:"Dolores O'Riordan",cover:"media/IMG_20260106_110042.jpg",src:"media/Dolores O'Riordan - Ordinary day (Official Audio).m4a"},
  {title:"All I Wanted",artist:"Paramore",cover:"media/IMG_20260103_131746.jpg",src:"media/Paramore - All I Wanted (Official Audio).m4a"},
- {title:"Last Hope", artist:"PARAMORE", cover:"media/IMG_20260103_131801.jpg",src:"media/Paramore - Last Hope (Official Audio).m4a"},
- {title:"My Heart",artist:"PARAMORE",cover:"media/IMG_20251229_105941.jpg",src:"media/My Heart (lyrics) - Paramore.m4a"},
- {title:"Not Gonna Die",artist:"SKILLET",cover:"media/IMG_20251224_094323.jpg",src:"media/Skillet - _Not Gonna Die_ (Lyric Video).m4a"},
+ {title:"Last Hope",artist:"Paramore",cover:"media/IMG_20260103_131801.jpg",src:"media/Paramore - Last Hope (Official Audio).m4a"},
+ {title:"My Heart",artist:"Paramore",cover:"media/IMG_20251229_105941.jpg",src:"media/My Heart (lyrics) - Paramore.m4a"},
+ {title:"Not Gonna Die",artist:"Skillet",cover:"media/IMG_20251224_094323.jpg",src:"media/Skillet - 'Not Gonna Die' (Lyric Video).m4a"},
  {title:"Awake And Alive",artist:"Skillet",cover:"media/IMG_20260109_155902.jpg",src:"media/Skillet - Awake And Alive (Lyrics).m4a"},
  {title:"Zoe Jane",artist:"Staind",cover:"media/IMG_20260109_161706.jpg",src:"media/Zoe Jane.m4a"},
  {title:"Falling",artist:"Staind",cover:"media/IMG_20260109_155835.jpg",src:"media/Staind-Falling LYRICS.m4a"},
- {title:"Shut Up",artist:"Blink182",cover:"media/IMG_20260109_155803.jpg",src:"media/Shut Up.m4a"},
- {title:"I Miss You",artist:"BLINK182",cover:"media/IMG_20251222_193518.jpg",src:"media/blink-182 - I Miss You (Lyrics).m4a"},
- {title:"Points Of Authority",artist:"LINKIN PARK",cover:"media/IMG_20260107_113843.jpg",src:"media/Points Of Authority - Linkin Park (Hybrid Theory).m4a"},
- {title:"Screaming Infedilities",artist:"Dashboard Confessional",cover:"media/Dc.jpeg",src:"media/Dashboard Confessional - Screaming Infidelities (Official Music Video featuring Aaron Paul).m4a"},
- {title:"Comfortable Liar",artist:"CHEVELLE",cover:"media/IMG_20260107_113750.jpg",src:"media/Chevelle - Comfortable Liar (Official Audio).m4a"},
- {title:"The Red",artist:"CHEVELLE",cover:"media/IMG_20260107_113733.jpg",src:"media/Chevelle - The Red (Lyrics).m4a"},
+ {title:"Shut Up",artist:"Blink-182",cover:"media/IMG_20260109_155803.jpg",src:"media/Shut Up.m4a"},
+ {title:"I Miss You",artist:"Blink-182",cover:"media/IMG_20251222_193518.jpg",src:"media/blink-182 - I Miss You (Lyrics).m4a"},
+ {title:"Points Of Authority",artist:"Linkin Park",cover:"media/IMG_20260107_113843.jpg",src:"media/Points Of Authority - Linkin Park (Hybrid Theory).m4a"},
+ {title:"Screaming Infidelities",artist:"Dashboard Confessional",cover:"media/Dc.jpeg",src:"media/Dashboard Confessional - Screaming Infidelities (Official Music Video featuring Aaron Paul).m4a"},
+ {title:"Comfortable Liar",artist:"Chevelle",cover:"media/IMG_20260107_113750.jpg",src:"media/Chevelle - Comfortable Liar (Official Audio).m4a"},
+ {title:"The Red",artist:"Chevelle",cover:"media/IMG_20260107_113733.jpg",src:"media/Chevelle - The Red (Lyrics).m4a"},
  {title:"If I Were You",artist:"Hoobastank",cover:"media/ab67616d0000b2737a394930b8108eb1e1ae904f.jpeg",src:"media/Hoobastank - If I Were You.m4a"},
- {title:"Away",artist:"BREAKING BENJAMIN",cover:"media/IMG_20251222_214957.jpg",src:"media/Away.m4a"},
- {title:"Without You Here",artist:"FINCH",cover:"media/IMG_20251222_214917.jpg",src:"media/Without You Here.m4a"},
- {title:"Mistress", artist:"DISTURBED", cover:"media/IMG_20260103_131534.jpg",src:"media/Disturbed - Mistress [Official Audio].m4a"},
- {title:"Red Is The New Black", artist:"Funeral For a Friend", cover:"media/IMG_20260103_142223.jpg", src:"media/Red Is The New Black Lyric Funeral For a Friend.m4a"},
- {title:"Broken Down",artist:"SEVENDUST",cover:"media/IMG_20251224_093324.jpg",src:"media/Sevendust - Broken Down (with lyrics).m4a"},
- {title:"Hang On",artist:"SEETHER",cover:"media/IMG_20251224_093353.jpg",src:"media/Seether - Hang On (Official Visualizer).m4a"},
- {title:"Running Away",artist:"HOOBASTANK",cover:"media/IMG_20251224_093430.jpg",src:"media/Hoobastank - Running Away.m4a"},
- {title:"Playlist",artist:"YELLOWCARD",cover:"media/IMG_20251224_224751.jpg",src:"media/Playlist _ Yellowcard(옐로우카드).m4a"},
- {title:"Ocean Wide",artist:"THE AFTERS",cover:"media/IMG_20251222_222810.jpg",src:"media/Ocean Wide - The Afters - song lyrics.m4a"},
+ {title:"Away",artist:"Breaking Benjamin",cover:"media/IMG_20251222_214957.jpg",src:"media/Away.m4a"},
+ {title:"Without You Here",artist:"Finch",cover:"media/IMG_20251222_214917.jpg",src:"media/Without You Here.m4a"},
+ {title:"Mistress",artist:"Disturbed",cover:"media/IMG_20260103_131534.jpg",src:"media/Disturbed - Mistress [Official Audio].m4a"},
+ {title:"Red Is The New Black",artist:"Funeral For a Friend",cover:"media/IMG_20260103_142223.jpg",src:"media/Red Is The New Black Lyric Funeral For a Friend.m4a"},
+ {title:"Broken Down",artist:"Sevendust",cover:"media/IMG_20251224_093324.jpg",src:"media/Sevendust - Broken Down (with lyrics).m4a"},
+ {title:"Hang On",artist:"Seether",cover:"media/IMG_20251224_093353.jpg",src:"media/Seether - Hang On (Official Visualizer).m4a"},
+ {title:"Running Away",artist:"Hoobastank",cover:"media/IMG_20251224_093430.jpg",src:"media/Hoobastank - Running Away.m4a"},
+ {title:"Playlist",artist:"Yellowcard",cover:"media/IMG_20251224_224751.jpg",src:"media/Playlist _ Yellowcard(옐로우카드).m4a"},
+ {title:"Ocean Wide",artist:"The Afters",cover:"media/IMG_20251222_222810.jpg",src:"media/Ocean Wide - The Afters - song lyrics.m4a"},
  {title:"Sleeping Awake",artist:"P.O.D",cover:"media/IMG_20251222_221953.jpg",src:"media/P.O.D. - Sleeping Awake (Official Music Video).m4a"},
  {title:"Beautiful",artist:"P.O.D",cover:"media/IMG_20251222_222010.jpg",src:"media/P.O.D. - Beautiful (audio).m4a"},
  {title:"Execute the Sounds",artist:"P.O.D",cover:"media/IMG_20251222_222444.jpg",src:"media/Execute the Sounds.m4a"},
- {title:"SITTING Ducks",artist:"SMILE EMPTY SOUL",cover:"media/IMG_20251222_201922.jpg",src:"media/Sitting Ducks.m4a"},
- {title:"L.A. River",artist:"SMILE EMPTY SOUL",cover:"media/IMG_20251222_201607.jpg",src:"media/Smile Empty Soul - L.A. River.m4a"},
- {title:"Landslide",artist:"SMILE EMPTY SOUL",cover:"media/IMG_20251222_202325.jpg",src:"media/Landslide.m4a"},
- {title:"FINAL MASQUERADE",artist:"LINKIN PARK",cover:"media/happy-22nd-anniversary-to-hybrid-theory-one-of-the-most-v0-6yuogntjpnv91.png",src:"media/Linkin Park_ Final Masquerade (Lyrics).m4a"},
- {title:"Heavy ft. Kiara",artist:"LINKIN PARK",cover:"media/chester&kiara.jpeg",src:"media/Linkin Park - Heavy ft. Kiiara (Lyrics).m4a"},
- {title:"Battle Symphony",artist:"LINKIN PARK",cover:"media/IMG_20251207_120239.jpg",src:"media/Linkin Park - Battle Symphony [Lyrics].m4a"},
- {title:"As Long As It Matters",artist:"GIN BLOssoms",cover:"media/IMG_20251224_110112.jpg",src:"media/Gin Blossoms - As Long As It Matters (lyrics).m4a"}
+ {title:"Sitting Ducks",artist:"Smile Empty Soul",cover:"media/IMG_20251222_201922.jpg",src:"media/Sitting Ducks.m4a"},
+ {title:"L.A. River",artist:"Smile Empty Soul",cover:"media/IMG_20251222_201607.jpg",src:"media/Smile Empty Soul - L.A. River.m4a"},
+ {title:"Landslide",artist:"Smile Empty Soul",cover:"media/IMG_20251222_202325.jpg",src:"media/Landslide.m4a"},
+ {title:"Final Masquerade",artist:"Linkin Park",cover:"media/happy-22nd-anniversary-to-hybrid-theory-one-of-the-most-v0-6yuogntjpnv91.png",src:"media/Linkin Park_ Final Masquerade (Lyrics).m4a"},
+ {title:"Heavy ft. Kiara",artist:"Linkin Park",cover:"media/chester&kiara.jpeg",src:"media/Linkin Park - Heavy ft. Kiiara (Lyrics).m4a"},
+ {title:"Battle Symphony",artist:"Linkin Park",cover:"media/IMG_20251207_120239.jpg",src:"media/Linkin Park - Battle Symphony [Lyrics].m4a"},
+ {title:"As Long As It Matters",artist:"Gin Blossoms",cover:"media/IMG_20251224_110112.jpg",src:"media/Gin Blossoms - As Long As It Matters (lyrics).m4a"}
 ];
 
 const tracksGrid = document.getElementById("tracksGrid");
@@ -1214,20 +647,19 @@ const progress = document.getElementById("progress");
 const volume = document.getElementById("volume");
 const playerCover = document.getElementById("playerCover");
 const playerBg = document.getElementById("playerBg");
-const nowTitle = document.querySelector(".now-title");
-const nowArtist = document.querySelector(".now-artist");
+const nowTitle = document.getElementById("nowTitle");
+const nowArtist = document.getElementById("nowArtist");
 const shuffleBtn = document.getElementById("shuffleBtn");
 const repeatBtn = document.getElementById("repeatBtn");
 const loadMoreBtn = document.getElementById("loadMoreBtn");
 const playerCurrentTime = document.getElementById("playerCurrentTime");
-const duration = document.getElementById("duration");
+const durationEl = document.getElementById("duration");
 
 let currentTrack = 0;
 let isShuffle = false;
-let repeatState = 0; // 0=off, 1=repeat one, 2=repeat all
-let tracksToShow = 8; // initial tracks
+let repeatState = 0; // 0 off, 1 repeat-one, 2 repeat-all
+let tracksToShow = 8;
 
-// ===== LOAD TRACK =====
 function loadTrack(i){
   const t = tracks[i];
   audio.src = t.src;
@@ -1235,612 +667,168 @@ function loadTrack(i){
   playerBg.style.backgroundImage = `url(${t.cover})`;
   nowTitle.textContent = t.title;
   nowArtist.textContent = t.artist;
-
-  document.querySelectorAll(".track-card").forEach(c => c.classList.remove("active"));
-  const card = document.querySelectorAll(".track-card")[i];
-  if(card) card.classList.add("active");
+  document.querySelectorAll(".track-row").forEach(c=>c.classList.remove("active"));
+  document.querySelectorAll(".track-row")[i]?.classList.add("active");
 }
 
-// ===== RENDER TRACKS =====
 function renderTracks(limit){
   tracksGrid.innerHTML = "";
   for(let i=0;i<Math.min(limit,tracks.length);i++){
     const t = tracks[i];
-    const div = document.createElement("div");
-    div.className = "track-card";
-    div.innerHTML = `
-      <div class="track-cover"><img src="${t.cover}"></div>
+    const row = document.createElement("div");
+    row.className = "track-row" + (i===currentTrack ? " active" : "");
+    row.innerHTML = `
+      <span class="track-num">${i+1}</span>
+      <div class="track-cover"><img src="${t.cover}" alt=""></div>
       <div class="track-info">
         <div class="track-title">${t.title}</div>
         <div class="track-artist">${t.artist}</div>
-      </div>`;
-    div.onclick = () => {
-      currentTrack = i;
-      loadTrack(i);
-      audio.play();
-    };
-    tracksGrid.appendChild(div);
+      </div>
+      <i class="fas fa-play"></i>`;
+    row.onclick = () => { currentTrack = i; loadTrack(i); audio.play(); };
+    tracksGrid.appendChild(row);
   }
   loadMoreBtn.style.display = (limit >= tracks.length) ? "none" : "block";
 }
 
-// ===== INITIAL RENDER =====
 renderTracks(tracksToShow);
 loadTrack(0);
 
-// ===== PLAY / PAUSE =====
-playBtn.onclick = () => { if(audio.paused) audio.play(); else audio.pause(); };
-audio.onplay = () => { playBtn.textContent="⏸"; playerCover.classList.add("playing"); };
-audio.onpause = () => { playBtn.textContent="▶️"; playerCover.classList.remove("playing"); };
+playBtn.onclick = () => { audio.paused ? audio.play() : audio.pause(); };
+audio.onplay = () => { playBtn.innerHTML = '<i class="fas fa-pause"></i>'; };
+audio.onpause = () => { playBtn.innerHTML = '<i class="fas fa-play"></i>'; };
 
-// ===== NEXT / PREV =====
 function playNextTrack(){
-  if(repeatState===1){ audio.currentTime=0; audio.play(); return; } // repeat one
+  if(repeatState === 1){ audio.currentTime = 0; audio.play(); return; }
   if(isShuffle){
-    let next; do { next=Math.floor(Math.random()*tracks.length);} while(next===currentTrack && tracks.length>1);
-    currentTrack=next;
+    let next; do{ next = Math.floor(Math.random()*tracks.length); } while(next===currentTrack && tracks.length>1);
+    currentTrack = next;
   } else {
-    currentTrack=(currentTrack+1)%tracks.length;
+    currentTrack = (currentTrack+1) % tracks.length;
     if(repeatState===0 && currentTrack===0){ audio.pause(); return; }
   }
   loadTrack(currentTrack); audio.play();
 }
 function playPrevTrack(){
   if(isShuffle){
-    let prev; do { prev=Math.floor(Math.random()*tracks.length);} while(prev===currentTrack && tracks.length>1);
-    currentTrack=prev;
-  } else { currentTrack=(currentTrack-1+tracks.length)%tracks.length; }
+    let prev; do{ prev = Math.floor(Math.random()*tracks.length); } while(prev===currentTrack && tracks.length>1);
+    currentTrack = prev;
+  } else { currentTrack = (currentTrack-1+tracks.length) % tracks.length; }
   loadTrack(currentTrack); audio.play();
 }
 nextBtn.onclick = playNextTrack;
 prevBtn.onclick = playPrevTrack;
 audio.onended = playNextTrack;
 
-// ===== SHUFFLE =====
-shuffleBtn.onclick = () => { isShuffle=!isShuffle; shuffleBtn.style.color=isShuffle?"#7dd3fc":"#fff"; };
-
-// ===== REPEAT =====
+shuffleBtn.onclick = () => { isShuffle = !isShuffle; shuffleBtn.classList.toggle("toggled", isShuffle); };
 repeatBtn.onclick = () => {
-  repeatState=(repeatState+1)%3;
-  switch(repeatState){
-    case 0: repeatBtn.style.color="#fff"; repeatBtn.textContent="🔁"; break;
-    case 1: repeatBtn.style.color="#7dd3fc"; repeatBtn.textContent="🔂"; break;
-    case 2: repeatBtn.style.color="#facc15"; repeatBtn.textContent="🔁"; break;
-  }
+  repeatState = (repeatState+1) % 3;
+  repeatBtn.classList.toggle("toggled", repeatState !== 0);
+  repeatBtn.innerHTML = repeatState === 1 ? '<i class="fas fa-1"></i>' : '<i class="fas fa-repeat"></i>';
 };
 
-// ===== PROGRESS & VOLUME =====
 audio.ontimeupdate = () => {
   if(audio.duration){
     progress.value = (audio.currentTime/audio.duration)*100;
-    const curM=Math.floor(audio.currentTime/60);
-    const curS=("0"+Math.floor(audio.currentTime%60)).slice(-2);
-    playerCurrentTime.textContent=`${curM}:${curS}`;
-    const durM=Math.floor(audio.duration/60);
-    const durS=("0"+Math.floor(audio.duration%60)).slice(-2);
-    duration.textContent=`${durM}:${durS}`;
+    const curM = Math.floor(audio.currentTime/60);
+    const curS = ("0"+Math.floor(audio.currentTime%60)).slice(-2);
+    playerCurrentTime.textContent = `${curM}:${curS}`;
+    const durM = Math.floor(audio.duration/60);
+    const durS = ("0"+Math.floor(audio.duration%60)).slice(-2);
+    durationEl.textContent = `${durM}:${durS}`;
   }
 };
-progress.oninput = ()=>{ audio.currentTime=(progress.value/100)*audio.duration; };
-volume.oninput = ()=>{ audio.volume=volume.value; };
+progress.oninput = () => { audio.currentTime = (progress.value/100)*audio.duration; };
+volume.oninput = () => { audio.volume = volume.value; };
 
-// ===== LOAD MORE =====
-loadMoreBtn.onclick = () => {
-  tracksToShow+=4;
-  renderTracks(tracksToShow);
-};
+loadMoreBtn.onclick = () => { tracksToShow += 8; renderTracks(tracksToShow); };
 
 /* ================= WEATHER ================= */
-const apiKey="8a252f61c3bb5b844bf4473729978c30";
-const defaultCity="Cebu";
-const weatherTemp=document.getElementById("weatherTemp");
-const weatherCity=document.getElementById("weatherCity");
-const weatherIcon=document.getElementById("weatherIcon");
-const weatherWidget=document.getElementById("weatherWidget");
+const apiKey = "8a252f61c3bb5b844bf4473729978c30";
+const defaultCity = "Cebu";
+const weatherTemp = document.getElementById("weatherTemp");
+const weatherCity = document.getElementById("weatherCity");
+const weatherIcon = document.getElementById("weatherIcon");
+const weatherWidget = document.getElementById("weatherWidget");
 
 async function getWeather(city){
   try{
-    const r=await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`
-    );
-    const d=await r.json();
-    weatherCity.textContent=d.name;
-    weatherTemp.textContent=Math.round(d.main.temp)+"°C";
-    weatherIcon.src=`https://openweathermap.org/img/wn/${d.weather[0].icon}.png`;
-  }catch{weatherTemp.textContent="N/A";}
+    const r = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`);
+    const d = await r.json();
+    weatherCity.textContent = d.name;
+    weatherTemp.textContent = Math.round(d.main.temp)+"°C";
+    weatherIcon.src = `https://openweathermap.org/img/wn/${d.weather[0].icon}.png`;
+  }catch{ weatherTemp.textContent = "N/A"; }
 }
 getWeather(defaultCity);
 
-/* draggable weather (desktop + mobile) */
-let drag=false;
-weatherWidget.addEventListener("pointerdown",()=>drag=true);
-document.addEventListener("pointermove",e=>{
-  if(drag){
-    weatherWidget.style.left=e.clientX-40+"px";
-    weatherWidget.style.top=e.clientY-20+"px";
+let dragging = false;
+weatherWidget.addEventListener("pointerdown", () => dragging = true);
+document.addEventListener("pointermove", e => {
+  if(dragging){
+    weatherWidget.style.left = (e.clientX-40)+"px";
+    weatherWidget.style.top = (e.clientY-20)+"px";
   }
 });
-document.addEventListener("pointerup",()=>drag=false);
+document.addEventListener("pointerup", () => dragging = false);
 
-/* ================= HAMBURGER ================= */
-const hamburgerMenu=document.getElementById("hamburgerMenu");
-const hamburgerIcon=document.getElementById("hamburgerIcon");
-document.querySelectorAll("#menuLinks a").forEach(a=>{
-  a.onclick=e=>{
-    e.preventDefault();
-    document.querySelector(a.getAttribute("href"))
-      ?.scrollIntoView({behavior:"smooth"});
-    hamburgerMenu.classList.remove("open");
-  };
-});
-hamburgerIcon.onclick=()=>hamburgerMenu.classList.toggle("open");
+/* ================= WORD OF THE DAY ================= */
+const words = [
+  {word:"Gugma", translation:"Love", definition:"Deep affection or care for someone or something.", example:"Ang gugma dili mahimo nga sultihanon lang, kinahanglan ipakita."},
+  {word:"Kasingkasing", translation:"Heart", definition:"The center of emotions and feelings.", example:"Ang imong kasingkasing maoy nagsulti sa tinuod."},
+  {word:"Pag-asa", translation:"Hope", definition:"A feeling of expectation and desire for something to happen.", example:"Ayaw pagkawala sa pag-asa bisan unsa pa ka lisod."},
+  {word:"Kahimtang", translation:"Situation", definition:"The current state or condition of something.", example:"Lisod ang kahimtang karon pero molabay ra ni."},
+  {word:"Paglaum", translation:"Faith / Trust", definition:"Complete trust or confidence in someone or something.", example:"Kinahanglan nato ang paglaum sa atong kaugalingon."},
+  {word:"Kalipay", translation:"Happiness", definition:"A state of joy and contentment.", example:"Ang kalipay dili gikan sa kwarta, kundi sa kalinaw."},
+  {word:"Damgo", translation:"Dream", definition:"A cherished aspiration or ambition.", example:"Sundon ang imong damgo ug dili mo magsisi."},
+  {word:"Kaisog", translation:"Courage", definition:"The ability to do something that frightens one.", example:"Kinahanglan ug kaisog para moatubang sa kahadlok."},
+  {word:"Kaalam", translation:"Wisdom", definition:"The quality of having experience and good judgment.", example:"Ang kaalam dili gikan sa libro, kundi sa kasinatian."},
+  {word:"Paningkamot", translation:"Effort", definition:"A determined attempt to achieve something.", example:"Ang paningkamot maoy yawi sa kalampusan."},
+  {word:"Serendipity", translation:"Kalipay sa wala damha", definition:"The occurrence of finding pleasant things by chance.", example:"Meeting you was pure serendipity."},
+  {word:"Resilience", translation:"Kusog sa pagbalik", definition:"The capacity to recover quickly from difficulties.", example:"Her resilience helped her overcome every challenge."},
+  {word:"Ephemeral", translation:"Temporaryo / mubo lang", definition:"Lasting for a very short time.", example:"Youth is ephemeral, so make the most of it."},
+  {word:"Wanderlust", translation:"Kahinam sa pagbiyahe", definition:"A strong desire to travel and explore the world.", example:"His wanderlust took him to every continent."},
+  {word:"Perseverance", translation:"Pagpadayon", definition:"Persistence in doing something despite difficulty.", example:"Success requires perseverance and dedication."},
+  {word:"Gratitude", translation:"Pagpasalamat", definition:"The quality of being thankful.", example:"She expressed gratitude for all the support she received."},
+  {word:"Harmony", translation:"Panag-uyon", definition:"A state of peaceful coexistence.", example:"The community lived in perfect harmony."},
+  {word:"Compassion", translation:"Kaluoy", definition:"Sympathetic concern for the sufferings of others.", example:"Show compassion to those who are struggling."},
+  {word:"Authenticity", translation:"Pagka-tinuod", definition:"The quality of being genuine or real.", example:"People appreciate authenticity over pretense."}
+];
 
-      // Word database with Bisaya and English words
-        const words = [
-            // Bisaya words
-            {
-                word: "Gugma",
-                translation: "Love",
-                definition: "Deep affection or care for someone or something.",
-                example: "Ang gugma dili mahimo nga sultihanon lang, kinahanglan ipakita."
-            },
-            {
-                word: "Kasingkasing",
-                translation: "Heart",
-                definition: "The center of emotions and feelings.",
-                example: "Ang imong kasingkasing maoy nagsulti sa tinuod."
-            },
-            {
-                word: "Pag-asa",
-                translation: "Hope",
-                definition: "A feeling of expectation and desire for something to happen.",
-                example: "Ayaw pagkawala sa pag-asa bisan unsa pa ka lisod."
-            },
-            {
-                word: "Kahimtang",
-                translation: "Situation",
-                definition: "The current state or condition of something.",
-                example: "Lisod ang kahimtang karon pero molabay ra ni."
-            },
-            {
-                word: "Paglaum",
-                translation: "Faith/Trust",
-                definition: "Complete trust or confidence in someone or something.",
-                example: "Kinahanglan nato ang paglaum sa atong kaugalingon."
-            },
-            {
-                word: "Kalipay",
-                translation: "Happiness",
-                definition: "A state of joy and contentment.",
-                example: "Ang kalipay dili gikan sa kwarta, kundi sa kalinaw."
-            },
-            {
-                word: "Damgo",
-                translation: "Dream",
-                definition: "A cherished aspiration or ambition.",
-                example: "Sundon ang imong damgo ug dili mo magsisi."
-            },
-            {
-                word: "Kaisog",
-                translation: "Courage",
-                definition: "The ability to do something that frightens one.",
-                example: "Kinahanglan ug kaisog para moatubang sa kahadlok."
-            },
-            {
-                word: "Kaalam",
-                translation: "Wisdom",
-                definition: "The quality of having experience and good judgment.",
-                example: "Ang kaalam dili gikan sa libro, kundi sa kasinatian."
-            },
-            {
-                word: "Paningkamot",
-                translation: "Effort",
-                definition: "A determined attempt to achieve something.",
-                example: "Ang paningkamot maoy yawi sa kalampusan."
-            },
-            // English words
-            {
-                word: "Serendipity",
-                translation: "Kalipay sa wala damha",
-                definition: "The occurrence of finding pleasant things by chance.",
-                example: "Meeting you was pure serendipity."
-            },
-            {
-                word: "Resilience",
-                translation: "Kusog sa pagbalik",
-                definition: "The capacity to recover quickly from difficulties.",
-                example: "Her resilience helped her overcome every challenge."
-            },
-            {
-                word: "Ephemeral",
-                translation: "Temporaryo/Mubo lang",
-                definition: "Lasting for a very short time.",
-                example: "Youth is ephemeral, so make the most of it."
-            },
-            {
-                word: "Wanderlust",
-                translation: "Kahinam sa pagbiyahe",
-                definition: "A strong desire to travel and explore the world.",
-                example: "His wanderlust took him to every continent."
-            },
-            {
-                word: "Perseverance",
-                translation: "Pagpadayon",
-                definition: "Persistence in doing something despite difficulty.",
-                example: "Success requires perseverance and dedication."
-            },
-            {
-                word: "Gratitude",
-                translation: "Pagpasalamat",
-                definition: "The quality of being thankful.",
-                example: "She expressed gratitude for all the support she received."
-            },
-            {
-                word: "Courage",
-                translation: "Kaisog",
-                definition: "Strength in the face of pain or grief.",
-                example: "It takes courage to stand up for what's right."
-            },
-            {
-                word: "Harmony",
-                translation: "Panag-uyon",
-                definition: "A state of peaceful coexistence.",
-                example: "The community lived in perfect harmony."
-            },
-            {
-                word: "Compassion",
-                translation: "Kaluoy",
-                definition: "Sympathetic concern for the sufferings of others.",
-                example: "Show compassion to those who are struggling."
-            },
-            {
-                word: "Authenticity",
-                translation: "Pagka-tinuod",
-                definition: "The quality of being genuine or real.",
-                example: "People appreciate authenticity over pretense."
-            }
-        ];
-
-        function getRandomWord() {
-            return words[Math.floor(Math.random() * words.length)];
-        }
-
-        function showPopup() {
-            const word = getRandomWord();
-            document.getElementById('wordMain').textContent = word.word;
-            document.getElementById('wordTranslation').textContent = word.translation;
-            document.getElementById('wordDefinition').textContent = word.definition;
-            document.getElementById('wordExample').textContent = `"${word.example}"`;
-            document.getElementById('wordOverlay').classList.add('active');
-        }
-
-        function closePopup() {
-            document.getElementById('wordOverlay').classList.remove('active');
-        }
-
-        // Show popup when page loads
-        window.addEventListener('load', () => {
-            setTimeout(showPopup, 500);
-        });
-
-        // Close popup when clicking outside
-        document.getElementById('wordOverlay').addEventListener('click', (e) => {
-            if (e.target.id === 'wordOverlay') {
-                closePopup();
-            }
-        });
-
-
-// ===== STATE MANAGEMENT =====
-let posts = [];
-let editingPostId = null;
-
-// ===== DOM ELEMENTS =====
-const blogForm = document.getElementById('blogForm');
-const blogGrid = document.getElementById('blogGrid');
-const emptyState = document.getElementById('emptyState');
-const toast = document.getElementById('toast');
-const toastMessage = document.getElementById('toastMessage');
-
-// ===== STORAGE FUNCTIONS =====
-async function loadPosts() {
-  try {
-    const keys = await window.storage.list('blogpost:');
-    if (keys && keys.keys.length > 0) {
-      posts = [];
-      for (const key of keys.keys) {
-        const result = await window.storage.get(key);
-        if (result) {
-          posts.push(JSON.parse(result.value));
-        }
-      }
-      posts.sort((a, b) => new Date(b.date) - new Date(a.date));
-    }
-  } catch (err) {
-    console.log('No saved posts yet');
-  }
-  renderPosts();
-}
-
-async function savePost(post) {
-  try {
-    await window.storage.set(`blogpost:${post.id}`, JSON.stringify(post));
-  } catch (err) {
-    console.error('Failed to save post:', err);
-    showToast('Failed to save post', 'error');
-  }
-}
-
-async function deletePostFromStorage(id) {
-  try {
-    await window.storage.delete(`blogpost:${id}`);
-  } catch (err) {
-    console.error('Failed to delete post:', err);
-  }
-}
-
-// ===== RENDER FUNCTIONS =====
-function renderPosts() {
-  if (posts.length === 0) {
-    emptyState.style.display = 'block';
-    blogGrid.innerHTML = '';
-    return;
-  }
-
-  emptyState.style.display = 'none';
-  blogGrid.innerHTML = '';
-
-  posts.forEach((post) => {
-    const postCard = createPostCard(post);
-    blogGrid.appendChild(postCard);
-  });
-}
-
-function createPostCard(post) {
-  const card = document.createElement('div');
-  card.className = 'blog-card';
-  
-  const date = new Date(post.date);
-  const formattedDate = date.toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric'
-  });
-  const formattedTime = date.toLocaleTimeString('en-US', {
-    hour: '2-digit',
-    minute: '2-digit'
-  });
-
-  card.innerHTML = `
-    <div class="blog-card-header">
-      <h3 class="blog-card-title">${escapeHtml(post.title)}</h3>
-      <div class="blog-card-meta">
-        <div class="meta-item">
-          <i class="far fa-calendar"></i>
-          <span>${formattedDate}</span>
-        </div>
-        <div class="meta-item">
-          <i class="far fa-clock"></i>
-          <span>${formattedTime}</span>
-        </div>
-      </div>
-    </div>
-
-    <p class="blog-card-content">${escapeHtml(post.content)}</p>
-
-    ${post.tags.length > 0 ? `
-      <div class="blog-card-tags">
-        ${post.tags.map(tag => `
-          <span class="tag">
-            <i class="fas fa-tag"></i>
-            ${escapeHtml(tag)}
-          </span>
-        `).join('')}
-      </div>
-    ` : ''}
-
-    <div class="blog-card-footer">
-      <div class="blog-stats">
-        <div class="stat-item" onclick="likePost('${post.id}')">
-          <i class="fas fa-heart"></i>
-          <span id="likes-${post.id}">${post.likes || 0}</span>
-        </div>
-        <div class="stat-item">
-          <i class="fas fa-eye"></i>
-          <span>${post.views || 0}</span>
-        </div>
-      </div>
-      <div class="blog-actions">
-        <button class="action-btn edit-btn" onclick="editPost('${post.id}')">
-          <i class="fas fa-edit"></i>
-        </button>
-        <button class="action-btn delete-btn" onclick="deletePost('${post.id}')">
-          <i class="fas fa-trash"></i>
-        </button>
-      </div>
-    </div>
-  `;
-
-  return card;
-}
-
-// ===== FORM HANDLING =====
-blogForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
-
-  const title = document.getElementById('postTitle').value.trim();
-  const content = document.getElementById('postContent').value.trim();
-  const tagsInput = document.getElementById('postTags').value.trim();
-
-  if (!title || !content) {
-    showToast('Please fill in all required fields', 'error');
-    return;
-  }
-
-  const tags = tagsInput ? tagsInput.split(',').map(t => t.trim()).filter(t => t) : [];
-
-  if (editingPostId) {
-    // Update existing post
-    const postIndex = posts.findIndex(p => p.id === editingPostId);
-    if (postIndex !== -1) {
-      posts[postIndex] = {
-        ...posts[postIndex],
-        title,
-        content,
-        tags,
-        updatedDate: new Date().toISOString()
-      };
-      await savePost(posts[postIndex]);
-      showToast('Post updated successfully!', 'success');
-      editingPostId = null;
-    }
-  } else {
-    // Create new post
-    const newPost = {
-      id: Date.now().toString(),
-      title,
-      content,
-      tags,
-      date: new Date().toISOString(),
-      likes: 0,
-      views: 0
-    };
-
-    posts.unshift(newPost);
-    await savePost(newPost);
-    showToast('Post published successfully!', 'success');
-  }
-
-  blogForm.reset();
-  renderPosts();
-  window.scrollTo({ top: document.querySelector('.blog-posts-section').offsetTop - 20, behavior: 'smooth' });
-});
-
-document.getElementById('cancelBtn').addEventListener('click', () => {
-  blogForm.reset();
-  editingPostId = null;
-  showToast('Changes cancelled', 'info');
-});
-
-// ===== POST ACTIONS =====
-window.editPost = function(id) {
-  const post = posts.find(p => p.id === id);
-  if (!post) return;
-
-  document.getElementById('postTitle').value = post.title;
-  document.getElementById('postContent').value = post.content;
-  document.getElementById('postTags').value = post.tags.join(', ');
-
-  editingPostId = id;
-
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  showToast('Editing post...', 'info');
-};
-
-window.deletePost = async function(id) {
-  if (!confirm('Are you sure you want to delete this post?')) return;
-
-  await deletePostFromStorage(id);
-  posts = posts.filter(p => p.id !== id);
-  renderPosts();
-  showToast('Post deleted successfully', 'success');
-};
-
-window.likePost = async function(id) {
-  const post = posts.find(p => p.id === id);
-  if (!post) return;
-
-  post.likes = (post.likes || 0) + 1;
-  await savePost(post);
-  
-  const likesElement = document.getElementById(`likes-${id}`);
-  if (likesElement) {
-    likesElement.textContent = post.likes;
-  }
-  
-  showToast('❤️ Liked!', 'success');
-};
-
-// ===== UTILITIES =====
-function showToast(message, type = 'success') {
-  toastMessage.textContent = message;
-  
-  const icon = toast.querySelector('i');
-  icon.className = type === 'error' ? 'fas fa-exclamation-circle' : 
-                   type === 'info' ? 'fas fa-info-circle' : 
-                   'fas fa-check-circle';
-  
-  toast.style.background = type === 'error' ? 'rgba(244,67,54,0.95)' : 
-                           type === 'info' ? 'rgba(33,150,243,0.95)' : 
-                           'rgba(76,175,80,0.95)';
-  
-  toast.classList.add('show');
-  
-  setTimeout(() => {
-    toast.classList.remove('show');
-  }, 3000);
-}
-
-function escapeHtml(text) {
-  const div = document.createElement('div');
-  div.textContent = text;
-  return div.innerHTML;
-}
-
-// ===== INITIALIZE =====
-loadPosts();
-
-// ==== DRAGGABLE BMC ====
-const bmcButton=document.querySelector('.bmc-float');let isDragging=false,offsetX=0,offsetY=0;bmcButton.addEventListener('mousedown',e=>{isDragging=true;offsetX=e.clientX-bmcButton.getBoundingClientRect().left;offsetY=e.clientY-bmcButton.getBoundingClientRect().top;});document.addEventListener('mouseup',()=>{isDragging=false;});document.addEventListener('mousemove',e=>{if(!isDragging) return;let left=e.clientX-offsetX;let top=e.clientY-offsetY;const maxLeft=window.innerWidth-bmcButton.offsetWidth;const maxTop=window.innerHeight-bmcButton.offsetHeight;left=Math.max(0,Math.min(left,maxLeft));top=Math.max(0,Math.min(top,maxTop));bmcButton.style.left=left+'px';bmcButton.style.top=top+'px';bmcButton.style.right='auto';bmcButton.style.bottom='auto';});
-
-/* ================= WORD OF THE DAY POPUP ================= */
-
-// Word database already exists as `words`
-
-// Elements
 const wordOverlay = document.getElementById("wordOverlay");
-const wordMain = document.getElementById("wordMain");
-const wordTranslation = document.getElementById("wordTranslation");
-const wordDefinition = document.getElementById("wordDefinition");
-const wordExample = document.getElementById("wordExample");
-
-// Get a random word
-function getRandomWord() {
-    return words[Math.floor(Math.random() * words.length)];
+function showWordPopup(){
+  const w = words[Math.floor(Math.random()*words.length)];
+  document.getElementById("wordMain").textContent = w.word;
+  document.getElementById("wordTranslation").textContent = w.translation;
+  document.getElementById("wordDefinition").textContent = w.definition;
+  document.getElementById("wordExample").textContent = `"${w.example}"`;
+  wordOverlay.classList.add("active");
 }
+function closeWordPopup(){ wordOverlay.classList.remove("active"); }
+window.addEventListener("load", () => setTimeout(showWordPopup, 2500));
+wordOverlay.addEventListener("click", e => { if(e.target.id === "wordOverlay") closeWordPopup(); });
 
-// Show the popup
-function showWordPopup() {
-    if (!wordOverlay) return;
-
-    const randomWord = getRandomWord();
-
-    wordMain.textContent = randomWord.word;
-    wordTranslation.textContent = randomWord.translation;
-    wordDefinition.textContent = randomWord.definition;
-    wordExample.textContent = `"${randomWord.example}"`;
-
-    wordOverlay.classList.add("active");
-}
-
-// Close the popup
-function closeWordPopup() {
-    wordOverlay.classList.remove("active");
-}
-
-// Auto-show popup after 5 seconds on page load
-window.addEventListener("load", () => {
-    setTimeout(showWordPopup, 5000);
+/* ================= DRAGGABLE BMC BUTTON ================= */
+const bmcButton = document.querySelector(".bmc-float");
+let isDragging = false, offsetX = 0, offsetY = 0;
+bmcButton.addEventListener("mousedown", e => {
+  isDragging = true;
+  offsetX = e.clientX - bmcButton.getBoundingClientRect().left;
+  offsetY = e.clientY - bmcButton.getBoundingClientRect().top;
 });
-
-// Close popup when clicking outside the content
-wordOverlay.addEventListener("click", (e) => {
-    if (e.target === wordOverlay) {
-        closeWordPopup();
-    }
+document.addEventListener("mouseup", () => isDragging = false);
+document.addEventListener("mousemove", e => {
+  if(!isDragging) return;
+  let left = e.clientX - offsetX, top = e.clientY - offsetY;
+  const maxLeft = window.innerWidth - bmcButton.offsetWidth;
+  const maxTop = window.innerHeight - bmcButton.offsetHeight;
+  left = Math.max(0, Math.min(left, maxLeft));
+  top = Math.max(0, Math.min(top, maxTop));
+  bmcButton.style.left = left+"px";
+  bmcButton.style.top = top+"px";
+  bmcButton.style.right = "auto";
+  bmcButton.style.bottom = "auto";
 });
-
 </script>
-
 </body>
 </html>
