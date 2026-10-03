@@ -643,6 +643,30 @@
     font-size:9px;
     pointer-events:none;
   }
+  .sample-video-card{
+    position:relative;
+    overflow:hidden;
+    border-radius:8px;
+    background:var(--panel);
+  }
+  .sample-video-card video{
+    display:block;
+    width:100%;
+    max-width:100%;
+    border-radius:8px;
+    background:#000;
+  }
+  .media-status{
+    display:block;
+    padding:7px 9px;
+    color:var(--text-dim);
+    font-size:11px;
+    text-align:center;
+  }
+  .sample-video-card.loaded .media-status{display:none;}
+  .sample-video-card.error .media-status{
+    color:#b44;
+  }
   .sample-videos video{
     background:var(--panel);
     box-shadow:0 8px 25px rgba(0,0,0,.12);
@@ -928,13 +952,7 @@
 <header class="top">
   <div class="avatar-block">
     <div class="hero-kicker">Personal portfolio · 2026</div>
-    <img
-  src="media/luffy_veut_devenir_roi_pirate_9e3ac603-2dea-44fe-bb1f-74b234fdf16f.jpg"
-  alt="Gene Cartalla Guardiana"
-  class="profile-img"
-  loading="eager"
-  decoding="async"
->
+    <img loading="eager" decoding="async" class="profile-img" alt="Gene Cartalla Guardiana">
     <div>
       <h1>Gene Cartalla Guardiana</h1>
       <div class="alias-line">Also known as <strong>Aloygene</strong> &middot; self-taught web developer</div>
@@ -1009,7 +1027,13 @@
 
     <div class="blog-grid" id="blogGrid">
       <article class="blog-card" data-title="Starting my web development journey" data-tags="coding journey web development">
-        <div class="blog-thumb" role="img" aria-label="Web development workspace"><img src="media/luffy_veut_devenir_roi_pirate_9e3ac603-2dea-44fe-bb1f-74b234fdf16f.jpg" alt="" loading="lazy" decoding="async"><span class="blog-thumb-icon" aria-hidden="true">💻</span></div>
+        <div class="blog-thumb" role="img" aria-label="Web development workspace"><img
+  src="media/luffy_veut_devenir_roi_pirate_9e3ac603-2dea-44fe-bb1f-74b234fdf16f.jpg"
+  alt="Gene Cartalla Guardiana"
+  class="profile-img"
+  loading="eager"
+  decoding="async"
+><span class="blog-thumb-icon" aria-hidden="true">💻</span></div>
         <div class="blog-card-body">
           <div class="blog-meta">October 3, 2026 · Coding</div>
           <h3>Starting My Web Development Journey</h3>
@@ -1189,11 +1213,23 @@
     <h2>Photos &amp; clips</h2>
     <input type="file" id="fileInput" multiple accept="image/*,video/*">
     <div id="galleryDrop"><p>Select or drag &amp; drop photos/videos to preview them here</p></div>
-    <div class="sample-videos">
-      <video preload="metadata" src="media/Every Dangerous Hacking Gadgets Explained in 8 Minutes.mp4" controls></video>
-      <video preload="metadata" src="media/Every Networking Technology Explained In 12 Minutes.mp4" controls></video>
-      <video preload="metadata" src="media/Every Internet Tracking Method Explained In 12 Minutes.mp4" controls></video>
-      <video preload="metadata" src="media/Building My First Gaming PC with No Experience... (High-End).mp4" controls></video>
+    <div class="sample-videos" id="sampleVideos">
+      <div class="sample-video-card">
+        <video preload="none" data-src="media/Every Dangerous Hacking Gadgets Explained in 8 Minutes.mp4" controls playsinline></video>
+        <span class="media-status">Click play to load</span>
+      </div>
+      <div class="sample-video-card">
+        <video preload="none" data-src="media/Every Networking Technology Explained In 12 Minutes.mp4" controls playsinline></video>
+        <span class="media-status">Click play to load</span>
+      </div>
+      <div class="sample-video-card">
+        <video preload="none" data-src="media/Every Internet Tracking Method Explained In 12 Minutes.mp4" controls playsinline></video>
+        <span class="media-status">Click play to load</span>
+      </div>
+      <div class="sample-video-card">
+        <video preload="none" data-src="media/Building My First Gaming PC with No Experience... (High-End).mp4" controls playsinline></video>
+        <span class="media-status">Click play to load</span>
+      </div>
     </div>
   </section>
 
@@ -1406,6 +1442,36 @@ lightbox.querySelector(".arrow.right").onclick = () => {
   lightboxImg.src = lightboxItems[currentIndex];
 };
 
+/* ================= LOCAL SAMPLE VIDEO LOADING ================= */
+(function initSampleVideos(){
+  const cards = [...document.querySelectorAll("#sampleVideos .sample-video-card")];
+  if(!cards.length) return;
+
+  const loadVideo = (video, card) => {
+    if(video.dataset.loaded === "1") return;
+    const src = video.dataset.src;
+    if(!src) return;
+
+    video.src = src;
+    video.dataset.loaded = "1";
+    video.load();
+    card.classList.add("loaded");
+  };
+
+  cards.forEach(card => {
+    const video = card.querySelector("video");
+    if(!video) return;
+
+    video.addEventListener("play", () => loadVideo(video, card), {once:true});
+    video.addEventListener("loadedmetadata", () => card.classList.add("loaded"));
+    video.addEventListener("error", () => {
+      card.classList.add("error");
+      const status = card.querySelector(".media-status");
+      if(status) status.textContent = "Unable to load this video";
+    });
+  });
+})();
+
 /* ================= UNSPLASH SEARCH ================= */
 const unsplashKey = "M6s7dxtyudzoG5xvzUM-oBUfrx_SmJu11VQ10txCl7U";
 const unsplashGallery = document.getElementById("unsplashGallery");
@@ -1417,7 +1483,17 @@ async function searchUnsplash(){
   unsplashGallery.innerHTML = "Loading...";
   unsplashImages = [];
   try{
-    const res = await fetch(`https://api.unsplash.com/search/photos?query=${encodeURIComponent(q)}&per_page=12&client_id=${unsplashKey}`);
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10000);
+    const res = await fetch(`https://api.unsplash.com/search/photos?query=${encodeURIComponent(q)}&per_page=12&client_id=${unsplashKey}`, {
+      signal: controller.signal
+    });
+    clearTimeout(timeout);
+
+    if(!res.ok){
+      throw new Error(`Unsplash request failed: ${res.status}`);
+    }
+
     const data = await res.json();
     unsplashGallery.innerHTML = "";
     (data.results||[]).forEach((p,i)=>{
@@ -1434,7 +1510,10 @@ async function searchUnsplash(){
     });
     if(!data.results || !data.results.length) unsplashGallery.textContent = "No results found";
   }catch(e){
-    unsplashGallery.textContent = "Failed to load images";
+    unsplashGallery.textContent =
+      e.name === "AbortError"
+        ? "Image search timed out. Try again."
+        : "Unable to load Unsplash images right now.";
   }
 }
 document.getElementById("searchUnsplashBtn").onclick = searchUnsplash;
