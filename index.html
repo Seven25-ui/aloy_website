@@ -780,6 +780,93 @@
     }
   }
 
+
+/* ================= BLOG LAYOUT ================= */
+.blog-intro{
+  display:grid;
+  grid-template-columns:minmax(0,1.6fr) minmax(260px,.8fr);
+  gap:22px;
+  margin:24px 0 30px;
+}
+.blog-hero{
+  position:relative;
+  overflow:hidden;
+  padding:34px;
+  border-radius:26px;
+  background:linear-gradient(135deg,rgba(255,255,255,.94),rgba(245,247,255,.92));
+  border:1px solid rgba(0,0,0,.07);
+  box-shadow:0 18px 45px rgba(0,0,0,.08);
+}
+.blog-hero h2{font-size:clamp(2rem,4vw,3.4rem);margin:8px 0 12px;line-height:1.05}
+.blog-hero p{font-size:1.03rem;line-height:1.8;max-width:720px}
+.blog-kicker{font-size:.78rem;text-transform:uppercase;letter-spacing:.16em;font-weight:800;opacity:.62}
+.blog-note{
+  padding:26px;border-radius:24px;background:rgba(255,255,255,.75);
+  border:1px solid rgba(0,0,0,.07);box-shadow:0 14px 35px rgba(0,0,0,.06)
+}
+.blog-note h3{margin-top:0}
+.blog-note ul{padding-left:20px;line-height:1.9}
+.blog-toolbar{
+  display:flex;justify-content:space-between;align-items:center;gap:15px;
+  margin:10px 0 18px;flex-wrap:wrap
+}
+.blog-search{
+  width:min(100%,360px);padding:13px 16px;border-radius:14px;
+  border:1px solid rgba(0,0,0,.12);background:var(--card-bg,#fff);font:inherit
+}
+.blog-grid{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px
+}
+.blog-card{
+  overflow:hidden;border-radius:22px;background:var(--card-bg,#fff);
+  border:1px solid rgba(0,0,0,.07);box-shadow:0 12px 32px rgba(0,0,0,.07);
+  transition:transform .25s ease,box-shadow .25s ease
+}
+.blog-card:hover{transform:translateY(-5px);box-shadow:0 20px 42px rgba(0,0,0,.11)}
+.blog-thumb{
+  height:185px;display:grid;place-items:center;font-size:3rem;
+  background:linear-gradient(135deg,#111827,#374151);color:#fff
+}
+.blog-card-body{padding:21px}
+.blog-meta{font-size:.76rem;opacity:.62;font-weight:700;text-transform:uppercase;letter-spacing:.07em}
+.blog-card h3{margin:9px 0 10px;font-size:1.25rem}
+.blog-card p{line-height:1.7;opacity:.82}
+.blog-tags{display:flex;flex-wrap:wrap;gap:7px;margin:15px 0}
+.blog-tag{
+  padding:5px 9px;border-radius:999px;font-size:.72rem;font-weight:700;
+  background:rgba(127,127,127,.12)
+}
+.blog-read{
+  display:inline-flex;align-items:center;gap:7px;font-weight:800;
+  text-decoration:none
+}
+.blog-post{
+  display:none;max-width:900px;margin:0 auto;padding:34px;border-radius:24px;
+  background:var(--card-bg,#fff);border:1px solid rgba(0,0,0,.07);
+  box-shadow:0 15px 40px rgba(0,0,0,.07)
+}
+.blog-post.active{display:block}
+.blog-post h2{font-size:clamp(2rem,4vw,3rem);margin:8px 0 14px}
+.blog-post .post-content{font-size:1.05rem;line-height:1.9}
+.blog-back{
+  border:0;background:none;font:inherit;font-weight:800;cursor:pointer;
+  margin-bottom:18px
+}
+.blog-empty{padding:30px;text-align:center;opacity:.65;display:none}
+@media(max-width:800px){
+  .blog-intro{grid-template-columns:1fr}
+  .blog-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:560px){
+  .blog-grid{grid-template-columns:1fr}
+  .blog-hero,.blog-post{padding:24px}
+}
+@media(prefers-color-scheme:dark){
+  .blog-hero{background:linear-gradient(135deg,rgba(25,25,30,.96),rgba(35,35,45,.94))}
+  .blog-note,.blog-card,.blog-post{border-color:rgba(255,255,255,.09)}
+  .blog-search{border-color:rgba(255,255,255,.12)}
+}
+
 </style>
 </head>
 <body>
@@ -800,7 +887,8 @@
 <div id="hamburgerMenu">
   <button id="hamburgerIcon" type="button" aria-label="Open navigation menu" aria-expanded="false"><span></span><span></span><span></span></button>
   <ul id="menuLinks">
-    <li><a href="#about" title="About"><i class="fas fa-user"></i></a></li>
+    <li><a href="#about" title="About"><i class="fas fa-user"></i></a>
+<a href="#blog" aria-label="Blog">📝</a></li>
     <li><a href="#skills" title="Skills"><i class="fas fa-code"></i></a></li>
     <li><a href="#music" title="Music"><i class="fas fa-music"></i></a></li>
     <li><a href="#gallery" title="Gallery"><i class="fas fa-image"></i></a></li>
@@ -819,13 +907,7 @@
   <div class="toggle-row"><button id="darkToggle">Light mode</button></div>
   <div class="avatar-block">
     <div class="hero-kicker">Personal portfolio · 2026</div>
-    <img
-  src="media/luffy_veut_devenir_roi_pirate_9e3ac603-2dea-44fe-bb1f-74b234fdf16f.jpg"
-  alt="Gene Cartalla Guardiana"
-  class="profile-img"
-  loading="eager"
-  decoding="async"
->
+    <img loading="eager" decoding="async" class="profile-img" alt="Gene Cartalla Guardiana">
     <div>
       <h1>Gene Cartalla Guardiana</h1>
       <div class="alias-line">Also known as <strong>Aloygene</strong> &middot; self-taught web developer</div>
@@ -859,7 +941,180 @@
     </div>
   </section>
 
-  <section id="music" class="music-section">
+  
+<!-- ================= BLOG ================= -->
+<section id="blog" class="section">
+  <div class="blog-intro">
+    <div class="blog-hero">
+      <div class="blog-kicker">Aloygene Journal · Personal Blog</div>
+      <h2>Notes, stories & things I'm learning.</h2>
+      <p>
+        Welcome to my little corner of the internet. Here I share my journey as a
+        self-taught developer, things I'm learning, creative experiments, music,
+        anime, technology, and random thoughts worth keeping.
+      </p>
+      <div class="hero-actions">
+        <a class="btn" href="#blog-posts">Read my posts</a>
+        <a class="btn secondary" href="#about">More about me</a>
+      </div>
+    </div>
+    <aside class="blog-note">
+      <h3>📌 What you'll find here</h3>
+      <ul>
+        <li>💻 Web development & coding notes</li>
+        <li>📚 Learning progress & lessons</li>
+        <li>🎵 Music, anime & things I enjoy</li>
+        <li>🧠 Personal thoughts & experiences</li>
+        <li>🚀 Projects, experiments & goals</li>
+      </ul>
+    </aside>
+  </div>
+
+  <div id="blog-posts">
+    <div class="blog-toolbar">
+      <div>
+        <h2 style="margin:0">Latest Posts</h2>
+        <small>My notes from the journey.</small>
+      </div>
+      <input id="blogSearch" class="blog-search" type="search"
+             placeholder="🔎 Search posts..." aria-label="Search blog posts">
+    </div>
+
+    <div class="blog-grid" id="blogGrid">
+      <article class="blog-card" data-title="Starting my web development journey" data-tags="coding journey web development">
+        <div class="blog-thumb">💻</div>
+        <div class="blog-card-body">
+          <div class="blog-meta">October 3, 2026 · Coding</div>
+          <h3>Starting My Web Development Journey</h3>
+          <p>Learning to build websites one line of code at a time. Here are some things I've discovered while teaching myself.</p>
+          <div class="blog-tags"><span class="blog-tag">Coding</span><span class="blog-tag">Journey</span></div>
+          <a href="#" class="blog-read" data-post="journey">Read article →</a>
+        </div>
+      </article>
+
+      <article class="blog-card" data-title="What I learned from building my portfolio" data-tags="portfolio html css javascript">
+        <div class="blog-thumb">🧩</div>
+        <div class="blog-card-body">
+          <div class="blog-meta">October 3, 2026 · Projects</div>
+          <h3>What I Learned From Building My Portfolio</h3>
+          <p>A portfolio is more than a page with your name on it. It is a place to document progress, experiments and ideas.</p>
+          <div class="blog-tags"><span class="blog-tag">Portfolio</span><span class="blog-tag">HTML</span><span class="blog-tag">CSS</span></div>
+          <a href="#" class="blog-read" data-post="portfolio">Read article →</a>
+        </div>
+      </article>
+
+      <article class="blog-card" data-title="Why I keep learning" data-tags="learning motivation goals">
+        <div class="blog-thumb">📚</div>
+        <div class="blog-card-body">
+          <div class="blog-meta">October 2, 2026 · Learning</div>
+          <h3>Why I Keep Learning</h3>
+          <p>There is always another skill, another idea and another project to explore. Progress does not have to be perfect.</p>
+          <div class="blog-tags"><span class="blog-tag">Learning</span><span class="blog-tag">Goals</span></div>
+          <a href="#" class="blog-read" data-post="learning">Read article →</a>
+        </div>
+      </article>
+
+      <article class="blog-card" data-title="Music that keeps me focused" data-tags="music playlist focus">
+        <div class="blog-thumb">🎧</div>
+        <div class="blog-card-body">
+          <div class="blog-meta">October 1, 2026 · Lifestyle</div>
+          <h3>Music That Keeps Me Focused</h3>
+          <p>Sometimes the right playlist makes coding sessions feel completely different. These are the sounds I keep coming back to.</p>
+          <div class="blog-tags"><span class="blog-tag">Music</span><span class="blog-tag">Focus</span></div>
+          <a href="#" class="blog-read" data-post="music">Read article →</a>
+        </div>
+      </article>
+
+      <article class="blog-card" data-title="Small projects, big lessons" data-tags="projects javascript practice">
+        <div class="blog-thumb">🚀</div>
+        <div class="blog-card-body">
+          <div class="blog-meta">September 29, 2026 · Projects</div>
+          <h3>Small Projects, Big Lessons</h3>
+          <p>Small experiments are a great way to practice. Every broken button and weird bug has something to teach.</p>
+          <div class="blog-tags"><span class="blog-tag">Projects</span><span class="blog-tag">JavaScript</span></div>
+          <a href="#" class="blog-read" data-post="projects">Read article →</a>
+        </div>
+      </article>
+
+      <article class="blog-card" data-title="Things I want to build next" data-tags="goals future ideas">
+        <div class="blog-thumb">🌱</div>
+        <div class="blog-card-body">
+          <div class="blog-meta">September 27, 2026 · Goals</div>
+          <h3>Things I Want To Build Next</h3>
+          <p>A running list of ideas, experiments and bigger projects I want to turn from “someday” into something real.</p>
+          <div class="blog-tags"><span class="blog-tag">Goals</span><span class="blog-tag">Ideas</span></div>
+          <a href="#" class="blog-read" data-post="future">Read article →</a>
+        </div>
+      </article>
+    </div>
+    <div id="blogEmpty" class="blog-empty">No posts found. Try another search.</div>
+
+    <article class="blog-post" data-full-post="journey">
+      <button class="blog-back" type="button">← Back to posts</button>
+      <div class="blog-meta">October 3, 2026 · Coding</div>
+      <h2>Starting My Web Development Journey</h2>
+      <div class="post-content">
+        <p>I'm building my skills by actually building things. Instead of waiting until I know everything, I learn something, try it, break it, fix it, and keep moving.</p>
+        <p>That process is what makes a personal website special. It becomes a living record of the things I have learned and the ideas I have tried.</p>
+        <p>This blog will be where I document that journey — the wins, the bugs, the experiments and everything in between.</p>
+      </div>
+    </article>
+
+    <article class="blog-post" data-full-post="portfolio">
+      <button class="blog-back" type="button">← Back to posts</button>
+      <div class="blog-meta">October 3, 2026 · Projects</div>
+      <h2>What I Learned From Building My Portfolio</h2>
+      <div class="post-content">
+        <p>Building a portfolio taught me that design and functionality have to work together. A website can look good, but it should also feel easy to use.</p>
+        <p>I also learned the importance of responsive layouts, accessible controls, clean navigation and keeping the code organized enough to improve later.</p>
+        <p>The portfolio is never really “finished.” It grows together with the person behind it.</p>
+      </div>
+    </article>
+
+    <article class="blog-post" data-full-post="learning">
+      <button class="blog-back" type="button">← Back to posts</button>
+      <div class="blog-meta">October 2, 2026 · Learning</div>
+      <h2>Why I Keep Learning</h2>
+      <div class="post-content">
+        <p>There are days when learning feels fast and days when even a small problem takes hours. Both are part of the process.</p>
+        <p>I try to focus on progress instead of comparing my starting point with someone else's finished work.</p>
+        <p>Every new concept becomes another tool I can use in the next project.</p>
+      </div>
+    </article>
+
+    <article class="blog-post" data-full-post="music">
+      <button class="blog-back" type="button">← Back to posts</button>
+      <div class="blog-meta">October 1, 2026 · Lifestyle</div>
+      <h2>Music That Keeps Me Focused</h2>
+      <div class="post-content">
+        <p>Music is part of my workflow. Sometimes I need something calm, sometimes something energetic, and sometimes I just want a familiar song playing in the background.</p>
+        <p>That's why I kept the music player as part of this website. It is not just a feature — it is part of the atmosphere of the site.</p>
+      </div>
+    </article>
+
+    <article class="blog-post" data-full-post="projects">
+      <button class="blog-back" type="button">← Back to posts</button>
+      <div class="blog-meta">September 29, 2026 · Projects</div>
+      <h2>Small Projects, Big Lessons</h2>
+      <div class="post-content">
+        <p>Small projects make it easier to experiment. A tiny feature can teach a surprisingly useful lesson about JavaScript, CSS, layout or user experience.</p>
+        <p>I want to keep making small things because every experiment adds another piece to the bigger picture.</p>
+      </div>
+    </article>
+
+    <article class="blog-post" data-full-post="future">
+      <button class="blog-back" type="button">← Back to posts</button>
+      <div class="blog-meta">September 27, 2026 · Goals</div>
+      <h2>Things I Want To Build Next</h2>
+      <div class="post-content">
+        <p>This is my running list of ideas. Some will become real projects, some will change, and some will probably become completely different things.</p>
+        <p>The important part is to keep experimenting and keep building.</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section id="music" class="music-section">
     <div class="section-label">Playlist</div>
     <h2>What's on repeat</h2>
     <div class="music-toolbar">
@@ -1794,5 +2049,65 @@ document.addEventListener("mousemove", e => {
   bmcButton.style.bottom = "auto";
 });
 </script>
+
+<script>
+/* ================= BLOG ================= */
+(function(){
+  const grid = document.getElementById('blogGrid');
+  const search = document.getElementById('blogSearch');
+  const empty = document.getElementById('blogEmpty');
+  const cards = [...document.querySelectorAll('.blog-card')];
+  const posts = [...document.querySelectorAll('.blog-post')];
+  const postsWrap = document.getElementById('blog-posts');
+
+  function showPost(id){
+    cards.forEach(c => c.style.display = 'none');
+    empty.style.display = 'none';
+    posts.forEach(p => p.classList.toggle('active', p.dataset.fullPost === id));
+    const active = posts.find(p => p.dataset.fullPost === id);
+    if(active) active.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+  function showCards(){
+    posts.forEach(p => p.classList.remove('active'));
+    filterCards();
+    postsWrap.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+  function filterCards(){
+    const q = (search?.value || '').trim().toLowerCase();
+    let visible = 0;
+    cards.forEach(card => {
+      const hay = ((card.dataset.title || '') + ' ' + (card.dataset.tags || '')).toLowerCase();
+      const ok = !q || hay.includes(q);
+      card.style.display = ok ? '' : 'none';
+      if(ok) visible++;
+    });
+    empty.style.display = visible ? 'none' : 'block';
+  }
+
+  document.querySelectorAll('.blog-read').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      showPost(link.dataset.post);
+      history.replaceState(null, '', '#blog-post-' + link.dataset.post);
+    });
+  });
+
+  document.querySelectorAll('.blog-back').forEach(btn => {
+    btn.addEventListener('click', () => {
+      history.replaceState(null, '', '#blog');
+      showCards();
+    });
+  });
+
+  search?.addEventListener('input', filterCards);
+
+  if(location.hash.startsWith('#blog-post-')){
+    showPost(location.hash.replace('#blog-post-',''));
+  }
+})();
+</script>
+
 </body>
 </html>
