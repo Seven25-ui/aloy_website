@@ -952,7 +952,13 @@
 <header class="top">
   <div class="avatar-block">
     <div class="hero-kicker">Personal portfolio · 2026</div>
-    <img loading="eager" decoding="async" class="profile-img" alt="Gene Cartalla Guardiana">
+    <img
+      src="media/luffy_veut_devenir_roi_pirate_9e3ac603-2dea-44fe-bb1f-74b234fdf16f.jpg"
+      alt="Gene Cartalla Guardiana"
+      class="profile-img"
+      loading="eager"
+      decoding="async"
+    >
     <div>
       <h1>Gene Cartalla Guardiana</h1>
       <div class="alias-line">Also known as <strong>Aloygene</strong> &middot; self-taught web developer</div>
@@ -1029,9 +1035,8 @@
       <article class="blog-card" data-title="Starting my web development journey" data-tags="coding journey web development">
         <div class="blog-thumb" role="img" aria-label="Web development workspace"><img
   src="media/luffy_veut_devenir_roi_pirate_9e3ac603-2dea-44fe-bb1f-74b234fdf16f.jpg"
-  alt="Gene Cartalla Guardiana"
-  class="profile-img"
-  loading="eager"
+  alt="Web development workspace"
+  loading="lazy"
   decoding="async"
 ><span class="blog-thumb-icon" aria-hidden="true">💻</span></div>
         <div class="blog-card-body">
@@ -1215,19 +1220,19 @@
     <div id="galleryDrop"><p>Select or drag &amp; drop photos/videos to preview them here</p></div>
     <div class="sample-videos" id="sampleVideos">
       <div class="sample-video-card">
-        <video preload="none" data-src="media/Every Dangerous Hacking Gadgets Explained in 8 Minutes.mp4" controls playsinline></video>
+        <video src="media/Every Dangerous Hacking Gadgets Explained in 8 Minutes.mp4" preload="none" controls playsinline></video>
         <span class="media-status">Click play to load</span>
       </div>
       <div class="sample-video-card">
-        <video preload="none" data-src="media/Every Networking Technology Explained In 12 Minutes.mp4" controls playsinline></video>
+        <video src="media/Every Networking Technology Explained In 12 Minutes.mp4" preload="none" controls playsinline></video>
         <span class="media-status">Click play to load</span>
       </div>
       <div class="sample-video-card">
-        <video preload="none" data-src="media/Every Internet Tracking Method Explained In 12 Minutes.mp4" controls playsinline></video>
+        <video src="media/Every Internet Tracking Method Explained In 12 Minutes.mp4" preload="none" controls playsinline></video>
         <span class="media-status">Click play to load</span>
       </div>
       <div class="sample-video-card">
-        <video preload="none" data-src="media/Building My First Gaming PC with No Experience... (High-End).mp4" controls playsinline></video>
+        <video src="media/Building My First Gaming PC with No Experience... (High-End).mp4" preload="none" controls playsinline></video>
         <span class="media-status">Click play to load</span>
       </div>
     </div>
@@ -1372,7 +1377,7 @@ function addGalleryFiles(files){
       const video = document.createElement("video");
       video.src = url;
       video.controls = true;
-      video.preload = "metadata";
+      video.preload = "none";
       video.className = "media-item";
       wrap.appendChild(video);
       const badge = document.createElement("span");
@@ -1447,23 +1452,14 @@ lightbox.querySelector(".arrow.right").onclick = () => {
   const cards = [...document.querySelectorAll("#sampleVideos .sample-video-card")];
   if(!cards.length) return;
 
-  const loadVideo = (video, card) => {
-    if(video.dataset.loaded === "1") return;
-    const src = video.dataset.src;
-    if(!src) return;
-
-    video.src = src;
-    video.dataset.loaded = "1";
-    video.load();
-    card.classList.add("loaded");
-  };
-
   cards.forEach(card => {
     const video = card.querySelector("video");
     if(!video) return;
 
-    video.addEventListener("play", () => loadVideo(video, card), {once:true});
-    video.addEventListener("loadedmetadata", () => card.classList.add("loaded"));
+    video.addEventListener("loadedmetadata", () => {
+      card.classList.add("loaded");
+    });
+
     video.addEventListener("error", () => {
       card.classList.add("error");
       const status = card.querySelector(".media-status");
