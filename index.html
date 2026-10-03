@@ -56,7 +56,7 @@
   img{max-width:100%; display:block;}
   ::selection{background:var(--accent); color:#1b1e27;}
 
-  .wrap{max-width:720px; margin:0 auto; padding:0 20px;}
+  .wrap{max-width:980px; margin:0 auto; padding:0 20px;}
 
   /* ============ HEADER ============ */
   header.top{
@@ -793,66 +793,115 @@
   overflow:hidden;
   padding:34px;
   border-radius:26px;
-  background:linear-gradient(135deg,rgba(255,255,255,.94),rgba(245,247,255,.92));
-  border:1px solid rgba(0,0,0,.07);
-  box-shadow:0 18px 45px rgba(0,0,0,.08);
+  background:linear-gradient(135deg,var(--panel),var(--bg-alt));
+  color:var(--text);
+  border:1px solid var(--line);
+  box-shadow:0 18px 45px rgba(0,0,0,.12);
 }
-.blog-hero h2{font-size:clamp(2rem,4vw,3.4rem);margin:8px 0 12px;line-height:1.05}
-.blog-hero p{font-size:1.03rem;line-height:1.8;max-width:720px}
-.blog-kicker{font-size:.78rem;text-transform:uppercase;letter-spacing:.16em;font-weight:800;opacity:.62}
+.blog-hero h2{font-size:clamp(2rem,4vw,3.4rem);margin:8px 0 12px;line-height:1.05;color:var(--text)}
+.blog-hero p{font-size:1.03rem;line-height:1.8;max-width:720px;color:var(--text-dim)}
+.blog-kicker{font-size:.78rem;text-transform:uppercase;letter-spacing:.16em;font-weight:800;color:var(--accent)}
 .blog-note{
-  padding:26px;border-radius:24px;background:rgba(255,255,255,.75);
-  border:1px solid rgba(0,0,0,.07);box-shadow:0 14px 35px rgba(0,0,0,.06)
+  padding:26px;
+  border-radius:24px;
+  background:var(--panel);
+  color:var(--text);
+  border:1px solid var(--line);
+  box-shadow:0 14px 35px rgba(0,0,0,.10)
 }
-.blog-note h3{margin-top:0}
-.blog-note ul{padding-left:20px;line-height:1.9}
+.blog-note h3{margin-top:0;color:var(--text)}
+.blog-note ul{padding-left:20px;line-height:1.9;color:var(--text-dim)}
 .blog-toolbar{
   display:flex;justify-content:space-between;align-items:center;gap:15px;
   margin:10px 0 18px;flex-wrap:wrap
 }
+.blog-toolbar h2{color:var(--text)}
+.blog-toolbar small{color:var(--text-dim)}
 .blog-search{
   width:min(100%,360px);padding:13px 16px;border-radius:14px;
-  border:1px solid rgba(0,0,0,.12);background:var(--card-bg,#fff);font:inherit
+  border:1px solid var(--line);background:var(--panel);color:var(--text);font:inherit;
+  outline:none;
 }
+.blog-search::placeholder{color:var(--text-dim)}
+.blog-search:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(217,142,74,.12)}
 .blog-grid{
   display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px
 }
 .blog-card{
-  overflow:hidden;border-radius:22px;background:var(--card-bg,#fff);
-  border:1px solid rgba(0,0,0,.07);box-shadow:0 12px 32px rgba(0,0,0,.07);
-  transition:transform .25s ease,box-shadow .25s ease
+  overflow:hidden;border-radius:22px;background:var(--panel);color:var(--text);
+  border:1px solid var(--line);box-shadow:0 12px 32px rgba(0,0,0,.10);
+  transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease
 }
-.blog-card:hover{transform:translateY(-5px);box-shadow:0 20px 42px rgba(0,0,0,.11)}
+.blog-card:hover{transform:translateY(-5px);box-shadow:0 20px 42px rgba(0,0,0,.16);border-color:var(--accent)}
 .blog-thumb{
-  height:185px;display:grid;place-items:center;font-size:3rem;
-  background:linear-gradient(135deg,#111827,#374151);color:#fff
+  position:relative;
+  height:210px;
+  overflow:hidden;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,var(--bg-alt),var(--panel));
+  color:var(--accent);
+  border-bottom:1px solid var(--line);
+}
+.blog-thumb::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.62),rgba(0,0,0,.04) 70%);
+  pointer-events:none;
+}
+.blog-thumb img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+  filter:saturate(.9) contrast(1.02);
+  transition:transform .4s ease,filter .4s ease;
+}
+.blog-card:hover .blog-thumb img{
+  transform:scale(1.06);
+  filter:saturate(1.05) contrast(1.04);
+}
+.blog-thumb-icon{
+  position:absolute;
+  z-index:2;
+  left:18px;
+  bottom:13px;
+  font-size:2rem;
+  line-height:1;
+  filter:drop-shadow(0 3px 8px rgba(0,0,0,.45));
 }
 .blog-card-body{padding:21px}
-.blog-meta{font-size:.76rem;opacity:.62;font-weight:700;text-transform:uppercase;letter-spacing:.07em}
-.blog-card h3{margin:9px 0 10px;font-size:1.25rem}
-.blog-card p{line-height:1.7;opacity:.82}
+.blog-meta{font-size:.76rem;opacity:.8;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--accent-2)}
+.blog-card h3{margin:9px 0 10px;font-size:1.25rem;color:var(--text)}
+.blog-card p{line-height:1.7;color:var(--text-dim)}
 .blog-tags{display:flex;flex-wrap:wrap;gap:7px;margin:15px 0}
 .blog-tag{
   padding:5px 9px;border-radius:999px;font-size:.72rem;font-weight:700;
-  background:rgba(127,127,127,.12)
+  background:var(--bg-alt);color:var(--text-dim);border:1px solid var(--line)
 }
 .blog-read{
   display:inline-flex;align-items:center;gap:7px;font-weight:800;
-  text-decoration:none
+  text-decoration:none;color:var(--accent-2)
 }
 .blog-post{
   display:none;max-width:900px;margin:0 auto;padding:34px;border-radius:24px;
-  background:var(--card-bg,#fff);border:1px solid rgba(0,0,0,.07);
-  box-shadow:0 15px 40px rgba(0,0,0,.07)
+  background:var(--panel);color:var(--text);border:1px solid var(--line);
+  box-shadow:0 15px 40px rgba(0,0,0,.12)
 }
 .blog-post.active{display:block}
-.blog-post h2{font-size:clamp(2rem,4vw,3rem);margin:8px 0 14px}
-.blog-post .post-content{font-size:1.05rem;line-height:1.9}
+.blog-post h2{font-size:clamp(2rem,4vw,3rem);margin:8px 0 14px;color:var(--text)}
+.blog-post .post-content{font-size:1.05rem;line-height:1.9;color:var(--text-dim)}
+.blog-post .post-content p{margin:0 0 1.2em}
 .blog-back{
-  border:0;background:none;font:inherit;font-weight:800;cursor:pointer;
-  margin-bottom:18px
+  border:0;background:transparent;color:var(--accent-2);font:inherit;font-weight:800;cursor:pointer;
+  margin-bottom:18px;padding:0
 }
-.blog-empty{padding:30px;text-align:center;opacity:.65;display:none}
+.blog-empty{
+  padding:30px;text-align:center;color:var(--text-dim);display:none;
+  background:var(--panel);border:1px solid var(--line);border-radius:18px
+}
 @media(max-width:800px){
   .blog-intro{grid-template-columns:1fr}
   .blog-grid{grid-template-columns:1fr 1fr}
@@ -861,10 +910,11 @@
   .blog-grid{grid-template-columns:1fr}
   .blog-hero,.blog-post{padding:24px}
 }
-@media(prefers-color-scheme:dark){
-  .blog-hero{background:linear-gradient(135deg,rgba(25,25,30,.96),rgba(35,35,45,.94))}
-  .blog-note,.blog-card,.blog-post{border-color:rgba(255,255,255,.09)}
-  .blog-search{border-color:rgba(255,255,255,.12)}
+
+
+/* Blog follows the site's existing body.light theme automatically. */
+.blog-hero,.blog-note,.blog-card,.blog-post,.blog-search,.blog-empty{
+  transition:background-color .3s ease,color .3s ease,border-color .3s ease,box-shadow .3s ease;
 }
 
 </style>
@@ -982,7 +1032,7 @@
 
     <div class="blog-grid" id="blogGrid">
       <article class="blog-card" data-title="Starting my web development journey" data-tags="coding journey web development">
-        <div class="blog-thumb">💻</div>
+        <div class="blog-thumb" role="img" aria-label="Web development workspace"><img src="media/luffy_veut_devenir_roi_pirate_9e3ac603-2dea-44fe-bb1f-74b234fdf16f.jpg" alt="" loading="lazy" decoding="async"><span class="blog-thumb-icon" aria-hidden="true">💻</span></div>
         <div class="blog-card-body">
           <div class="blog-meta">October 3, 2026 · Coding</div>
           <h3>Starting My Web Development Journey</h3>
@@ -993,7 +1043,7 @@
       </article>
 
       <article class="blog-card" data-title="What I learned from building my portfolio" data-tags="portfolio html css javascript">
-        <div class="blog-thumb">🧩</div>
+        <div class="blog-thumb" role="img" aria-label="Portfolio and code project"><img src="media/luffy_veut_devenir_roi_pirate_9e3ac603-2dea-44fe-bb1f-74b234fdf16f.jpg" alt="" loading="lazy" decoding="async"><span class="blog-thumb-icon" aria-hidden="true">🧩</span></div>
         <div class="blog-card-body">
           <div class="blog-meta">October 3, 2026 · Projects</div>
           <h3>What I Learned From Building My Portfolio</h3>
@@ -1004,7 +1054,7 @@
       </article>
 
       <article class="blog-card" data-title="Why I keep learning" data-tags="learning motivation goals">
-        <div class="blog-thumb">📚</div>
+        <div class="blog-thumb" role="img" aria-label="Learning and study"><img src="media/luffy_veut_devenir_roi_pirate_9e3ac603-2dea-44fe-bb1f-74b234fdf16f.jpg" alt="" loading="lazy" decoding="async"><span class="blog-thumb-icon" aria-hidden="true">📚</span></div>
         <div class="blog-card-body">
           <div class="blog-meta">October 2, 2026 · Learning</div>
           <h3>Why I Keep Learning</h3>
@@ -1015,7 +1065,7 @@
       </article>
 
       <article class="blog-card" data-title="Music that keeps me focused" data-tags="music playlist focus">
-        <div class="blog-thumb">🎧</div>
+        <div class="blog-thumb" role="img" aria-label="Music and headphones"><img src="media/luffy_veut_devenir_roi_pirate_9e3ac603-2dea-44fe-bb1f-74b234fdf16f.jpg" alt="" loading="lazy" decoding="async"><span class="blog-thumb-icon" aria-hidden="true">🎧</span></div>
         <div class="blog-card-body">
           <div class="blog-meta">October 1, 2026 · Lifestyle</div>
           <h3>Music That Keeps Me Focused</h3>
@@ -1026,7 +1076,7 @@
       </article>
 
       <article class="blog-card" data-title="Small projects, big lessons" data-tags="projects javascript practice">
-        <div class="blog-thumb">🚀</div>
+        <div class="blog-thumb" role="img" aria-label="Personal coding project"><img src="media/luffy_veut_devenir_roi_pirate_9e3ac603-2dea-44fe-bb1f-74b234fdf16f.jpg" alt="" loading="lazy" decoding="async"><span class="blog-thumb-icon" aria-hidden="true">🚀</span></div>
         <div class="blog-card-body">
           <div class="blog-meta">September 29, 2026 · Projects</div>
           <h3>Small Projects, Big Lessons</h3>
@@ -1037,7 +1087,7 @@
       </article>
 
       <article class="blog-card" data-title="Things I want to build next" data-tags="goals future ideas">
-        <div class="blog-thumb">🌱</div>
+        <div class="blog-thumb" role="img" aria-label="Future goals and ideas"><img src="media/luffy_veut_devenir_roi_pirate_9e3ac603-2dea-44fe-bb1f-74b234fdf16f.jpg" alt="" loading="lazy" decoding="async"><span class="blog-thumb-icon" aria-hidden="true">🌱</span></div>
         <div class="blog-card-body">
           <div class="blog-meta">September 27, 2026 · Goals</div>
           <h3>Things I Want To Build Next</h3>
