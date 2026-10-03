@@ -913,6 +913,27 @@
   transition:background-color .3s ease,color .3s ease,border-color .3s ease,box-shadow .3s ease;
 }
 
+
+/* Gallery video thumbnails */
+.sample-videos .sample-video-card {
+  position: relative;
+  overflow: hidden;
+}
+.sample-videos .sample-video-card video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: #111827;
+  border-radius: 14px;
+}
+.sample-videos .sample-video-card .media-status {
+  display: block;
+  margin-top: 8px;
+  font-size: .82rem;
+  opacity: .75;
+}
+
 </style>
 </head>
 <body>
@@ -1220,19 +1241,19 @@
     <div id="galleryDrop"><p>Select or drag &amp; drop photos/videos to preview them here</p></div>
     <div class="sample-videos" id="sampleVideos">
       <div class="sample-video-card">
-        <video src="media/Every Dangerous Hacking Gadgets Explained in 8 Minutes.mp4" preload="none" controls playsinline></video>
+        <video src="media/Every Dangerous Hacking Gadgets Explained in 8 Minutes.mp4" poster="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221280%22%20height%3D%22720%22%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23111827%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23374151%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%0A%3Crect%20width%3D%221280%22%20height%3D%22720%22%20fill%3D%22url%28%23g%29%22%2F%3E%0A%3Crect%20x%3D%2254%22%20y%3D%2254%22%20width%3D%221172%22%20height%3D%22612%22%20rx%3D%2234%22%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-opacity%3D%22.16%22%20stroke-width%3D%223%22%2F%3E%0A%3Ccircle%20cx%3D%22640%22%20cy%3D%22290%22%20r%3D%2272%22%20fill%3D%22%23fff%22%2F%3E%0A%3Cpolygon%20points%3D%22620%2C248%20620%2C332%20690%2C290%22%20fill%3D%22%23111827%22%2F%3E%0A%3Ctext%20x%3D%22640%22%20y%3D%22445%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22Arial%2CHelvetica%2Csans-serif%22%20font-size%3D%2250%22%20font-weight%3D%22700%22%3EEVERY%20DANGEROUS%3Cbr%2F%3EHACKING%20GADGETS%3C%2Ftext%3E%0A%3Ctext%20x%3D%22640%22%20y%3D%22510%22%20text-anchor%3D%22middle%22%20fill%3D%22%23d1d5db%22%20font-family%3D%22Arial%2CHelvetica%2Csans-serif%22%20font-size%3D%2230%22%3E8%20MINUTES%3C%2Ftext%3E%0A%3Ctext%20x%3D%22640%22%20y%3D%22610%22%20text-anchor%3D%22middle%22%20fill%3D%22%239ca3af%22%20font-family%3D%22Arial%2CHelvetica%2Csans-serif%22%20font-size%3D%2222%22%20letter-spacing%3D%223%22%3ECLICK%20PLAY%20TO%20WATCH%3C%2Ftext%3E%0A%3C%2Fsvg%3E" preload="none" controls playsinline></video>
         <span class="media-status">Click play to load</span>
       </div>
       <div class="sample-video-card">
-        <video src="media/Every Networking Technology Explained In 12 Minutes.mp4" preload="none" controls playsinline></video>
+        <video src="media/Every Networking Technology Explained In 12 Minutes.mp4" poster="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221280%22%20height%3D%22720%22%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23111827%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23374151%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%0A%3Crect%20width%3D%221280%22%20height%3D%22720%22%20fill%3D%22url%28%23g%29%22%2F%3E%0A%3Crect%20x%3D%2254%22%20y%3D%2254%22%20width%3D%221172%22%20height%3D%22612%22%20rx%3D%2234%22%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-opacity%3D%22.16%22%20stroke-width%3D%223%22%2F%3E%0A%3Ccircle%20cx%3D%22640%22%20cy%3D%22290%22%20r%3D%2272%22%20fill%3D%22%23fff%22%2F%3E%0A%3Cpolygon%20points%3D%22620%2C248%20620%2C332%20690%2C290%22%20fill%3D%22%23111827%22%2F%3E%0A%3Ctext%20x%3D%22640%22%20y%3D%22445%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22Arial%2CHelvetica%2Csans-serif%22%20font-size%3D%2250%22%20font-weight%3D%22700%22%3EEVERY%20NETWORKING%3Cbr%2F%3ETECHNOLOGY%3C%2Ftext%3E%0A%3Ctext%20x%3D%22640%22%20y%3D%22510%22%20text-anchor%3D%22middle%22%20fill%3D%22%23d1d5db%22%20font-family%3D%22Arial%2CHelvetica%2Csans-serif%22%20font-size%3D%2230%22%3E12%20MINUTES%3C%2Ftext%3E%0A%3Ctext%20x%3D%22640%22%20y%3D%22610%22%20text-anchor%3D%22middle%22%20fill%3D%22%239ca3af%22%20font-family%3D%22Arial%2CHelvetica%2Csans-serif%22%20font-size%3D%2222%22%20letter-spacing%3D%223%22%3ECLICK%20PLAY%20TO%20WATCH%3C%2Ftext%3E%0A%3C%2Fsvg%3E" preload="none" controls playsinline></video>
         <span class="media-status">Click play to load</span>
       </div>
       <div class="sample-video-card">
-        <video src="media/Every Internet Tracking Method Explained In 12 Minutes.mp4" preload="none" controls playsinline></video>
+        <video src="media/Every Internet Tracking Method Explained In 12 Minutes.mp4" poster="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221280%22%20height%3D%22720%22%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23111827%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23374151%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%0A%3Crect%20width%3D%221280%22%20height%3D%22720%22%20fill%3D%22url%28%23g%29%22%2F%3E%0A%3Crect%20x%3D%2254%22%20y%3D%2254%22%20width%3D%221172%22%20height%3D%22612%22%20rx%3D%2234%22%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-opacity%3D%22.16%22%20stroke-width%3D%223%22%2F%3E%0A%3Ccircle%20cx%3D%22640%22%20cy%3D%22290%22%20r%3D%2272%22%20fill%3D%22%23fff%22%2F%3E%0A%3Cpolygon%20points%3D%22620%2C248%20620%2C332%20690%2C290%22%20fill%3D%22%23111827%22%2F%3E%0A%3Ctext%20x%3D%22640%22%20y%3D%22445%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22Arial%2CHelvetica%2Csans-serif%22%20font-size%3D%2250%22%20font-weight%3D%22700%22%3EEVERY%20INTERNET%3Cbr%2F%3ETRACKING%20METHOD%3C%2Ftext%3E%0A%3Ctext%20x%3D%22640%22%20y%3D%22510%22%20text-anchor%3D%22middle%22%20fill%3D%22%23d1d5db%22%20font-family%3D%22Arial%2CHelvetica%2Csans-serif%22%20font-size%3D%2230%22%3E12%20MINUTES%3C%2Ftext%3E%0A%3Ctext%20x%3D%22640%22%20y%3D%22610%22%20text-anchor%3D%22middle%22%20fill%3D%22%239ca3af%22%20font-family%3D%22Arial%2CHelvetica%2Csans-serif%22%20font-size%3D%2222%22%20letter-spacing%3D%223%22%3ECLICK%20PLAY%20TO%20WATCH%3C%2Ftext%3E%0A%3C%2Fsvg%3E" preload="none" controls playsinline></video>
         <span class="media-status">Click play to load</span>
       </div>
       <div class="sample-video-card">
-        <video src="media/Building My First Gaming PC with No Experience... (High-End).mp4" preload="none" controls playsinline></video>
+        <video src="media/Building My First Gaming PC with No Experience... (High-End).mp4" poster="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221280%22%20height%3D%22720%22%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23111827%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23374151%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%0A%3Crect%20width%3D%221280%22%20height%3D%22720%22%20fill%3D%22url%28%23g%29%22%2F%3E%0A%3Crect%20x%3D%2254%22%20y%3D%2254%22%20width%3D%221172%22%20height%3D%22612%22%20rx%3D%2234%22%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-opacity%3D%22.16%22%20stroke-width%3D%223%22%2F%3E%0A%3Ccircle%20cx%3D%22640%22%20cy%3D%22290%22%20r%3D%2272%22%20fill%3D%22%23fff%22%2F%3E%0A%3Cpolygon%20points%3D%22620%2C248%20620%2C332%20690%2C290%22%20fill%3D%22%23111827%22%2F%3E%0A%3Ctext%20x%3D%22640%22%20y%3D%22445%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22Arial%2CHelvetica%2Csans-serif%22%20font-size%3D%2250%22%20font-weight%3D%22700%22%3EBUILDING%20MY%20FIRST%3Cbr%2F%3EGAMING%20PC%3C%2Ftext%3E%0A%3Ctext%20x%3D%22640%22%20y%3D%22510%22%20text-anchor%3D%22middle%22%20fill%3D%22%23d1d5db%22%20font-family%3D%22Arial%2CHelvetica%2Csans-serif%22%20font-size%3D%2230%22%3ENO%20EXPERIENCE%20%E2%80%A2%20HIGH-END%3C%2Ftext%3E%0A%3Ctext%20x%3D%22640%22%20y%3D%22610%22%20text-anchor%3D%22middle%22%20fill%3D%22%239ca3af%22%20font-family%3D%22Arial%2CHelvetica%2Csans-serif%22%20font-size%3D%2222%22%20letter-spacing%3D%223%22%3ECLICK%20PLAY%20TO%20WATCH%3C%2Ftext%3E%0A%3C%2Fsvg%3E" preload="none" controls playsinline></video>
         <span class="media-status">Click play to load</span>
       </div>
     </div>
