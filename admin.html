@@ -3,7 +3,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
 <title>ALOY | Admin Panel</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -44,7 +45,8 @@ main { max-width: 900px; margin: 30px auto; padding: 0 16px; }
 }
 h3 { margin-top: 0; }
 label { display: block; margin: 15px 0 7px; color: #ccc; }
-input, textarea {
+input:not([type="checkbox"]), textarea {
+  display: block;
   width: 100%;
   padding: 12px;
   border-radius: 7px;
@@ -54,6 +56,7 @@ input, textarea {
   font: inherit;
 }
 textarea { min-height: 140px; resize: vertical; }
+input[type="checkbox"] { accent-color: var(--accent); }
 button {
   padding: 11px 16px;
   border: 0;
@@ -75,7 +78,7 @@ button:disabled { opacity: .5; cursor: wait; }
 .post img {
   display: block;
   max-width: 100%;
-  max-height: 220px;
+  max-height: 260px;
   object-fit: contain;
   border-radius: 8px;
   margin-top: 12px;
@@ -83,6 +86,8 @@ button:disabled { opacity: .5; cursor: wait; }
 .small { color: var(--muted); font-size: 13px; }
 #status { margin: 14px 0; overflow-wrap: anywhere; }
 .hidden { display: none !important; }
+.status-error { color: #ff7777; }
+.status-ok { color: #75dc9a; }
 @media (max-width: 500px) {
   header { padding: 15px; }
   header h2 { font-size: 17px; }
@@ -94,55 +99,67 @@ button:disabled { opacity: .5; cursor: wait; }
 <body>
 <header>
   <h2><span class="accent">ALOY</span> / ADMIN</h2>
-  <button id="logoutBtn" class="secondary hidden">Logout</button>
+  <button id="logoutBtn" class="secondary hidden" type="button">
+    Logout
+  </button>
 </header>
 
 <main>
   <p class="small">ALOY CONTENT MANAGEMENT SYSTEM</p>
-  <div id="status" role="status" aria-live="polite">Connecting to Supabase...</div>
+  <div id="status" role="status" aria-live="polite">
+    Connecting to Supabase...
+  </div>
 
   <section id="loginPanel" class="panel hidden">
     <h3>Admin Login</h3>
     <form id="loginForm">
       <label for="email">Email</label>
-      <input id="email" type="email" autocomplete="username" required>
+      <input id="email" type="email"
+             autocomplete="username" required>
 
       <label for="password">Password</label>
       <input id="password" type="password"
              autocomplete="current-password" required>
 
-      <button type="submit">Login</button>
+      <button id="loginBtn" type="submit">Login</button>
     </form>
   </section>
 
   <section id="dashboard" class="hidden">
     <div class="panel">
       <h3 id="formHeading">Create New Post</h3>
+
       <form id="postForm">
         <label for="title">Post Title *</label>
         <input id="title" maxlength="200" required>
 
         <label for="content">Post Content *</label>
-        <textarea id="content" required></textarea>
+        <textarea id="content" maxlength="30000" required></textarea>
 
         <label for="imageUrl">Image URL (optional)</label>
-        <input id="imageUrl" type="url" placeholder="https://example.com/image.jpg">
+        <input id="imageUrl" type="url"
+               placeholder="https://example.com/image.jpg">
 
         <label>
-          <input id="published" type="checkbox" checked
-                 style="width:auto">
+          <input id="published" type="checkbox" checked>
           Publish post
         </label>
+        <p class="small">
+          Uncheck to save as a draft. Only published posts
+          should appear on your public website.
+        </p>
 
         <button id="saveBtn" type="submit">Publish Post</button>
-        <button id="cancelBtn" type="button" class="secondary hidden">
-          Cancel Edit
-        </button>
+        <button id="cancelBtn" type="button"
+                class="secondary hidden">Cancel Edit</button>
       </form>
     </div>
 
     <div class="panel">
       <h3>Your Posts</h3>
+      <button id="refreshBtn" type="button" class="secondary">
+        Refresh Posts
+      </button>
       <div id="postsList">Loading posts...</div>
     </div>
   </section>
@@ -150,27 +167,29 @@ button:disabled { opacity: .5; cursor: wait; }
 
 <script>
 (() => {
+  "use strict";
+
   const SUPABASE_URL =
     "https://sshdwibenypcekgczpgc.supabase.co";
 
-  // Public anon key only. Never put a service_role/secret key here.
+  // Supabase public anon key. Never use a service_role/secret key.
   const SUPABASE_ANON_KEY =
-    "PASTE_YOUR_SUPABASE_ANON_KEY_HERE";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNzaGR3aWJlbnlwY2VrZ2N6cGdjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk0NjE2MjAsImV4cCI6MjA4NTAzNzYyMH0.URDJTCvM4a5DBfgrp3me7vlMxlP9m8uo5oxXpbP60Zg";
 
   const $ = id => document.getElementById(id);
 
-  const status = message => {
-    $("status").textContent = message;
-  };
-
-  const client = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-  );
-
+  let client = null;
   let adminId = null;
   let editingId = null;
   let busy = false;
+  let checkingSession = false;
+
+  function status(message, type = "") {
+    $("status").textContent = message;
+    $("status").className =
+      type === "error" ? "status-error" :
+      type === "ok" ? "status-ok" : "";
+  }
 
   function showLogin() {
     $("loginPanel").classList.remove("hidden");
@@ -193,39 +212,41 @@ button:disabled { opacity: .5; cursor: wait; }
     $("cancelBtn").classList.add("hidden");
   }
 
+  // The database function must compare auth.uid() to your admin UID.
   async function checkAdmin() {
-    const { data: { user }, error } =
-      await client.auth.getUser();
+    const { data: { user }, error } = await client.auth.getUser();
 
     if (error || !user) {
       adminId = null;
       showLogin();
-      status("Please log in with your admin account.");
       return false;
     }
 
-    // Verify the UID against the database-side admin function.
     const { data: allowed, error: adminError } =
       await client.rpc("is_aloy_admin");
 
     if (adminError || allowed !== true) {
-      await client.auth.signOut();
       adminId = null;
+      await client.auth.signOut();
       showLogin();
-      status("Access denied. This account is not the ALOY admin.");
+      status(
+        "Access denied. Verify your admin UID and is_aloy_admin() SQL function.",
+        "error"
+      );
       return false;
     }
 
     adminId = user.id;
     showDashboard();
-    status("Admin authenticated.");
     return true;
   }
 
   $("loginForm").addEventListener("submit", async event => {
     event.preventDefault();
     if (busy) return;
+
     busy = true;
+    $("loginBtn").disabled = true;
 
     try {
       status("Signing in...");
@@ -237,43 +258,170 @@ button:disabled { opacity: .5; cursor: wait; }
 
       if (error) throw error;
 
-      if (await checkAdmin()) await loadPosts();
+      if (await checkAdmin()) {
+        status("Admin authenticated.", "ok");
+        await loadPosts();
+      }
     } catch (error) {
-      status("Login failed: " + error.message);
+      status("Login failed: " + error.message, "error");
     } finally {
       busy = false;
+      $("loginBtn").disabled = false;
     }
   });
 
   $("logoutBtn").addEventListener("click", async () => {
-    await client.auth.signOut();
+    if (busy) return;
+
+    const { error } = await client.auth.signOut();
+
+    if (error) {
+      status("Logout failed: " + error.message, "error");
+      return;
+    }
+
     adminId = null;
     resetForm();
     showLogin();
-    status("You have logged out.");
+    status("You have logged out.", "ok");
   });
 
   $("cancelBtn").addEventListener("click", resetForm);
+  $("refreshBtn").addEventListener("click", loadPosts);
 
   async function loadPosts() {
+    if (!adminId || busy) return;
+
     $("postsList").textContent = "Loading posts...";
 
+    try {
+      const { data, error } = await client
+        .from("posts")
+        .select("id,title,content,image_url,published,created_at")
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+
+      $("postsList").replaceChildren();
+
+      if (!data || data.length === 0) {
+        $("postsList").textContent =
+          "No posts yet. Create your first post!";
+        return;
+      }
+
+      for (const post of data) {
+        const article = document.createElement("article");
+        article.className = "post";
+
+        const heading = document.createElement("h3");
+        heading.textContent = post.title;
+
+        const meta = document.createElement("p");
+        meta.className = "small";
+        meta.textContent =
+          (post.published ? "Published" : "Draft") +
+          " · " + new Date(post.created_at).toLocaleString();
+
+        const body = document.createElement("p");
+        body.style.whiteSpace = "pre-wrap";
+        body.textContent = post.content;
+
+        article.append(heading, meta, body);
+
+        if (post.image_url) {
+          const image = document.createElement("img");
+          image.src = post.image_url;
+          image.alt = post.title;
+          image.loading = "lazy";
+          image.referrerPolicy = "no-referrer";
+          image.onerror = () => image.remove();
+          article.append(image);
+        }
+
+        const edit = document.createElement("button");
+        edit.textContent = "Edit";
+        edit.className = "secondary";
+
+        edit.addEventListener("click", () => {
+          editingId = post.id;
+          $("title").value = post.title;
+          $("content").value = post.content;
+          $("imageUrl").value = post.image_url || "";
+          $("published").checked = post.published;
+          $("formHeading").textContent = "Edit Post";
+          $("saveBtn").textContent = "Save Changes";
+          $("cancelBtn").classList.remove("hidden");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+
+        const remove = document.createElement("button");
+        remove.textContent = "Delete";
+        remove.className = "danger";
+
+        remove.addEventListener("click", async () => {
+          if (busy || !adminId) return;
+          if (!confirm("Permanently delete this post?")) return;
+
+          busy = true;
+          remove.disabled = true;
+
+          try {
+            const { data: deleted, error } = await client
+              .from("posts")
+              .delete()
+              .eq("id", post.id)
+              .select("id");
+
+            if (error) throw error;
+            if (!deleted || deleted.length === 0) {
+              throw new Error("No post deleted. Check admin permissions.");
+            }
+
+            status("Post deleted.", "ok");
+            await loadPostsAfterAction();
+          } catch (error) {
+            status("Delete failed: " + error.message, "error");
+          } finally {
+            busy = false;
+            remove.disabled = false;
+          }
+        });
+
+        article.append(edit, remove);
+        $("postsList").append(article);
+      }
+    } catch (error) {
+      $("postsList").textContent = "Could not load posts.";
+      status("Load failed: " + error.message, "error");
+    }
+  }
+
+  // Refresh after a completed write while busy state is still controlled.
+  async function loadPostsAfterAction() {
     const { data, error } = await client
       .from("posts")
       .select("id,title,content,image_url,published,created_at")
       .order("created_at", { ascending: false });
 
     if (error) {
-      $("postsList").textContent = "Could not load posts: " + error.message;
+      status("Post changed, but refresh failed: " + error.message, "error");
       return;
     }
 
     $("postsList").replaceChildren();
 
-    if (!data.length) {
-      $("postsList").textContent = "No posts yet. Create your first post!";
+    if (!data || data.length === 0) {
+      $("postsList").textContent = "No posts yet.";
       return;
     }
+
+    // Reuse the normal renderer without requiring busy=false.
+    renderPosts(data);
+  }
+
+  function renderPosts(data) {
+    $("postsList").replaceChildren();
 
     for (const post of data) {
       const article = document.createElement("article");
@@ -299,7 +447,6 @@ button:disabled { opacity: .5; cursor: wait; }
         image.src = post.image_url;
         image.alt = post.title;
         image.loading = "lazy";
-        image.referrerPolicy = "no-referrer";
         image.onerror = () => image.remove();
         article.append(image);
       }
@@ -323,18 +470,31 @@ button:disabled { opacity: .5; cursor: wait; }
       remove.textContent = "Delete";
       remove.className = "danger";
       remove.addEventListener("click", async () => {
-        if (!confirm("Delete this post permanently?")) return;
+        if (busy || !adminId) return;
+        if (!confirm("Permanently delete this post?")) return;
 
-        const { error } = await client
-          .from("posts")
-          .delete()
-          .eq("id", post.id);
+        busy = true;
+        remove.disabled = true;
 
-        if (error) {
-          status("Delete failed: " + error.message);
-        } else {
-          status("Post deleted.");
-          await loadPosts();
+        try {
+          const { data: deleted, error } = await client
+            .from("posts")
+            .delete()
+            .eq("id", post.id)
+            .select("id");
+
+          if (error) throw error;
+          if (!deleted || !deleted.length) {
+            throw new Error("No post deleted. Check admin permissions.");
+          }
+
+          status("Post deleted.", "ok");
+          await loadPostsAfterAction();
+        } catch (error) {
+          status("Delete failed: " + error.message, "error");
+        } finally {
+          busy = false;
+          remove.disabled = false;
         }
       });
 
@@ -362,6 +522,13 @@ button:disabled { opacity: .5; cursor: wait; }
         throw new Error("Title and content are required.");
       }
 
+      if (post.image_url) {
+        const url = new URL(post.image_url);
+        if (url.protocol !== "https:" && url.protocol !== "http:") {
+          throw new Error("Image URL must use HTTP or HTTPS.");
+        }
+      }
+
       status("Saving post...");
 
       let result;
@@ -382,15 +549,19 @@ button:disabled { opacity: .5; cursor: wait; }
       if (result.error) throw result.error;
 
       if (!result.data || result.data.length === 0) {
-        throw new Error("No post was saved. Check your admin permissions.");
+        throw new Error("No post saved. Check admin permissions.");
       }
 
-      status(editingId !== null ? "Post updated!" : "Post created!");
+      status(
+        editingId !== null ? "Post updated!" : "Post created!",
+        "ok"
+      );
+
       resetForm();
-      await loadPosts();
+      await loadPostsAfterAction();
 
     } catch (error) {
-      status("Save failed: " + error.message);
+      status("Save failed: " + error.message, "error");
     } finally {
       busy = false;
       $("saveBtn").disabled = false;
@@ -399,26 +570,45 @@ button:disabled { opacity: .5; cursor: wait; }
 
   async function init() {
     if (!window.supabase) {
-      status("Supabase library failed to load. Check your internet.");
+      showLogin();
+      status("Supabase library failed to load. Check your internet.", "error");
       return;
     }
 
-    if (SUPABASE_ANON_KEY === "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNzaGR3aWJlbnlwY2VrZ2N6cGdjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk0NjE2MjAsImV4cCI6MjA4NTAzNzYyMH0.URDJTCvM4a5DBfgrp3me7vlMxlP9m8uo5oxXpbP60Zg") {
+    // FIXED: Compare with the actual placeholder, not the real key.
+    if (
+      !SUPABASE_ANON_KEY ||
+      SUPABASE_ANON_KEY === "PASTE_YOUR_SUPABASE_ANON_KEY_HERE"
+    ) {
       showLogin();
-      status("Add your Supabase anon/publishable key to admin.html.");
+      status("Add your Supabase anon/publishable key to admin.html.", "error");
       return;
     }
+
+    client = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_ANON_KEY
+    );
 
     try {
-      if (await checkAdmin()) await loadPosts();
+      checkingSession = true;
+      if (await checkAdmin()) {
+        status("Admin authenticated.", "ok");
+        await loadPosts();
+      } else {
+        status("Please log in with your admin account.");
+      }
     } catch (error) {
       showLogin();
-      status("Initialization failed: " + error.message);
+      status("Initialization failed: " + error.message, "error");
+    } finally {
+      checkingSession = false;
     }
 
     client.auth.onAuthStateChange((event, session) => {
       if (event === "SIGNED_OUT" || !session) {
         adminId = null;
+        resetForm();
         showLogin();
       }
     });
