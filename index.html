@@ -2232,7 +2232,114 @@ document.addEventListener("mousemove", e => {
     SUPABASE_ANON_KEY
   );
 </script>
+    
+```html
+<!-- SE7EN: LOAD PUBLISHED POSTS FROM SUPABASE -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  const SUPABASE_URL = "https://sshdwibenypcekgczpgc.supabase.co";
+
+  // Ibutang diri ang SAME public anon key nga gigamit sa admin.html
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNzaGR3aWJlbnlwY2VrZ2N6cGdjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk0NjE2MjAsImV4cCI6MjA4NTAzNzYyMH0.URDJTCvM4a5DBfgrp3me7vlMxlP9m8uo5oxXpbP60Zg";
+
+  const blogGrid = document.querySelector(".blog-grid");
+
+  if (!blogGrid) {
+    console.error("SE7EN: Blog grid not found.");
+    return;
+  }
+
+  const supabase = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+  );
+
+  blogGrid.innerHTML = "<p>Loading posts...</p>";
+
+  const { data: posts, error } = await supabase
+    .from("posts")
+    .select("id, title, content, image_url, created_at")
+    .eq("published", true)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Supabase error:", error);
+    blogGrid.innerHTML = "<p>Unable to load posts. Please try again.</p>";
+    return;
+  }
+
+  if (!posts || posts.length === 0) {
+    blogGrid.innerHTML = "<p class='blog-empty'>No published posts yet.</p>";
+    return;
+  }
+
+  blogGrid.replaceChildren();
+
+  posts.forEach(post => {
+    const card = document.createElement("article");
+    card.className = "blog-card";
+
+    if (post.image_url) {
+      const image = document.createElement("img");
+      image.className = "blog-thumb";
+      image.src = post.image_url;
+      image.alt = post.title || "Blog post";
+      image.loading = "lazy";
+      card.appendChild(image);
+    }
+
+    const body = document.createElement("div");
+    body.className = "blog-card-body";
+
+    const date = document.createElement("div");
+    date.className = "blog-meta";
+    date.textContent = post.created_at
+      ? new Date(post.created_at).toLocaleDateString()
+      : "";
+
+    const title = document.createElement("h3");
+    title.textContent = post.title || "Untitled";
+
+    const content = document.createElement("p");
+    content.textContent = (post.content || "").slice(0, 180) +
+      ((post.content || "").length > 180 ? "..." : "");
+
+    const read = document.createElement("button");
+    read.className = "blog-read";
+    read.type = "button";
+    read.textContent = "Read More";
+    read.addEventListener("click", () => {
+      const detail = document.createElement("div");
+      detail.className = "blog-post";
+      detail.style.display = "block";
+
+      const fullTitle = document.createElement("h2");
+      fullTitle.textContent = post.title || "Untitled";
+
+      const fullContent = document.createElement("p");
+      fullContent.style.whiteSpace = "pre-wrap";
+      fullContent.textContent = post.content || "";
+
+      const close = document.createElement("button");
+      close.className = "blog-read";
+      close.textContent = "Close";
+      close.addEventListener("click", () => detail.remove());
+
+      detail.append(fullTitle, fullContent, close);
+      blogGrid.replaceChildren(detail);
+    });
+
+    body.append(date, title, content, read);
+    card.appendChild(body);
+    blogGrid.appendChild(card);
+  });
+
+  console.log("SE7EN: Loaded", posts.length, "published posts.");
+});
+</script>
+```
     
 </body>
 </html>
