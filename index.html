@@ -2227,33 +2227,20 @@ document.addEventListener("mousemove", e => {
 </script>
 
 <script>
-/* ================= BLOG ================= */
+/* ================= BLOG (search + static posts) ================= */
 (function(){
-  const grid = document.getElementById('blogGrid');
   const search = document.getElementById('blogSearch');
   const empty = document.getElementById('blogEmpty');
-  const cards = [...document.querySelectorAll('.blog-card')];
-  const posts = [...document.querySelectorAll('.blog-post')];
   const postsWrap = document.getElementById('blog-posts');
 
-  function showPost(id){
-    cards.forEach(c => c.style.display = 'none');
-    empty.style.display = 'none';
-    posts.forEach(p => p.classList.toggle('active', p.dataset.fullPost === id));
-    const active = posts.find(p => p.dataset.fullPost === id);
-    if(active) active.scrollIntoView({behavior:'smooth', block:'start'});
-  }
-
-  function showCards(){
-    posts.forEach(p => p.classList.remove('active'));
-    filterCards();
-    postsWrap.scrollIntoView({behavior:'smooth', block:'start'});
-  }
+  // live query, para makita pud ang cards gikan sa Supabase
+  const getCards = () => [...document.querySelectorAll('#blogGrid .blog-card')];
+  const getPosts = () => [...document.querySelectorAll('.blog-post')];
 
   function filterCards(){
     const q = (search?.value || '').trim().toLowerCase();
     let visible = 0;
-    cards.forEach(card => {
+    getCards().forEach(card => {
       const hay = ((card.dataset.title || '') + ' ' + (card.dataset.tags || '')).toLowerCase();
       const ok = !q || hay.includes(q);
       card.style.display = ok ? '' : 'none';
@@ -2261,20 +2248,35 @@ document.addEventListener("mousemove", e => {
     });
     empty.style.display = visible ? 'none' : 'block';
   }
+  window.filterBlogCards = filterCards;
 
-  document.querySelectorAll('.blog-read').forEach(link => {
-    link.addEventListener('click', e => {
+  function showPost(id){
+    getCards().forEach(c => c.style.display = 'none');
+    empty.style.display = 'none';
+    getPosts().forEach(p => p.classList.toggle('active', p.dataset.fullPost === id));
+    getPosts().find(p => p.dataset.fullPost === id)
+      ?.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+  function showCards(){
+    getPosts().forEach(p => p.classList.remove('active'));
+    filterCards();
+    postsWrap.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+  // event delegation: mo-work bisan sa dynamic cards
+  document.addEventListener('click', e => {
+    const link = e.target.closest('.blog-read[data-post]');
+    if(link){
       e.preventDefault();
       showPost(link.dataset.post);
       history.replaceState(null, '', '#blog-post-' + link.dataset.post);
-    });
-  });
-
-  document.querySelectorAll('.blog-back').forEach(btn => {
-    btn.addEventListener('click', () => {
+      return;
+    }
+    if(e.target.closest('.blog-back')){
       history.replaceState(null, '', '#blog');
       showCards();
-    });
+    }
   });
 
   search?.addEventListener('input', filterCards);
@@ -2285,74 +2287,49 @@ document.addEventListener("mousemove", e => {
 })();
 </script>
 
-      
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-  const SUPABASE_URL = "https://sshdwibenypcekgczpgc.supabase.co";
-
-  const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
-
-  const supabaseClient = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-  );
-</script>
-    
-<!-- SE7EN: LOAD PUBLISHED POSTS FROM SUPABASE -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script>
+/* ================= LOAD PUBLISHED POSTS FROM SUPABASE ================= */
 document.addEventListener("DOMContentLoaded", async () => {
   const SUPABASE_URL = "https://sshdwibenypcekgczpgc.supabase.co";
-
-  // Ibutang diri ang SAME public anon key nga gigamit sa admin.html
   const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNzaGR3aWJlbnlwY2VrZ2N6cGdjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk0NjE2MjAsImV4cCI6MjA4NTAzNzYyMH0.URDJTCvM4a5DBfgrp3me7vlMxlP9m8uo5oxXpbP60Zg";
 
-  const blogGrid = document.querySelector(".blog-grid");
+  const blogGrid = document.getElementById("blogGrid");
+  if (!blogGrid) return;
 
-  if (!blogGrid) {
-    console.error("SE7EN: Blog grid not found.");
-    return;
-  }
+  const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  const supabase = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-  );
-
-  blogGrid.innerHTML = "<p>Loading posts...</p>";
-
-  const { data: posts, error } = await supabase
+  const { data: posts, error } = await sb
     .from("posts")
     .select("id, title, content, image_url, created_at")
     .eq("published", true)
     .order("created_at", { ascending: false });
 
+  // Kung error o wala pay post, ibilin ang static cards (dili ma-blanko ang blog)
   if (error) {
     console.error("Supabase error:", error);
-    blogGrid.innerHTML = "<p>Unable to load posts. Please try again.</p>";
     return;
   }
-
-  if (!posts || posts.length === 0) {
-    blogGrid.innerHTML = "<p class='blog-empty'>No published posts yet.</p>";
-    return;
-  }
+  if (!posts || posts.length === 0) return;
 
   blogGrid.replaceChildren();
 
   posts.forEach(post => {
     const card = document.createElement("article");
     card.className = "blog-card";
+    card.dataset.title = post.title || "";
+    card.dataset.tags = "";
 
     if (post.image_url) {
+      const thumb = document.createElement("div");
+      thumb.className = "blog-thumb";
       const image = document.createElement("img");
-      image.className = "blog-thumb";
       image.src = post.image_url;
       image.alt = post.title || "Blog post";
       image.loading = "lazy";
-      card.appendChild(image);
+      thumb.appendChild(image);
+      card.appendChild(thumb);
     }
 
     const body = document.createElement("div");
@@ -2367,15 +2344,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     const title = document.createElement("h3");
     title.textContent = post.title || "Untitled";
 
-    const content = document.createElement("p");
-    content.textContent = (post.content || "").slice(0, 180) +
-      ((post.content || "").length > 180 ? "..." : "");
+    const text = post.content || "";
+    const preview = document.createElement("p");
+    preview.textContent = text.slice(0, 180) + (text.length > 180 ? "..." : "");
 
     const read = document.createElement("button");
     read.className = "blog-read";
     read.type = "button";
     read.textContent = "Read More";
- 
+
     read.addEventListener("click", () => {
       const overlay = document.createElement("div");
       overlay.className = "article-overlay";
@@ -2395,9 +2372,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       dateElem.className = "article-date";
       dateElem.textContent = post.created_at
         ? new Date(post.created_at).toLocaleDateString(undefined, {
-            year: "numeric",
-            month: "long",
-            day: "numeric"
+            year: "numeric", month: "long", day: "numeric"
           })
         : "";
 
@@ -2414,27 +2389,21 @@ document.addEventListener("DOMContentLoaded", async () => {
       const contentElem = document.createElement("div");
       contentElem.className = "article-content";
 
-      (post.content || "").split(/\n+/).forEach(line => {
-        const text = line.trim();
-        if (!text) return;
-
-        let element;
-
-        if (text.startsWith("### ")) {
-          element = document.createElement("h3");
-          element.textContent = text.slice(4);
-        } else if (text.startsWith("## ")) {
-          element = document.createElement("h2");
-          element.textContent = text.slice(3);
-        } else if (text.startsWith("# ")) {
-          element = document.createElement("h2");
-          element.textContent = text.slice(2);
+      text.split(/\n+/).forEach(line => {
+        const t = line.trim();
+        if (!t) return;
+        let el;
+        if (t.startsWith("### ")) {
+          el = document.createElement("h3"); el.textContent = t.slice(4);
+        } else if (t.startsWith("## ")) {
+          el = document.createElement("h2"); el.textContent = t.slice(3);
+        } else if (t.startsWith("# ")) {
+          el = document.createElement("h2"); el.textContent = t.slice(2);
         } else {
-          element = document.createElement("p");
-          element.textContent = text.replace(/^\*\*(.*?)\*\*$/, "$1");
+          el = document.createElement("p");
+          el.textContent = t.replace(/^\*\*(.*?)\*\*$/, "$1");
         }
-
-        contentElem.appendChild(element);
+        contentElem.appendChild(el);
       });
 
       reader.appendChild(contentElem);
@@ -2448,29 +2417,26 @@ document.addEventListener("DOMContentLoaded", async () => {
         read.focus();
         document.removeEventListener("keydown", handleEscape);
       }
-
-      function handleEscape(event) {
-        if (event.key === "Escape") closeArticle();
-      }
+      function handleEscape(e) { if (e.key === "Escape") closeArticle(); }
 
       close.addEventListener("click", closeArticle);
-
-      overlay.addEventListener("click", event => {
-        if (event.target === overlay) closeArticle();
-      });
-
+      overlay.addEventListener("click", e => { if (e.target === overlay) closeArticle(); });
       document.addEventListener("keydown", handleEscape);
       close.focus();
     });
 
-    body.append(date, title, content, read);
+    body.append(date, title, preview, read);
     card.appendChild(body);
     blogGrid.appendChild(card);
   });
 
-  console.log("SE7EN: Loaded", posts.length, "published posts.");
+  // i-apply ang kasamtangang search text sa bag-ong cards
+  window.filterBlogCards?.();
+  console.log("Loaded", posts.length, "published posts.");
 });
 </script>
-    
+
+</body>
+</html>    
 </body>
 </html>
