@@ -2342,7 +2342,167 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 </script>
 
-</body>
-</html>    
+<script>
+(function(){
+  const SB_URL = "https://sshdwibenypcekgczpgc.supabase.co";
+  const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNzaGR3aWJlbnlwY2VrZ2N6cGdjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk0NjE2MjAsImV4cCI6MjA4NTAzNzYyMH0.URDJTCvM4a5DBfgrp3me7vlMxlP9m8uo5oxXpbP60Zg";
+  const BUCKET = "gallery";
+  const MAX_BYTES = 50 * 1024 * 1024;
+
+  const sb = window.supabase.createClient(SB_URL, SB_KEY);
+  const store = sb.storage.from(BUCKET);
+
+  const drop = document.getElementById("galleryDrop");
+  const adminBar = document.getElementById("adminBar");
+  const uploadBtn = document.getElementById("uploadBtn");
+  const input = document.getElementById("fileInput");
+  const status = document.getElementById("uploadStatus");
+  let isAdmin = false;
+
+  function isVideoItem(item){
+    const mime = item.metadata?.mimetype || "";
+    return mime.startsWith("video/") || /\.(mp4|webm|mov)$/i.test(item.name);
+  }
+
+  function makeItem(item){
+    const url = store.getPublicUrl(item.name).data.publicUrl;
+    const wrap = document.createElement("div");
+    wrap.className = "media-wrap";
+
+    const badge = document.createElement("span");
+    badge.className = "media-badge";
+
+    if(isVideoItem(item)){
+      const v = document.createElement("video");
+      v.className = "media-item";
+      v.src = url;
+      v.controls = true;
+      v.preload = "metadata";
+      v.playsInline = true;
+      wrap.appendChild(v);
+      badge.textContent = "VIDEO";
+    }else{
+      const img = document.createElement("img");
+      img.className = "media-item";
+      img.src = url;
+      img.dataset.full = url;
+      img.loading = "lazy";
+      img.alt = "Gallery photo";
+      wrap.appendChild(img);
+      badge.textContent = "PHOTO";
+    }
+    wrap.appendChild(badge);
+
+    if(isAdmin){
+      const del = document.createElement("button");
+      del.type = "button";
+      del.textContent = "✕";
+      del.title = "Delete";
+      del.style.cssText = "position:absolute;top:6px;right:6px;width:26px;height:26px;border:none;border-radius:50%;background:rgba(0,0,0,.65);color:#fff;cursor:pointer;z-index:2";
+      del.addEventListener("click", async e => {
+        e.stopPropagation();
+        if(!confirm("Delete this file?")) return;
+        const { error } = await store.remove([item.name]);
+        if(error){ showToast("Delete failed: " + error.message); return; }
+        wrap.remove();
+        if(!drop.children.length) drop.innerHTML = "<p>No photos or videos yet.</p>";
+        showToast("Deleted");
+      });
+      wrap.appendChild(del);
+    }
+    return wrap;
+  }
+
+  async function loadGallery(){
+    const { data, error } = await store.list("", {
+      limit: 200,
+      sortBy: { column: "created_at", direction: "desc" }
+    });
+    if(error){
+      console.error("Gallery error:", error);
+      drop.innerHTML = "<p>Unable to load gallery right now.</p>";
+      return;
+    }
+    const items = (data || []).filter(i => i.name && !i.name.startsWith("."));
+    drop.replaceChildren();
+    if(!items.length){
+      drop.innerHTML = "<p>No photos or videos yet.</p>";
+      return;
+    }
+    items.forEach(i => drop.appendChild(makeItem(i)));
+  }
+
+  async function shrink(file){
+    if(!file.type.startsWith("image/") || file.type === "image/gif" || file.size < 1.5 * 1024 * 1024) return file;
+    try{
+      const bmp = await createImageBitmap(file);
+      const scale = Math.min(1, 1920 / Math.max(bmp.width, bmp.height));
+      const c = document.createElement("canvas");
+      c.width = Math.round(bmp.width * scale);
+      c.height = Math.round(bmp.height * scale);
+      const ctx = c.getContext("2d");
+      ctx.fillStyle = "#fff";
+      ctx.fillRect(0, 0, c.width, c.height);
+      ctx.drawImage(bmp, 0, 0, c.width, c.height);
+      const blob = await new Promise(r => c.toBlob(r, "image/jpeg", 0.85));
+      return blob ? new File([blob], file.name.replace(/\.\w+$/, ".jpg"), { type: "image/jpeg" }) : file;
+    }catch{
+      return file;
+    }
+  }
+
+  input.addEventListener("change", async () => {
+    const files = [...input.files];
+    input.value = "";
+    let done = 0;
+
+    for(const original of files){
+      status.textContent = `Uploading ${done + 1}/${files.length}…`;
+      const file = await shrink(original);
+
+      if(file.size > MAX_BYTES){
+        showToast(`${original.name}: sobra sa 50 MB`);
+        continue;
+      }
+
+      const ext = (file.name.split(".").pop() || "bin").toLowerCase().replace(/[^a-z0-9]/g, "");
+      const name = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+
+      const { error } = await store.upload(name, file, {
+        contentType: file.type,
+        cacheControl: "31536000"
+      });
+
+      if(error){
+        console.error(error);
+        showToast(`${original.name}: ${error.message}`);
+        continue;
+      }
+
+      drop.querySelector("p")?.remove();
+      drop.prepend(makeItem({ name, metadata: { mimetype: file.type } }));
+      done++;
+    }
+
+    status.textContent = "";
+    if(done) showToast(`${done} file(s) uploaded`);
+  });
+
+  uploadBtn.addEventListener("click", () => input.click());
+
+  (async function init(){
+    try{
+      const { data } = await sb.auth.getSession();
+      if(data?.session){
+        const { data: ok } = await sb.rpc("is_aloy_admin");
+        isAdmin = ok === true;
+      }
+    }catch(e){ console.error(e); }
+    adminBar.style.display = isAdmin ? "block" : "none";
+    loadGallery();
+  })();
+})();
+</script>
+
 </body>
 </html>
