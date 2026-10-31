@@ -2505,183 +2505,97 @@ document.addEventListener("DOMContentLoaded", async () => {
 </script>
 
 
-
-<!-- ==================================================
-     SE7EN UNIVERSAL FLOATING GHOST SYSTEM
-     Copy and paste this entire code before </body>
-================================================== -->
+<!-- SE7EN UNIVERSAL FLOATING GHOSTS -->
 
 <style>
-#se7en-ghost-container {
-    position: fixed !important;
-    inset: 0 !important;
-    width: 100vw !important;
-    height: 100vh !important;
-    overflow: hidden !important;
-    pointer-events: none !important;
-    z-index: 2147483647 !important;
-    isolation: isolate;
+#se7en-ghosts {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 999999;
 }
 
-#se7en-ghost-container .se7en-ghost {
-    position: absolute !important;
-    display: block !important;
-    left: 0;
-    top: 0;
-    height: auto !important;
+#se7en-ghosts img {
+    position: absolute;
+    width: 140px;
+    height: auto;
     max-width: none !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    border: 0 !important;
-    background: transparent !important;
-    opacity: 0.65;
-    pointer-events: none !important;
-    user-select: none !important;
-    -webkit-user-drag: none;
-    filter: drop-shadow(0 0 9px rgba(160,190,255,.4));
-    will-change: transform;
+    opacity: .75;
+    pointer-events: none;
+    filter: drop-shadow(0 0 10px #a0beff);
 }
 
-/* THREE GHOSTS: LEFT TO RIGHT */
-
-#se7en-ghost-container .se7en-ghost:nth-child(1) {
-    width: 180px !important;
-    animation: se7enUniversalRight 34s linear infinite;
-    animation-delay: -5s;
+#se7en-ghosts img:nth-child(1) {
+    top: 15%;
+    animation: ghostRight 25s linear infinite;
 }
 
-#se7en-ghost-container .se7en-ghost:nth-child(2) {
-    width: 125px !important;
-    animation: se7enUniversalRight 39s linear infinite;
-    animation-delay: -17s;
+#se7en-ghosts img:nth-child(2) {
+    top: 40%;
+    width: 110px;
+    animation: ghostRight 32s linear infinite -10s;
 }
 
-#se7en-ghost-container .se7en-ghost:nth-child(3) {
-    width: 150px !important;
-    animation: se7enUniversalRight 36s linear infinite;
-    animation-delay: -26s;
+#se7en-ghosts img:nth-child(3) {
+    top: 70%;
+    animation: ghostRight 29s linear infinite -18s;
 }
 
-/* TWO GHOSTS: RIGHT TO LEFT */
-
-#se7en-ghost-container .se7en-ghost:nth-child(4) {
-    width: 95px !important;
-    animation: se7enUniversalLeft 42s linear infinite;
-    animation-delay: -12s;
+#se7en-ghosts img:nth-child(4) {
+    top: 28%;
+    width: 100px;
+    animation: ghostLeft 30s linear infinite -8s;
 }
 
-#se7en-ghost-container .se7en-ghost:nth-child(5) {
-    width: 140px !important;
-    animation: se7enUniversalLeft 38s linear infinite;
-    animation-delay: -23s;
+#se7en-ghosts img:nth-child(5) {
+    top: 58%;
+    animation: ghostLeft 34s linear infinite -20s;
 }
 
-/* VERTICAL POSITIONS */
-
-#se7en-ghost-container .se7en-ghost:nth-child(1) { top: 15%; }
-#se7en-ghost-container .se7en-ghost:nth-child(2) { top: 42%; }
-#se7en-ghost-container .se7en-ghost:nth-child(3) { top: 72%; }
-#se7en-ghost-container .se7en-ghost:nth-child(4) { top: 28%; }
-#se7en-ghost-container .se7en-ghost:nth-child(5) { top: 58%; }
-
-/* LEFT TO RIGHT */
-
-@keyframes se7enUniversalRight {
-    0% {
-        transform: translate3d(-220px, 0, 0) rotate(-3deg);
-    }
-    25% {
-        transform: translate3d(25vw, -18px, 0) rotate(2deg);
-    }
-    50% {
-        transform: translate3d(50vw, 12px, 0) rotate(-2deg);
-    }
-    75% {
-        transform: translate3d(75vw, -15px, 0) rotate(2deg);
-    }
-    100% {
-        transform: translate3d(calc(100vw + 220px), 0, 0) rotate(-3deg);
-    }
+@keyframes ghostRight {
+    from { transform: translateX(-200px); }
+    to { transform: translateX(calc(100vw + 200px)); }
 }
 
-/* RIGHT TO LEFT - MIRRORED */
-
-@keyframes se7enUniversalLeft {
-    0% {
-        transform: translate3d(calc(100vw + 220px), 0, 0) scaleX(-1) rotate(3deg);
-    }
-    25% {
-        transform: translate3d(75vw, 18px, 0) scaleX(-1) rotate(-2deg);
-    }
-    50% {
-        transform: translate3d(50vw, -12px, 0) scaleX(-1) rotate(2deg);
-    }
-    75% {
-        transform: translate3d(25vw, 15px, 0) scaleX(-1) rotate(-2deg);
-    }
-    100% {
-        transform: translate3d(-220px, 0, 0) scaleX(-1) rotate(3deg);
-    }
+@keyframes ghostLeft {
+    from { transform: translateX(calc(100vw + 200px)) scaleX(-1); }
+    to { transform: translateX(-200px) scaleX(-1); }
 }
 
-/* MOBILE RESPONSIVE */
-
-@media (max-width: 600px) {
-    #se7en-ghost-container .se7en-ghost:nth-child(1) { width: 115px !important; }
-    #se7en-ghost-container .se7en-ghost:nth-child(2) { width: 80px !important; }
-    #se7en-ghost-container .se7en-ghost:nth-child(3) { width: 100px !important; }
-    #se7en-ghost-container .se7en-ghost:nth-child(4) { width: 65px !important; }
-    #se7en-ghost-container .se7en-ghost:nth-child(5) { width: 90px !important; }
+@media(max-width:600px) {
+    #se7en-ghosts img {
+        width: 85px;
+    }
 }
 </style>
 
+<div id="se7en-ghosts"></div>
+
 <script>
 (function () {
-    "use strict";
+    const GHOST_IMAGE = "media/ghost.png";
 
-    /* Prevent duplicate installation */
-    if (window.__SE7EN_GHOST_SYSTEM__) return;
-    window.__SE7EN_GHOST_SYSTEM__ = true;
+    const container = document.getElementById("se7en-ghosts");
 
-    /* EDIT THIS IMAGE PATH IF NEEDED */
-    const GHOST_IMAGE = "/media/ghost.png";
+    if (!container || container.children.length) return;
 
-    function installSe7enGhosts() {
-        if (!document.body) return;
+    for (let i = 0; i < 5; i++) {
+        const ghost = document.createElement("img");
+        ghost.src = GHOST_IMAGE;
+        ghost.alt = "";
+        ghost.setAttribute("aria-hidden", "true");
 
-        /* Prevent duplicate containers */
-        if (document.getElementById("se7en-ghost-container")) return;
+        ghost.onerror = function () {
+            console.error("SE7EN Ghost image not found:", GHOST_IMAGE);
+        };
 
-        const container = document.createElement("div");
-        container.id = "se7en-ghost-container";
-
-        for (let i = 0; i < 5; i++) {
-            const ghost = document.createElement("img");
-
-            ghost.className = "se7en-ghost";
-            ghost.src = GHOST_IMAGE;
-            ghost.alt = "";
-            ghost.setAttribute("aria-hidden", "true");
-            ghost.draggable = false;
-
-            container.appendChild(ghost);
-        }
-
-        document.body.appendChild(container);
-    }
-
-    if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", installSe7enGhosts, {
-            once: true
-        });
-    } else {
-        installSe7enGhosts();
+        container.appendChild(ghost);
     }
 })();
 </script>
 
-<!-- ========== END SE7EN GHOST SYSTEM ========== -->
-
+<!-- END SE7EN GHOSTS -->
 
     
 </body>
