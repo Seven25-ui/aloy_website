@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Linux for Beginners | Aloygene</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f3efe6;--panel:#fff;--line:rgba(28,29,34,.10);--text:#1c1d22;--dim:#5b5c66;--accent:#c06a2c;--accent2:#3f7d76;--code:#1b1e27}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;line-height:1.75}
+h1,h2,h3{font-family:'Fraunces',serif;font-weight:600;margin:0}
+a{color:var(--accent2);text-decoration:none}a:hover{color:var(--accent)}
+.wrap{max-width:820px;margin:0 auto;padding:0 20px}
+.top{padding:44px 0 24px;border-bottom:1px solid var(--line)}
+.back{font-size:13px;display:inline-block;margin-bottom:18px}
+.kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:600}
+.top h1{font-size:clamp(2rem,5vw,3rem);margin:6px 0 8px;line-height:1.1}
+.top p{color:var(--dim);margin:0}
+.toc{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 22px;margin:24px 0}
+.toc strong{font-family:'Fraunces',serif}
+.toc ol{margin:8px 0 0;padding-left:20px;columns:2;font-size:14px}
+@media(max-width:560px){.toc ol{columns:1}}
+.chapter{padding:34px 0;border-bottom:1px solid var(--line)}
+.chapter h2{font-size:1.6rem;margin-bottom:6px}
+.chapter h2 span{color:var(--accent);margin-right:8px}
+.chapter h3{font-size:1.1rem;margin:22px 0 6px;color:var(--accent2)}
+p{margin:0 0 14px}
+pre{background:var(--code);color:#e8e6df;padding:14px 16px;border-radius:10px;overflow-x:auto;font-size:13.5px;line-height:1.6;margin:12px 0}
+code{font-family:ui-monospace,Consolas,monospace}
+p code,li code,td code{background:rgba(192,106,44,.12);color:#8a4515;padding:1px 6px;border-radius:5px;font-size:.88em}
+.note{border-left:4px solid var(--accent2);background:var(--panel);padding:12px 16px;border-radius:0 10px 10px 0;margin:16px 0;font-size:14.5px}
+.warn{border-left-color:var(--accent)}
+.note b{font-family:'Fraunces',serif}
+table{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden;font-size:14px;margin:12px 0}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line)}
+th{background:rgba(63,125,118,.10);font-family:'Fraunces',serif}
+.scroll{overflow-x:auto}
+.practice{background:var(--panel);border:1px dashed var(--accent);border-radius:12px;padding:14px 18px;margin-top:18px}
+.practice b{color:var(--accent)}
+footer{text-align:center;color:var(--dim);font-size:13px;padding:30px 0 50px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <a class="back" href="index.html">← Back to Aloygene</a>
+  <div class="kicker">Free mini textbook · Beginner</div>
+  <h1>Linux for Beginners</h1>
+  <p>Gikan sa zero hangtod komportable na ka sa terminal. Basahon nimo nga tinagsa-tagsa nga chapter.</p>
+</header>
+
+<nav class="toc">
+  <strong>Contents</strong>
+  <ol>
+    <li><a href="#c1">What is Linux?</a></li>
+    <li><a href="#c2">Getting Linux</a></li>
+    <li><a href="#c3">The Terminal</a></li>
+    <li><a href="#c4">Files &amp; Folders</a></li>
+    <li><a href="#c5">Permissions</a></li>
+    <li><a href="#c6">Installing Software</a></li>
+    <li><a href="#c7">Text &amp; Pipes</a></li>
+    <li><a href="#c8">Processes</a></li>
+    <li><a href="#c9">Networking Basics</a></li>
+    <li><a href="#c10">Cheat Sheet &amp; Next Steps</a></li>
+  </ol>
+</nav>
+
+<section class="chapter" id="c1">
+  <h2><span>1</span>What is Linux?</h2>
+  <p>Linux is an operating system kernel, the core that talks to your hardware. When people say "Linux" they usually mean a full system built around it, called a <b>distribution</b> (distro). Linux is free, open source, and runs most of the world's servers, Android phones, and supercomputers.</p>
+  <h3>Popular distros</h3>
+  <div class="scroll"><table>
+    <tr><th>Distro</th><th>Good for</th></tr>
+    <tr><td>Ubuntu</td><td>Beginners, lots of tutorials</td></tr>
+    <tr><td>Linux Mint</td><td>Windows-like feel, easy desktop</td></tr>
+    <tr><td>Debian</td><td>Stable servers</td></tr>
+    <tr><td>Fedora</td><td>Newer software</td></tr>
+    <tr><td>Arch</td><td>Advanced users who like to build everything</td></tr>
+  </table></div>
+  <div class="note"><b>Tip:</b> Kung bag-o ka pa, Ubuntu o Linux Mint ang sugdan. Daghan kaayo og tabang online.</div>
+</section>
+
+<section class="chapter" id="c2">
+  <h2><span>2</span>Getting Linux</h2>
+  <p>You do not have to delete Windows. There are safe ways to try it:</p>
+  <ul>
+    <li><b>WSL (Windows Subsystem for Linux):</b> run Linux inside Windows. Open PowerShell as Administrator and run:</li>
+  </ul>
+<pre><code>wsl --install</code></pre>
+  <ul>
+    <li><b>Virtual machine:</b> install VirtualBox, then run Ubuntu inside it.</li>
+    <li><b>Live USB:</b> boot Linux from a flash drive without installing.</li>
+    <li><b>Dual boot:</b> install beside Windows (back up your files first).</li>
+    <li><b>Termux (Android):</b> a Linux-style terminal on your phone.</li>
+  </ul>
+  <div class="note"><b>Tip:</b> Ang WSL ang pinaka-dali kon Windows ang imong PC.</div>
+</section>
+
+<section class="chapter" id="c3">
+  <h2><span>3</span>The Terminal</h2>
+  <p>The terminal (or shell) is where you type commands. The prompt looks like this:</p>
+<pre><code>gene@pc:~$</code></pre>
+  <p><code>gene</code> is your user, <code>pc</code> is the computer, <code>~</code> is your home folder, and <code>$</code> means you are a normal user (<code>#</code> means root/admin).</p>
+  <h3>Anatomy of a command</h3>
+<pre><code>command  -options  arguments
+ls       -l        /home</code></pre>
+  <h3>Getting help</h3>
+<pre><code>man ls          # open the manual for ls (press q to quit)
+ls --help       # short help
+whoami          # who am I?
+clear           # clean the screen</code></pre>
+  <div class="note"><b>Tip:</b> Press <code>Tab</code> to auto-complete names and <code>↑</code> to bring back old commands. Dako kaayo ni nga tabang.</div>
+</section>
+
+<section class="chapter" id="c4">
+  <h2><span>4</span>Files &amp; Folders</h2>
+  <p>Linux has one tree that starts at <code>/</code> (root). No C: or D: drives.</p>
+  <div class="scroll"><table>
+    <tr><th>Path</th><th>Meaning</th></tr>
+    <tr><td><code>/</code></td><td>Top of everything</td></tr>
+    <tr><td><code>/home</code></td><td>User files (your <code>~</code>)</td></tr>
+    <tr><td><code>/etc</code></td><td>Configuration files</td></tr>
+    <tr><td><code>/var</code></td><td>Logs and changing data</td></tr>
+    <tr><td><code>/tmp</code></td><td>Temporary files</td></tr>
+    <tr><td><code>/usr</code></td><td>Installed programs</td></tr>
+  </table></div>
+  <h3>Moving around</h3>
+<pre><code>pwd             # where am I?
+ls              # list files
+ls -la          # long list, include hidden files
+cd Documents    # go into a folder
+cd ..           # go up one level
+cd ~            # go home
+cd -            # go back to previous folder</code></pre>
+  <h3>Creating, copying, moving, deleting</h3>
+<pre><code>mkdir project           # make a folder
+touch notes.txt         # make an empty file
+cp notes.txt backup.txt # copy
+cp -r project project2  # copy a folder
+mv notes.txt docs/      # move (also used to rename)
+rm backup.txt           # delete a file
+rm -r project2          # delete a folder</code></pre>
+  <div class="note warn"><b>Careful:</b> Walay Recycle Bin sa <code>rm</code>. Kung na-delete na, wala na. Ayaw pag-run og <code>rm -rf /</code> o <code>rm -rf</code> nga wala nimo masayri ang path.</div>
+  <h3>Reading files</h3>
+<pre><code>cat notes.txt       # show whole file
+less notes.txt      # scroll through (q to quit)
+head -n 5 notes.txt # first 5 lines
+tail -n 5 notes.txt # last 5 lines
+nano notes.txt      # simple editor (Ctrl+O save, Ctrl+X exit)</code></pre>
+  <div class="practice"><b>Practice:</b> Make a folder called <code>practice</code>, go inside, create three files, copy one, rename another, then delete one. Check each step with <code>ls</code>.</div>
+</section>
+
+<section class="chapter" id="c5">
+  <h2><span>5</span>Users &amp; Permissions</h2>
+  <p>Every file has an owner, a group, and permission bits. See them with <code>ls -l</code>:</p>
+<pre><code>-rwxr-xr--  1 gene gene  120 Nov 5 run.sh
+ │└┬┘└┬┘└┬┘
+ │ │  │  └ others: r--
+ │ │  └ group:  r-x
+ │ └ owner:  rwx
+ └ file type (- file, d folder)</code></pre>
+  <p><code>r</code> = read (4), <code>w</code> = write (2), <code>x</code> = execute (1). Add them up per group.</p>
+<pre><code>chmod 755 run.sh     # owner rwx, others r-x
+chmod +x run.sh      # make it runnable
+chown gene file.txt  # change owner
+./run.sh             # run it</code></pre>
+  <h3>sudo</h3>
+  <p><code>sudo</code> runs one command as the administrator (root).</p>
+<pre><code>sudo apt update</code></pre>
+  <div class="note warn"><b>Careful:</b> Kung dili nimo masabtan ang command, ayaw sudo-a. Ang sudo wala nay pangutana-pangutana.</div>
+</section>
+
+<section class="chapter" id="c6">
+  <h2><span>6</span>Installing Software</h2>
+  <p>Linux uses a <b>package manager</b> instead of downloading .exe files. On Ubuntu/Debian/Mint it is <code>apt</code>:</p>
+<pre><code>sudo apt update            # refresh the package list
+sudo apt upgrade           # update installed software
+sudo apt install git       # install
+sudo apt remove git        # uninstall
+apt search python          # search</code></pre>
+  <div class="scroll"><table>
+    <tr><th>Distro family</th><th>Package manager</th></tr>
+    <tr><td>Ubuntu, Debian, Mint</td><td><code>apt</code></td></tr>
+    <tr><td>Fedora</td><td><code>dnf</code></td></tr>
+    <tr><td>Arch</td><td><code>pacman</code></td></tr>
+    <tr><td>Termux</td><td><code>pkg</code></td></tr>
+  </table></div>
+</section>
+
+<section class="chapter" id="c7">
+  <h2><span>7</span>Text, Search &amp; Pipes</h2>
+<pre><code>grep "error" log.txt        # find lines containing "error"
+grep -i "gene" notes.txt    # ignore upper/lower case
+find . -name "*.html"       # find files by name
+wc -l notes.txt             # count lines</code></pre>
+  <h3>Pipes and redirects</h3>
+  <p>The pipe <code>|</code> sends the output of one command into another. <code>&gt;</code> saves output into a file.</p>
+<pre><code>ls -la | grep ".txt"        # list, then filter
+cat log.txt | wc -l         # count lines
+echo "hello" &gt; hello.txt    # write to file (overwrites)
+echo "world" &gt;&gt; hello.txt   # append to file</code></pre>
+  <div class="note"><b>Idea:</b> Ang gahum sa Linux kay gamay nga mga command nga imong ikonektar gamit ang pipe.</div>
+</section>
+
+<section class="chapter" id="c8">
+  <h2><span>8</span>Processes</h2>
+<pre><code>ps aux              # list running processes
+top                 # live view (q to quit)
+kill 1234           # stop process with ID 1234
+kill -9 1234        # force stop
+command &amp;           # run in background
+Ctrl + C            # stop the current command</code></pre>
+  <h3>Services (systemd)</h3>
+<pre><code>systemctl status ssh
+sudo systemctl start ssh
+sudo systemctl enable ssh   # start at boot</code></pre>
+</section>
+
+<section class="chapter" id="c9">
+  <h2><span>9</span>Networking Basics</h2>
+<pre><code>ping google.com               # is the internet working?
+ip a                          # show my IP addresses
+curl https://example.com      # fetch a web page
+ssh user@server-ip            # log in to another computer
+scp file.txt user@server:~/   # copy a file to a server</code></pre>
+  <p>SSH is how most people control Linux servers from far away.</p>
+</section>
+
+<section class="chapter" id="c10">
+  <h2><span>10</span>Cheat Sheet &amp; Next Steps</h2>
+  <div class="scroll"><table>
+    <tr><th>Do this</th><th>Command</th></tr>
+    <tr><td>Where am I</td><td><code>pwd</code></td></tr>
+    <tr><td>List files</td><td><code>ls -la</code></td></tr>
+    <tr><td>Change folder</td><td><code>cd</code></td></tr>
+    <tr><td>Make folder / file</td><td><code>mkdir</code> / <code>touch</code></td></tr>
+    <tr><td>Copy / move / delete</td><td><code>cp</code> / <code>mv</code> / <code>rm</code></td></tr>
+    <tr><td>Read a file</td><td><code>cat</code>, <code>less</code></td></tr>
+    <tr><td>Search text</td><td><code>grep</code></td></tr>
+    <tr><td>Install</td><td><code>sudo apt install</code></td></tr>
+    <tr><td>Permissions</td><td><code>chmod</code>, <code>chown</code></td></tr>
+    <tr><td>Processes</td><td><code>ps</code>, <code>top</code>, <code>kill</code></td></tr>
+    <tr><td>Help</td><td><code>man</code>, <code>--help</code></td></tr>
+  </table></div>
+  <h3>What to learn next</h3>
+  <ul>
+    <li>Bash scripting (variables, loops, if statements)</li>
+    <li>Git and GitHub from the terminal</li>
+    <li>Set up a small server (Nginx or Flask)</li>
+    <li>Docker basics</li>
+  </ul>
+  <div class="note"><b>Final tip:</b> Ang pinakamaayo nga paagi mao ang pag-practice kada adlaw bisan 15 minutos sa terminal. Dili mahadlok mag-sayop, ang terminal kay dali ra i-balik-balikan.</div>
+</section>
+
+<footer>© 2026 Aloygene · <a href="index.html">Back to home</a></footer>
+</div>
+</body>
+</html>
