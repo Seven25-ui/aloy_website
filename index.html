@@ -1005,6 +1005,22 @@
   margin-bottom: 20px;
 }
 
+.linux-card{
+  display:block;
+  margin-bottom:22px;
+  color:inherit;
+  cursor:pointer;
+  transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+.linux-card p{margin:6px 0 0;color:var(--text-dim);transition:color .25s ease}
+.linux-card:hover{
+  transform:translateY(-4px);
+  border-color:var(--accent);
+  box-shadow:0 18px 40px rgba(0,0,0,.16);
+}
+.linux-card:hover h3{color:var(--accent)}
+.linux-card:hover p{color:var(--text)}
+
 </style>
 </head>
 <body>
@@ -1114,10 +1130,10 @@
     </aside>
   </div>
 
-    <div id="blog-posts">
-    <a href="linux.html" class="blog-note" style="display:block;margin-bottom:22px;color:inherit">
+      <div id="blog-posts">
+    <a href="linux.html" class="blog-note linux-card">
       <h3>🐧 Linux for Beginners</h3>
-      <p style="margin:6px 0 0;color:var(--text-dim)">Free mini textbook, 10 ka chapter. Basaha dinhi →</p>
+      <p>A free mini textbook with 10 chapters. Start reading →</p>
     </a>
     <div class="blog-toolbar">
       <div>
