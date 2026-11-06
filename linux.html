@@ -49,7 +49,7 @@ footer{text-align:center;color:var(--dim);font-size:13px;padding:30px 0 50px}
   <a class="back" href="index.html">← Back to Aloygene</a>
   <div class="kicker">Free mini textbook · Beginner</div>
   <h1>Linux for Beginners</h1>
-  <p>Gikan sa zero hangtod komportable na ka sa terminal. Basahon nimo nga tinagsa-tagsa nga chapter.</p>
+  <p>From zero to comfortable in the terminal. Read it one chapter at a time.</p>
 </header>
 
 <nav class="toc">
@@ -80,7 +80,7 @@ footer{text-align:center;color:var(--dim);font-size:13px;padding:30px 0 50px}
     <tr><td>Fedora</td><td>Newer software</td></tr>
     <tr><td>Arch</td><td>Advanced users who like to build everything</td></tr>
   </table></div>
-  <div class="note"><b>Tip:</b> Kung bag-o ka pa, Ubuntu o Linux Mint ang sugdan. Daghan kaayo og tabang online.</div>
+  <div class="note"><b>Tip:</b> If you are new, start with Ubuntu or Linux Mint. There are plenty of tutorials and help online.</div>
 </section>
 
 <section class="chapter" id="c2">
@@ -96,7 +96,7 @@ footer{text-align:center;color:var(--dim);font-size:13px;padding:30px 0 50px}
     <li><b>Dual boot:</b> install beside Windows (back up your files first).</li>
     <li><b>Termux (Android):</b> a Linux-style terminal on your phone.</li>
   </ul>
-  <div class="note"><b>Tip:</b> Ang WSL ang pinaka-dali kon Windows ang imong PC.</div>
+  <div class="note"><b>Tip:</b> WSL is the easiest option if you are on a Windows PC.</div>
 </section>
 
 <section class="chapter" id="c3">
@@ -112,7 +112,7 @@ ls       -l        /home</code></pre>
 ls --help       # short help
 whoami          # who am I?
 clear           # clean the screen</code></pre>
-  <div class="note"><b>Tip:</b> Press <code>Tab</code> to auto-complete names and <code>↑</code> to bring back old commands. Dako kaayo ni nga tabang.</div>
+  <div class="note"><b>Tip:</b> Press <code>Tab</code> to auto-complete names and <code>↑</code> to bring back old commands. It saves a lot of typing.</div>
 </section>
 
 <section class="chapter" id="c4">
@@ -143,7 +143,7 @@ cp -r project project2  # copy a folder
 mv notes.txt docs/      # move (also used to rename)
 rm backup.txt           # delete a file
 rm -r project2          # delete a folder</code></pre>
-  <div class="note warn"><b>Careful:</b> Walay Recycle Bin sa <code>rm</code>. Kung na-delete na, wala na. Ayaw pag-run og <code>rm -rf /</code> o <code>rm -rf</code> nga wala nimo masayri ang path.</div>
+  <div class="note warn"><b>Careful:</b> There is no Recycle Bin for <code>rm</code>. Once a file is deleted, it is gone. Never run <code>rm -rf /</code>, and never run <code>rm -rf</code> without double-checking the path.</div>
   <h3>Reading files</h3>
 <pre><code>cat notes.txt       # show whole file
 less notes.txt      # scroll through (q to quit)
@@ -170,7 +170,7 @@ chown gene file.txt  # change owner
   <h3>sudo</h3>
   <p><code>sudo</code> runs one command as the administrator (root).</p>
 <pre><code>sudo apt update</code></pre>
-  <div class="note warn"><b>Careful:</b> Kung dili nimo masabtan ang command, ayaw sudo-a. Ang sudo wala nay pangutana-pangutana.</div>
+  <div class="note warn"><b>Careful:</b> If you do not understand a command, do not put sudo in front of it. sudo will not ask twice.</div>
 </section>
 
 <section class="chapter" id="c6">
@@ -202,7 +202,7 @@ wc -l notes.txt             # count lines</code></pre>
 cat log.txt | wc -l         # count lines
 echo "hello" &gt; hello.txt    # write to file (overwrites)
 echo "world" &gt;&gt; hello.txt   # append to file</code></pre>
-  <div class="note"><b>Idea:</b> Ang gahum sa Linux kay gamay nga mga command nga imong ikonektar gamit ang pipe.</div>
+  <div class="note"><b>Idea:</b> The power of Linux is small commands that you chain together with pipes.</div>
 </section>
 
 <section class="chapter" id="c8">
@@ -252,7 +252,7 @@ scp file.txt user@server:~/   # copy a file to a server</code></pre>
     <li>Set up a small server (Nginx or Flask)</li>
     <li>Docker basics</li>
   </ul>
-  <div class="note"><b>Final tip:</b> Ang pinakamaayo nga paagi mao ang pag-practice kada adlaw bisan 15 minutos sa terminal. Dili mahadlok mag-sayop, ang terminal kay dali ra i-balik-balikan.</div>
+  <div class="note"><b>Final tip:</b> The best way to learn is to practice a little every day, even 15 minutes in the terminal. Do not be afraid of mistakes. Most of them are easy to undo.</div>
 </section>
 
 <footer>© 2026 Aloygene · <a href="index.html">Back to home</a></footer>
